@@ -24,18 +24,19 @@ Calendar to track work shifts, appointments, birthdays, misc. events
 ### Frontend
 
 - Remix
-- TailwindCSS paired with Preline UI
+- TailwindCSS paired with Preline UI, Flowbite Components
 - Remix Hook Form
 - Supabase SDK
+- Zod
 
 ### Backend
 
 - Supabase Auth
 - Supabase Database
 
-### Shared
+### Design
 
-- Zod
+- Photopea
 
 ### Needing to implement
 
