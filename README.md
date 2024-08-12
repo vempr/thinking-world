@@ -2,15 +2,16 @@
 
 My own personalized all-in-one calendar web app + a few other functions.
 It features authentication and a Supabase database to save users' queries, so that it can be used on any device.
+Basically my own version of [Supershift](https://supershift.app/).
 
 ## Features
-### <ins>Calendar</ins>
+### <u>Calendar</u>
 Calendar to track work shifts, appointments, birthdays, misc. events
 - All private fixtures are fully customizable
 - Includes national holidays
 - Calculates earned income for a period of time (Insert income/hour or income/month)
 
-### <ins>Confidential</ins>
+### <u>Confidential</u>
 - Password manager (divided into customizable categories, e.g.: work, gaming, etc.)
 - Private question logger
 
