@@ -1,40 +1,43 @@
-# Welcome to Remix!
+# thinking-world
 
-- 📖 [Remix docs](https://remix.run/docs)
+My own personalized all-in-one calendar web app + a few other functions.
+It features authentication and a Supabase database to save users' queries, so that it can be used on any device.
+Basically my own version of [Supershift](https://supershift.app/).
 
-## Development
+## Features
 
-Run the dev server:
+### <u>Calendar</u>
 
-```shellscript
-npm run dev
-```
+Calendar to track work shifts, appointments, birthdays, misc. events
 
-## Deployment
+- All private fixtures are fully customizable
+- Includes national holidays
+- Calculates earned income for a period of time (Insert income/hour or income/month)
 
-First, build your app for production:
+### <u>Confidential</u>
 
-```sh
-npm run build
-```
+- Password manager (divided into customizable categories, e.g.: work, gaming, etc.)
+- Private question logger
 
-Then run the app in production mode:
+## App Stack
 
-```sh
-npm start
-```
+### Frontend
 
-Now you'll need to pick a host to deploy it to.
+- Remix
+- TailwindCSS paired with Preline UI
+- Remix Hook Form
+- Supabase SDK
 
-### DIY
+### Backend
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+- Supabase Auth
+- Supabase Database
 
-Make sure to deploy the output of `npm run build`
+### Shared
 
-- `build/server`
-- `build/client`
+- Zod
 
-## Styling
+### Needing to implement
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+- Unit testing
+- Deployment (CI/CD)
