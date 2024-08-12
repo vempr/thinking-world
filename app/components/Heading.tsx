@@ -106,7 +106,7 @@ export default function Heading() {
               </li>
               <li>
                 <Link
-                  to="/"
+                  to="/auth"
                   className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-blue-600 px-3 py-2 text-sm font-medium text-blue-600 hover:border-blue-500 hover:text-blue-500 focus:border-blue-500 focus:text-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-blue-500 dark:text-blue-500 dark:hover:border-blue-400 dark:hover:text-blue-400"
                 >
                   Log In
