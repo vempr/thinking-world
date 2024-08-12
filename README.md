@@ -18,6 +18,7 @@ Calendar to track work shifts, appointments, birthdays, misc. events
 
 - Password manager (divided into customizable categories, e.g.: work, gaming, etc.)
 - Private question logger
+- Todo list (set time task should be completed in)
 
 ## App Stack
 
