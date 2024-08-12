@@ -4,8 +4,20 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "@remix-run/react";
 import "./tailwind.css";
+
+import { type IStaticMethods } from "preline/preline";
+import { useEffect } from "react";
+declare global {
+  interface Window {
+    HSStaticMethods: IStaticMethods;
+  }
+}
+if (typeof window !== "undefined") {
+  require("preline/preline");
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -26,5 +38,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const location = useLocation();
+  useEffect(() => {
+    window.HSStaticMethods.autoInit();
+  }, [location.pathname]);
+
   return <Outlet />;
 }
