@@ -1,8 +1,8 @@
 # thinking-world
 
-My own personalized all-in-one calendar web app + a few other functions.
+My personalized all-in-one calendar web app + a few other functions.
 It features authentication and a Supabase database to save users' queries, so that it can be used on any device.
-Basically my own version of [Supershift](https://supershift.app/).
+Inspired by [Supershift](https://supershift.app/).
 
 ## Features
 
