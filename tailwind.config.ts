@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: [
@@ -6,7 +7,11 @@ export default {
     "./node_modules/preline/preline.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
   plugins: [require("preline/plugin")],
 } satisfies Config;
