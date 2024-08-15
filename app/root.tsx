@@ -23,16 +23,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
           name="viewport"
           content="width=device-width, initial-scale=1"
         />
+
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz@0,14..32;1,14..32&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap"
+          rel="stylesheet"
+        />
         <Meta />
         <Links />
       </head>
       <body className="flex min-h-full flex-col font-sans">
         <Heading />
-        <main className="flex-grow dark:bg-neutral-800">{children}</main>
+        {children}
         <Footer />
         <ScrollRestoration />
         <Scripts />
-        {/* Add preline script on every page */}
         {PrelineScript && <PrelineScript />}
       </body>
     </html>
