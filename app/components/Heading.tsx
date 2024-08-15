@@ -71,7 +71,7 @@ export default function Heading() {
   return (
     <div className="sticky top-0 z-50">
       <header className="relative flex w-full flex-wrap bg-white py-3 text-sm sm:flex-nowrap sm:justify-start dark:bg-neutral-800">
-        <nav className="mx-auto w-full max-w-[85rem] px-4 sm:flex sm:items-center sm:justify-between">
+        <nav className="mx-auto w-full px-4 sm:flex sm:items-center sm:justify-between sm:px-5">
           <div className="flex items-center justify-between">
             <Link
               className="text-md flex items-center justify-center gap-x-2 font-medium focus:outline-none dark:text-white"

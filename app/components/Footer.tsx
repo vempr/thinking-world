@@ -2,7 +2,7 @@ export default function Footer() {
   const date = new Date();
 
   return (
-    <footer className="flex w-full flex-col items-center bg-gray-900 pb-3 pt-5 dark:bg-neutral-950">
+    <footer className="flex w-full flex-col items-center bg-gray-900 pb-0.5 pt-3 dark:bg-neutral-950">
       <p className="px-2 py-1 text-sm text-gray-400 dark:text-neutral-400">
         © {date.getFullYear()} Alex Nguyen. All rights reserved.
       </p>
