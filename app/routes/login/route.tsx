@@ -1,14 +1,33 @@
 import { Form, Link } from "@remix-run/react";
+import { useRemixForm } from "remix-hook-form";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout";
+import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useRemixForm<LoginArgs>({
+    mode: "onSubmit",
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
   return (
     <CenteredLayout>
-      <h1 className="font-title text-2xl text-blue-400 sm:text-3xl">
+      <h1 className="font-title inline-block bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-xl text-transparent sm:text-3xl">
         Login to Thinking World
       </h1>
       <hr className="my-5 h-1 w-64 rounded border bg-black opacity-10 sm:w-80 dark:h-0.5 dark:bg-white"></hr>
-      <Form className="flex flex-col gap-y-2">
+      <Form
+        className="flex flex-col gap-y-2"
+        onSubmit={handleSubmit}
+      >
         <div className="w-64 sm:w-80">
           <label
             htmlFor="input-label"
@@ -21,7 +40,11 @@ export default function Login() {
             id="input-label"
             className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
             placeholder="you@example.com"
+            {...register("email")}
           />
+          {errors.email && (
+            <p className="mt-2 text-xs text-red-500">{errors.email.message}</p>
+          )}
         </div>
 
         <div className="w-64 sm:w-80">
@@ -32,6 +55,7 @@ export default function Login() {
               type="password"
               className="block w-full rounded-lg border-gray-200 py-3 pe-10 ps-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
               placeholder="**********"
+              {...register("password")}
             />
             <button
               type="button"
@@ -83,9 +107,14 @@ export default function Login() {
               </svg>
             </button>
           </div>
+          {errors.password && (
+            <p className="mt-2 text-xs text-red-500">
+              {errors.password.message}
+            </p>
+          )}
         </div>
         <Link
-          className="my-2 text-sm text-sky-400 underline"
+          className="my-2 text-sm text-sky-400 underline hover:opacity-80"
           to="/forgot-password"
         >
           Forgot your password?
@@ -98,11 +127,11 @@ export default function Login() {
         </button>
       </Form>
       <div className="mt-4 opacity-70">
-        <p className="text-sm text-black dark:text-white">
+        <p className="text-xs text-black sm:text-sm dark:text-white">
           If you don't have an account,{" "}
           <Link
             className="underline hover:text-gray-400"
-            to="/forgot-password"
+            to="/register"
           >
             sign up here
           </Link>
