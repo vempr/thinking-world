@@ -1,5 +1,9 @@
-import { Link } from "@remix-run/react";
-import twImage from "../../public/tw.png";
+import { Link, NavLink } from "@remix-run/react";
+import twImage from "../../tw.png";
+
+const activeLinkClasses = "font-medium text-blue-500 focus:outline-none";
+const inactiveLinkClasses =
+  "font-medium text-gray-600 hover:text-gray-400 focus:text-gray-400 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500";
 
 const hamburgerMenuButton = (
   <div className="sm:hidden">
@@ -70,7 +74,7 @@ export default function Heading() {
         <nav className="mx-auto w-full max-w-[85rem] px-4 sm:flex sm:items-center sm:justify-between">
           <div className="flex items-center justify-between">
             <Link
-              className="text-md flex items-center justify-center gap-x-2 font-semibold focus:opacity-80 focus:outline-none dark:text-white"
+              className="text-md flex items-center justify-center gap-x-2 font-medium focus:outline-none dark:text-white"
               to="/"
               aria-label="Brand"
             >
@@ -89,28 +93,32 @@ export default function Heading() {
           >
             <ul className="mt-5 flex flex-col gap-5 sm:mt-0 sm:flex-row sm:items-center sm:justify-end sm:ps-5">
               <li>
-                <Link
+                <NavLink
                   to="/"
-                  className="font-medium text-blue-500 focus:outline-none"
+                  className={({ isActive }) =>
+                    isActive ? activeLinkClasses : inactiveLinkClasses
+                  }
                 >
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
-                  to="/"
-                  className="font-medium text-gray-600 hover:text-gray-400 focus:text-gray-400 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                <NavLink
+                  to="/guide"
+                  className={({ isActive }) =>
+                    isActive ? activeLinkClasses : inactiveLinkClasses
+                  }
                 >
                   Guide
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
-                  to="/auth"
+                <NavLink
+                  to="/login"
                   className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-blue-600 px-3 py-2 text-sm font-medium text-blue-600 hover:border-blue-500 hover:text-blue-500 focus:border-blue-500 focus:text-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-blue-500 dark:text-blue-500 dark:hover:border-blue-400 dark:hover:text-blue-400"
                 >
                   Log In
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </div>
