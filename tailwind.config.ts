@@ -10,6 +10,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
+        title: ['"Outfit"'],
       },
     },
   },
