@@ -10,17 +10,26 @@ import {
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
+import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
 
 const resolver = zodResolver(loginSchema);
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { data, errors } = await getValidatedFormData(request, resolver);
+  const { data: formData, errors } = await getValidatedFormData<LoginArgs>(
+    request,
+    resolver,
+  );
   if (errors) return json({ error: "Invalid formdata", success: false });
   // ^ no need to provide meaningful error since form is already checked client-side
-  console.log(data);
-  // check email and password
-  return json({ error: "Invalid credentials", success: false });
+
+  const { supabaseClient } = createSupabaseServerClient(request);
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: formData.email,
+    password: formData.password,
+  });
+  if (error) return json({ error: error.message, success: false });
+
   return redirect("/schedule");
 }
 
@@ -39,8 +48,6 @@ export default function Login() {
       password: "",
     },
   });
-
-  console.log(actionData);
 
   return (
     <CenteredLayout>

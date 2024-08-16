@@ -4,20 +4,33 @@ import { json, Link, useFetcher } from "@remix-run/react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
+import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { registerSchema, type RegisterArgs } from "./registerFormSchema.ts";
 
 const resolver = zodResolver(registerSchema);
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { data, errors } = await getValidatedFormData<RegisterArgs>(
+  const { data: formData, errors } = await getValidatedFormData<RegisterArgs>(
     request,
     resolver,
   );
   if (errors) return json({ error: "Invalid formdata", success: false });
   // ^ no need to provide meaningful error since form is already checked client-side
-  console.log(data);
-  // check if email exists
-  // create user
+  const { supabaseClient } = createSupabaseServerClient(request);
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: formData.email,
+    password: formData.password,
+  });
+  if (error) return json({ error: error.message, success: false });
+
+  // check if email is in db because supabase doesn't return an error if that is true
+  if (data.user && data.user.identities && data.user.identities.length === 0) {
+    return json({
+      error: "User already exists",
+      success: false,
+    });
+  }
+
   return json({ error: null, success: true });
 }
 
@@ -151,10 +164,10 @@ export default function Register() {
             <p className="my-1 text-sm font-bold text-green-600 sm:hidden">
               Signup successful.
               <br />
-              Check inbox to confirm your email!
+              Please check your inbox!
             </p>
             <p className="my-1 hidden text-xs font-bold text-green-600 sm:block">
-              Signup successful. Check inbox to confirm your email!
+              Signup successful. Please check your inbox!
             </p>
           </>
         )}
