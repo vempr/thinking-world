@@ -14,11 +14,16 @@ Calendar to track work shifts, appointments, birthdays, misc. events
 - Includes national holidays
 - Calculates earned income for a period of time (Insert income/hour or income/month)
 
+### <u>Personal</u>
+
+- Todo list (set time task should be completed in, daily/weekly/custom/etc. reoccuring tasks)
+
 ### <u>Confidential</u>
 
+<i>I advise using different apps for securing secrets, since it isn't good practice to log everything on one platform.</i>
+
 - Password manager (divided into customizable categories, e.g.: work, gaming, etc.)
-- Private question logger
-- Todo list (set time task should be completed in)
+- Private notepad for sensitive writings
 
 ## App Stack
 
