@@ -1,21 +1,40 @@
-import { Form, Link } from "@remix-run/react";
-import { useRemixForm } from "remix-hook-form";
-import { CenteredLayout } from "~/components/wrappers/CenteredLayout";
-import { registerSchema, type RegisterArgs } from "./registerFormSchema.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { ActionFunctionArgs } from "@remix-run/node";
+import { json, Link, useFetcher } from "@remix-run/react";
+import { getValidatedFormData, useRemixForm } from "remix-hook-form";
+import { Spinner } from "~/components/Spinner.tsx";
+import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
+import { registerSchema, type RegisterArgs } from "./registerFormSchema.ts";
+
+const resolver = zodResolver(registerSchema);
+
+export async function action({ request }: ActionFunctionArgs) {
+  const { data, errors } = await getValidatedFormData<RegisterArgs>(
+    request,
+    resolver,
+  );
+  if (errors) return json({ error: "Invalid formdata", success: false });
+  // ^ no need to provide meaningful error since form is already checked client-side
+  console.log(data);
+  // check if email exists
+  // create user
+  return json({ error: null, success: true });
+}
 
 export default function Register() {
+  const fetcher = useFetcher<typeof action>();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useRemixForm<RegisterArgs>({
     mode: "onSubmit",
-    resolver: zodResolver(registerSchema),
+    resolver,
     defaultValues: {
       email: "",
       password: "",
     },
+    fetcher,
   });
 
   return (
@@ -24,9 +43,11 @@ export default function Register() {
         Welcome to Thinking World
       </h1>
       <hr className="my-5 h-1 w-64 rounded border bg-black opacity-10 sm:w-80 dark:h-0.5 dark:bg-white"></hr>
-      <Form
+      <fetcher.Form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit}
+        method="post"
+        action="/register"
       >
         <div className="w-64 sm:w-80">
           <label
@@ -40,6 +61,7 @@ export default function Register() {
             id="input-label"
             className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
             placeholder="you@example.com"
+            autoComplete="off"
             {...register("email")}
           />
           {errors.email && (
@@ -55,6 +77,7 @@ export default function Register() {
               type="password"
               className="block w-full rounded-lg border-gray-200 py-3 pe-10 ps-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
               placeholder="**********"
+              autoComplete="off"
               {...register("password")}
             />
             <button
@@ -123,18 +146,36 @@ export default function Register() {
             </ul>
           </div>
         </div>
+        {fetcher.data?.success && (
+          <>
+            <p className="my-1 text-sm font-bold text-green-600 sm:hidden">
+              Signup successful.
+              <br />
+              Check inbox to confirm your email!
+            </p>
+            <p className="my-1 hidden text-xs font-bold text-green-600 sm:block">
+              Signup successful. Check inbox to confirm your email!
+            </p>
+          </>
+        )}
+        {fetcher.data?.error && (
+          <p className="my-1 text-xs font-bold text-red-600">
+            {fetcher.data.error}
+          </p>
+        )}
         <button
+          disabled={fetcher.state === "submitting"}
           type="submit"
-          className="rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+          className="h-12 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
-          Register
+          {fetcher.state === "submitting" ? <Spinner /> : "Register"}
         </button>
-      </Form>
-      <div className="mt-4 opacity-70">
+      </fetcher.Form>
+      <div className="mt-4">
         <p className="text-xs text-black sm:text-sm dark:text-white">
           If you already have an account,{" "}
           <Link
-            className="underline hover:text-gray-400"
+            className="text-blue-400 underline hover:text-blue-500"
             to="/login"
           >
             login here
