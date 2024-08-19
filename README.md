@@ -1,7 +1,7 @@
 # thinking-world
 
-My personalized all-in-one calendar web app + a few other functions.
-It features authentication and a Supabase database to save users' queries, so that it can be used on any device.
+My personalized all-in-one calendar web app and including other services. Supabase Auth + DB => can be used on multiple devices.
+
 Inspired by [Supershift](https://supershift.app/).
 
 ## Features
@@ -20,10 +20,10 @@ Calendar to track work shifts, appointments, birthdays, misc. events
 
 ### <u>Confidential</u>
 
-<i>WARNING: There is no guarantee that thinking-world will stay running forever, so please store sensitive information in a non-dependant form like .txt files. I'm only using this service because I'm too lazy to switch between multiple apps :)</i>
+<i>WARNING: There is no guarantee that thinking-world will stay running forever, so please store sensitive information on stable platforms. I'm only integrating this service because I'm too lazy to switch between multiple apps :)</i>
 
 - Password manager (divided into customizable categories, e.g.: work, gaming, etc.)
-- Private notepad for sensitive writings
+- Private notepad for text of your choice
 
 ## App Stack
 
