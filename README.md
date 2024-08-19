@@ -20,7 +20,7 @@ Calendar to track work shifts, appointments, birthdays, misc. events
 
 ### <u>Confidential</u>
 
-<i>I advise using different apps for securing secrets, since it isn't good practice to log everything on one platform.</i>
+<i>WARNING: There is no guarantee that thinking-world will stay running forever, so please store sensitive information in a non-dependant form like .txt files. I'm only using this service because I'm too lazy to switch between multiple apps :)</i>
 
 - Password manager (divided into customizable categories, e.g.: work, gaming, etc.)
 - Private notepad for sensitive writings
