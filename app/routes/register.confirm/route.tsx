@@ -8,6 +8,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const type = requestUrl.searchParams.get("type") as EmailOtpType | null;
   const { supabaseClient, headers } = createSupabaseServerClient(request);
 
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+  if (user) redirect("/schedule");
+
   if (token_hash && type) {
     const { error } = await supabaseClient.auth.verifyOtp({
       type,

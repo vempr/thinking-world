@@ -1,6 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, Link, useFetcher } from "@remix-run/react";
+import {
+  json,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from "@remix-run/node";
+import { Link, useFetcher } from "@remix-run/react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
@@ -8,6 +13,16 @@ import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { registerSchema, type RegisterArgs } from "./registerFormSchema.ts";
 
 const resolver = zodResolver(registerSchema);
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { supabaseClient } = createSupabaseServerClient(request);
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+
+  if (user) redirect("/schedule");
+  return null;
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const { data: formData, errors } = await getValidatedFormData<RegisterArgs>(

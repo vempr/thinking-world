@@ -1,5 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { json, type ActionFunctionArgs } from "@remix-run/node";
+import {
+  json,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from "@remix-run/node";
 import {
   Form,
   Link,
@@ -14,6 +18,16 @@ import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
 
 const resolver = zodResolver(loginSchema);
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { supabaseClient } = createSupabaseServerClient(request);
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+
+  if (user) redirect("/schedule");
+  return null;
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const { data: formData, errors } = await getValidatedFormData<LoginArgs>(
