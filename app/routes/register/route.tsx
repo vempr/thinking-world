@@ -15,13 +15,14 @@ import { registerSchema, type RegisterArgs } from "./registerFormSchema.ts";
 const resolver = zodResolver(registerSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient, headers } = createSupabaseServerClient(request);
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
 
-  if (user) redirect("/schedule");
-  return null;
+  console.log(user);
+  if (user) return redirect("/schedule", { headers });
+  return new Response(null, { headers });
 }
 
 export async function action({ request }: ActionFunctionArgs) {

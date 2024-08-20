@@ -1,16 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   json,
+  redirect,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  redirect,
-  useActionData,
-  useNavigation,
-} from "@remix-run/react";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
@@ -20,13 +15,14 @@ import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
 const resolver = zodResolver(loginSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient, headers } = createSupabaseServerClient(request);
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
 
-  if (user) redirect("/schedule");
-  return null;
+  console.log(user);
+  if (user) return redirect("/schedule", { headers });
+  return new Response(null, { headers });
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -37,14 +33,14 @@ export async function action({ request }: ActionFunctionArgs) {
   if (errors) return json({ error: "Invalid formdata", success: false });
   // ^ no need to provide meaningful error since form is already checked client-side
 
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient, headers } = createSupabaseServerClient(request);
   const { error } = await supabaseClient.auth.signInWithPassword({
     email: formData.email,
     password: formData.password,
   });
-  if (error) return json({ error: error.message, success: false });
+  if (error) return json({ error: error.message, success: false }, { headers });
 
-  return redirect("/schedule");
+  return redirect("/schedule", { headers });
 }
 
 export default function Login() {

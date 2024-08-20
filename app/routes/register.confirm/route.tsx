@@ -11,7 +11,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
-  if (user) redirect("/schedule");
+  if (user) return redirect("/schedule", { headers });
 
   if (token_hash && type) {
     const { error } = await supabaseClient.auth.verifyOtp({
