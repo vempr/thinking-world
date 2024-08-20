@@ -20,7 +20,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     data: { user },
   } = await supabaseClient.auth.getUser();
 
-  console.log(user);
   if (user) return redirect("/schedule", { headers });
   return new Response(null, { headers });
 }
