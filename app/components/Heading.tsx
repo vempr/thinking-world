@@ -67,6 +67,15 @@ const hamburgerMenuButton = (
   </div>
 );
 
+const scheduleButton = (
+  <NavLink
+    to="/schedule"
+    className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-400"
+  >
+    Your Schedule
+  </NavLink>
+);
+
 export default function Heading() {
   return (
     <div className="sticky top-0 z-50">
@@ -112,14 +121,7 @@ export default function Heading() {
                   Guide
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/login"
-                  className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-blue-600 px-3 py-2 text-sm font-medium text-blue-600 hover:border-blue-500 hover:text-blue-500 focus:border-blue-500 focus:text-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-blue-500 dark:text-blue-500 dark:hover:border-blue-400 dark:hover:text-blue-400"
-                >
-                  Log In
-                </NavLink>
-              </li>
+              <li>{scheduleButton}</li>
             </ul>
           </div>
         </nav>
