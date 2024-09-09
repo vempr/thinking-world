@@ -1,27 +1,37 @@
-import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { type LoaderFunctionArgs } from "@remix-run/node";
 import { DefaultLayout } from "~/components/wrappers/DefaultLayout.tsx";
-import { createSupabaseServerClient } from "~/services/supabase.server";
+import { protectRouteAndRedirect } from "~/helpers/protectRouteAndRedirect";
+import Calendar from "./Calendar.tsx";
+import CalendarSidebar from "./CalendarSidebar.tsx";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient, headers } = createSupabaseServerClient(request);
-  const {
-    data: { user },
-  } = await supabaseClient.auth.getUser();
+  const result = await protectRouteAndRedirect({
+    request,
+    unauthenticatedRedirect: "/login",
+    returnEmptyResponse: true,
+  });
 
-  if (!user) return redirect("/", { headers });
-  return new Response(null, { headers });
+  return result;
 }
 
 export default function Schedule() {
   return (
     <DefaultLayout>
-      <p>welcome to protected route poggers</p>
-      <form
-        action="/sign-out"
-        method="post"
-      >
-        <button type="submit">Sign Out</button>
-      </form>
+      <div className="mx-8">
+        <div className="mb-6">
+          <h1 className="text-5xl text-white font-bold">Your Calendar</h1>
+        </div>
+        <div className="flex justify-between gap-x-8">
+          <Calendar />
+          <CalendarSidebar />
+        </div>
+        <form
+          action="/sign-out"
+          method="post"
+        >
+          <button type="submit">Sign Out</button>
+        </form>
+      </div>
     </DefaultLayout>
   );
 }
