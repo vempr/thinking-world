@@ -15,13 +15,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Schedule() {
+  const date = new Date();
+
   return (
     <DefaultLayout>
       <div className="mx-8">
         <div className="mb-6">
-          <h1 className="text-5xl text-white font-bold">Your Calendar</h1>
+          <h1 className="text-2xl md:text-5xl text-white flex flex-row items-center">
+            <span className="font-bold">Your Calendar</span>
+            <div className="w-0.5 h-8 md:h-12 bg-white mx-4 md:mx-6 rounded-md"></div>
+            <span className="tracking-wide opacity-70 font-light">
+              {date.getDate()}.{date.getMonth() + 1}.{date.getFullYear()}
+            </span>
+          </h1>
         </div>
-        <div className="flex justify-between gap-x-8">
+        <div className="flex flex-col-reverse gap-y-4 gap-x-6 lg:flex-row max-w-full justify-center">
           <Calendar />
           <CalendarSidebar />
         </div>
