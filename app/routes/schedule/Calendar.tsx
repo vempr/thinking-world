@@ -1,32 +1,23 @@
 import Day from "./calendar_components/Day.tsx";
-
-const getDaysArray = (): number[] => {
-  const date = new Date();
-  const numberOfDays = new Date(
-    date.getFullYear(),
-    date.getMonth() + 1,
-    0,
-  ).getDate();
-  const daysArray: number[] = [];
-  for (let i = 0; i < numberOfDays; i++) {
-    daysArray.push(i + 1);
-  }
-  return daysArray;
-};
+import WeekdayBar from "./calendar_components/WeekdayBar.tsx";
+import { getDaysArray } from "./utils/getDaysArray.ts";
 
 export default function Calendar() {
   const daysArray = getDaysArray();
 
   return (
-    <ul className="flex-1 grid grid-cols-7">
-      {daysArray.map((day: number) => {
-        return (
-          <Day
-            key={day}
-            day={day}
-          />
-        );
-      })}
-    </ul>
+    <div className="flex flex-col flex-1 max-w-[80rem]">
+      <WeekdayBar />
+      <ul className="grid grid-cols-7">
+        {daysArray.map((day: number | null, index) => {
+          return (
+            <Day
+              day={day}
+              key={index}
+            />
+          );
+        })}
+      </ul>
+    </div>
   );
 }
