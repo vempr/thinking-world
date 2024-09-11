@@ -70,7 +70,7 @@ const hamburgerMenuButton = (
 const scheduleButton = (
   <NavLink
     to="/schedule"
-    className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-400"
+    className="inline-flex w-full items-center justify-center gap-x-2 transition-all rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-400"
   >
     Your Schedule
   </NavLink>
