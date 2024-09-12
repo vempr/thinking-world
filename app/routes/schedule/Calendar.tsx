@@ -6,7 +6,7 @@ export default function Calendar() {
   const daysArray = getDaysArray();
 
   return (
-    <div className="flex flex-col flex-1 max-w-[80rem] border border-blue-200 dark:border-none">
+    <div className="flex flex-col flex-1 max-w-[80rem] border border-blue-200 hs-dark-mode-active:border-none">
       <WeekdayBar />
       <ul className="grid grid-cols-7">
         {daysArray.map((day: number | null, index) => {
