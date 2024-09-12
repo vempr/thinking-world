@@ -2,7 +2,7 @@ export default function Footer() {
   const date = new Date();
 
   return (
-    <footer className="flex w-full flex-col items-center bg-gray-900 pb-0.5 pt-3 hs-dark-mode-active:bg-neutral-950">
+    <footer className="flex w-full flex-col items-center bg-gray-900 pb-0.5 pt-3 hs-dark-mode-active:bg-neutral-950 static">
       <p className="px-2 py-1 text-sm text-gray-400 hs-dark-mode-active:text-neutral-400">
         © {date.getFullYear()} Alex Nguyen. All rights reserved.
       </p>
@@ -26,7 +26,7 @@ export default function Footer() {
 
       <button
         type="button"
-        className="hs-dark-mode hs-dark-mode-active:hidden inline-flex items-center gap-x-2 py-2 px-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20"
+        className="hs-dark-mode hs-dark-mode-active:hidden right-3 translate-y-7 absolute items-center gap-x-2 p-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20"
         data-hs-theme-click-value="dark"
       >
         <svg
@@ -43,11 +43,10 @@ export default function Footer() {
         >
           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
         </svg>
-        Dark
       </button>
       <button
         type="button"
-        className="hs-dark-mode hs-dark-mode-active:inline-flex hidden items-center gap-x-2 py-2 px-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20"
+        className="hs-dark-mode hs-dark-mode-active:inline-flex right-3 translate-y-7 absolute hidden items-center gap-x-2 p-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20"
         data-hs-theme-click-value="light"
       >
         <svg
@@ -76,7 +75,6 @@ export default function Footer() {
           <path d="m6.34 17.66-1.41 1.41"></path>
           <path d="m19.07 4.93-1.41 1.41"></path>
         </svg>
-        Light
       </button>
     </footer>
   );
