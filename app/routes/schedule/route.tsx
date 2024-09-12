@@ -21,10 +21,10 @@ export default function Schedule() {
     <DefaultLayout>
       <div className="mx-8">
         <div className="mb-6">
-          <h1 className="text-2xl md:text-5xl text-white flex flex-row items-center">
+          <h1 className="text-2xl md:text-5xl text-black dark:text-white flex flex-row items-center">
             <span className="font-bold">Your Calendar</span>
-            <div className="w-0.5 h-8 md:h-12 bg-white mx-4 md:mx-6 rounded-md"></div>
-            <span className="tracking-wide opacity-70 font-light">
+            <div className="w-0.5 h-8 md:h-12 bg-black dark:bg-white mx-4 md:mx-6 rounded-md"></div>
+            <span className="tracking-wide dark:opacity-70 font-light">
               {date.getDate()}.{date.getMonth() + 1}.{date.getFullYear()}
             </span>
           </h1>
