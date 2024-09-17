@@ -1,25 +1,30 @@
-export default function Day({ day }: { day: number | null }) {
+import { DayObject } from "../utils/getDaysArray";
+
+export default function Day({ dayObject }: { dayObject: DayObject | null }) {
   const date = new Date();
-  const today = date.getDate();
-  const sameDay = today === day;
+  const sameDay =
+    dayObject &&
+    dayObject.day === date.getDate() &&
+    dayObject.month === date.getMonth() &&
+    dayObject.year === date.getFullYear();
 
   return (
     <li>
       <button
-        className={`flex flex-row-reverse w-full border h-16 lg:h-24 pr-1 ${sameDay && "hover:bg-red-300"} ${typeof day !== "number" && "hover:bg-white"} hover:bg-sky-100 ${sameDay ? "bg-red-200" : "bg-white"}`}
+        className={`flex flex-row-reverse w-full border h-16 lg:h-24 pr-1 ${sameDay && "hover:bg-red-300"} ${dayObject && "hover:bg-white"} hover:bg-sky-100 ${sameDay ? "bg-red-200" : "bg-white"}`}
         type="button"
         aria-haspopup="dialog"
         aria-expanded="false"
         aria-controls="hs-stacked-overlays"
         data-hs-overlay="#hs-stacked-overlays"
-        disabled={typeof day !== "number"}
+        disabled={Boolean(dayObject)}
       >
-        {typeof day === "number" && (
+        {dayObject && (
           <p className="text-opacity-50 text-black">
             <span
               className={`${sameDay ? "bg-red-600 px-1 text-white rounded-md" : "pr-1"}`}
             >
-              {day}
+              {dayObject.day}
             </span>
           </p>
         )}
