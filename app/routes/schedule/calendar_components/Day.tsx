@@ -8,16 +8,18 @@ export default function Day({ dayObject }: { dayObject: DayObject | null }) {
     dayObject.month === date.getMonth() &&
     dayObject.year === date.getFullYear();
 
+  const dayDoesNotExist = !Boolean(dayObject);
+
   return (
     <li>
       <button
-        className={`flex flex-row-reverse w-full border h-16 lg:h-24 pr-1 ${sameDay && "hover:bg-red-300"} ${dayObject && "hover:bg-white"} hover:bg-sky-100 ${sameDay ? "bg-red-200" : "bg-white"}`}
+        className={`flex flex-row-reverse w-full border h-16 lg:h-24 pr-1 ${sameDay ? "bg-red-200" : "bg-white"} ${sameDay ? "hover:bg-red-300" : "hover:bg-sky-100"} ${dayDoesNotExist && "hover:bg-white"}`}
         type="button"
         aria-haspopup="dialog"
         aria-expanded="false"
         aria-controls="hs-stacked-overlays"
         data-hs-overlay="#hs-stacked-overlays"
-        disabled={Boolean(dayObject)}
+        disabled={dayDoesNotExist}
       >
         {dayObject && (
           <p className="text-opacity-50 text-black">
