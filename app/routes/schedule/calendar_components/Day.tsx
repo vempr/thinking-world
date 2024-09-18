@@ -24,7 +24,7 @@ export default function Day({ dayObject }: { dayObject: DayObject | null }) {
       <Dialog>
         <DialogTrigger asChild>
           <button
-            className={`flex flex-row-reverse w-full border h-16 lg:h-24 pr-1 ${sameDay ? "bg-red-200" : "bg-white"} ${sameDay ? "hover:bg-red-300" : "hover:bg-sky-100"} ${dayDoesNotExist && "hover:bg-white"}`}
+            className={`flex flex-row-reverse w-full border border-gray-300 h-16 lg:h-24 pr-1 ${sameDay ? "bg-red-200" : "bg-white"} ${sameDay ? "hover:bg-red-300" : "hover:bg-sky-100"} ${dayDoesNotExist && "hover:bg-white"}`}
             type="button"
             disabled={dayDoesNotExist}
           >
