@@ -63,7 +63,7 @@ export default function Login() {
       <h1 className="font-title inline-block bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-xl text-transparent sm:text-3xl">
         Login to Thinking World
       </h1>
-      <hr className="my-5 h-1 w-64 rounded border bg-black opacity-10 sm:w-80 hs-dark-mode-active:h-0.5 hs-dark-mode-active:bg-white"></hr>
+      <hr className="my-5 h-1 w-64 rounded border bg-black opacity-10 sm:w-80 dark:h-0.5 dark:bg-white"></hr>
       <Form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit}
@@ -73,14 +73,14 @@ export default function Login() {
         <div className="w-64 sm:w-80">
           <label
             htmlFor="input-label"
-            className="mb-2 block text-sm font-medium hs-dark-mode-active:text-white"
+            className="mb-2 block text-sm font-medium dark:text-white"
           >
             Email
           </label>
           <input
             type="email"
             id="input-label"
-            className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 hs-dark-mode-active:border-neutral-700 hs-dark-mode-active:bg-neutral-900 hs-dark-mode-active:text-neutral-400 hs-dark-mode-active:placeholder-neutral-500 hs-dark-mode-active:outline-none hs-dark-mode-active:focus:ring-neutral-600"
+            className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
             placeholder="you@example.com"
             autoComplete="off"
             {...register("email")}
@@ -93,7 +93,7 @@ export default function Login() {
         <div className="w-64 sm:w-80">
           <label
             htmlFor="hs-toggle-password"
-            className="mb-2 block text-sm hs-dark-mode-active:text-white"
+            className="mb-2 block text-sm dark:text-white"
           >
             Password
           </label>
@@ -101,7 +101,7 @@ export default function Login() {
             <input
               id="hs-toggle-password"
               type="password"
-              className="block w-full rounded-lg border-gray-200 py-3 pe-10 ps-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 hs-dark-mode-active:border-neutral-700 hs-dark-mode-active:bg-neutral-900 hs-dark-mode-active:text-neutral-400 hs-dark-mode-active:placeholder-neutral-500 hs-dark-mode-active:outline-none hs-dark-mode-active:focus:ring-neutral-600"
+              className="block w-full rounded-lg border-gray-200 py-3 pe-10 ps-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
               placeholder="**********"
               autoComplete="off"
               {...register("password")}
@@ -111,7 +111,7 @@ export default function Login() {
               data-hs-toggle-password='{
         "target": "#hs-toggle-password"
       }'
-              className="absolute inset-y-0 end-0 z-20 flex cursor-pointer items-center rounded-e-md px-3 text-gray-400 focus:text-blue-600 focus:outline-none hs-dark-mode-active:text-neutral-600 hs-dark-mode-active:focus:text-blue-500"
+              className="absolute inset-y-0 end-0 z-20 flex cursor-pointer items-center rounded-e-md px-3 text-gray-400 focus:text-blue-600 focus:outline-none dark:text-neutral-600 dark:focus:text-blue-500"
             >
               <svg
                 className="size-3.5 shrink-0"
@@ -180,7 +180,7 @@ export default function Login() {
         </button>
       </Form>
       <div className="mt-4 text-gray-400">
-        <p className="text-xs text-black sm:text-sm hs-dark-mode-active:text-white">
+        <p className="text-xs text-black sm:text-sm dark:text-white">
           If you don't have an account,{" "}
           <Link
             className="text-blue-400 underline hover:text-blue-500"

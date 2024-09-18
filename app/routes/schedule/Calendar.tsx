@@ -1,7 +1,7 @@
 import { useSearchParams } from "@remix-run/react";
 import Day from "./calendar_components/Day.tsx";
 import WeekdayBar from "./calendar_components/WeekdayBar.tsx";
-import { getDaysArray, type DayObject } from "./utils/getDaysArray.ts";
+import { getDaysArray, type DayObject } from "./utils/getDay.ts";
 
 export default function Calendar() {
   const date = new Date();
@@ -18,7 +18,7 @@ export default function Calendar() {
   const daysArray = getDaysArray(year, month);
 
   return (
-    <div className="flex flex-col flex-1 max-w-[80rem] border border-blue-200 hs-dark-mode-active:border-none">
+    <div className="flex flex-col flex-1 max-w-[80rem] border border-blue-200 dark:border-none">
       <WeekdayBar />
       <ul className="grid grid-cols-7">
         {daysArray.map((day: DayObject | null, index) => {

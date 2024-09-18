@@ -16,7 +16,7 @@ export default function DateSwitcher() {
   return (
     <div className="flex flex-row mb-3 items-center justify-center md:justify-normal">
       <button
-        className="w-8 h-8 text-sm hs-dark-mode-active:bg-white rounded-full hs-dark-mode-active:hover:bg-slate-200 transition-all duration-50 bg-black bg-opacity-60 text-white hs-dark-mode-active:text-black hover:bg-opacity-70"
+        className="w-8 h-8 text-sm dark:bg-white rounded-full dark:hover:bg-slate-200 transition-all duration-50 bg-black bg-opacity-60 text-white dark:text-black hover:bg-opacity-70"
         onClick={() => {
           const params = new URLSearchParams();
           if (month === 0) {
@@ -31,11 +31,11 @@ export default function DateSwitcher() {
       >
         {"<"}
       </button>
-      <h2 className="text-black hs-dark-mode-active:text-white text-lg w-52 text-center font-medium">
+      <h2 className="text-black dark:text-white text-lg w-52 text-center font-medium">
         {getMonthByJSDateNumber(month)} {year}
       </h2>
       <button
-        className="w-8 h-8 text-sm hs-dark-mode-active:bg-white rounded-full hs-dark-mode-active:hover:bg-slate-200 transition-all duration-50 bg-black bg-opacity-60 text-white hs-dark-mode-active:text-black hover:bg-opacity-70"
+        className="w-8 h-8 text-sm dark:bg-white rounded-full dark:hover:bg-slate-200 transition-all duration-50 bg-black bg-opacity-60 text-white dark:text-black hover:bg-opacity-70"
         onClick={() => {
           const params = new URLSearchParams();
           if (month === 11) {

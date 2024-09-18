@@ -1,4 +1,3 @@
-import PrelineScript from "~/services/preline.client.tsx";
 import Footer from "./components/Footer.tsx";
 import Heading from "./components/Heading.tsx";
 
@@ -49,7 +48,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Footer />
         <ScrollRestoration />
         <Scripts />
-        {PrelineScript && <PrelineScript />}
       </body>
     </html>
   );

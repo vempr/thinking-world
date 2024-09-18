@@ -1,6 +1,6 @@
 export default function CalendarSidebar() {
   return (
-    <div className="bg-black bg-opacity-60 hs-dark-mode-active:bg-opacity-30 rounded-lg p-4 lg:max-w-72 text-center lg:text-left">
+    <div className="bg-black bg-opacity-60 dark:bg-opacity-30 rounded-lg p-4 lg:max-w-72 text-center lg:text-left">
       <div className="flex flex-row gap-x-2 justify-center items-center mb-4">
         <h2 className="font-medium text-xl md:text-3xl text-white">
           Work Shifts

@@ -3,13 +3,13 @@ import twImage from "../../tw.png";
 
 const activeLinkClasses = "font-medium text-blue-500 focus:outline-none";
 const inactiveLinkClasses =
-  "font-medium text-gray-600 hover:text-gray-400 focus:text-gray-400 focus:outline-none hs-dark-mode-active:text-neutral-400 hs-dark-mode-active:hover:text-neutral-500 hs-dark-mode-active:focus:text-neutral-500";
+  "font-medium text-gray-600 hover:text-gray-400 focus:text-gray-400 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500";
 
 const hamburgerMenuButton = (
   <div className="sm:hidden">
     <button
       type="button"
-      className="hs-collapse-toggle relative flex size-7 items-center justify-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 hs-dark-mode-active:border-neutral-700 hs-dark-mode-active:bg-transparent hs-dark-mode-active:text-white hs-dark-mode-active:hover:bg-white/10 hs-dark-mode-active:focus:bg-white/10"
+      className="hs-collapse-toggle relative flex size-7 items-center justify-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
       id="hs-navbar-example-collapse"
       aria-expanded="false"
       aria-controls="hs-navbar-example"
@@ -70,7 +70,7 @@ const hamburgerMenuButton = (
 const scheduleButton = (
   <NavLink
     to="/schedule"
-    className="inline-flex w-full items-center justify-center gap-x-2 transition-all rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 hs-dark-mode-active:bg-blue-500 hs-dark-mode-active:hover:bg-blue-400"
+    className="inline-flex w-full items-center justify-center gap-x-2 transition-all rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-400"
   >
     Your Schedule
   </NavLink>
@@ -79,11 +79,11 @@ const scheduleButton = (
 export default function Heading() {
   return (
     <div className="sticky top-0 z-50">
-      <header className="relative flex w-full flex-wrap bg-white py-3 text-sm sm:flex-nowrap sm:justify-start hs-dark-mode-active:bg-neutral-800">
+      <header className="relative flex w-full flex-wrap bg-white py-3 text-sm sm:flex-nowrap sm:justify-start dark:bg-neutral-800">
         <nav className="mx-auto w-full px-4 sm:flex sm:items-center sm:justify-between sm:px-5">
           <div className="flex items-center justify-between">
             <Link
-              className="text-md flex items-center justify-center gap-x-2 font-medium focus:outline-none hs-dark-mode-active:text-white"
+              className="text-md flex items-center justify-center gap-x-2 font-medium focus:outline-none dark:text-white"
               to="/"
               aria-label="Brand"
             >
@@ -126,7 +126,7 @@ export default function Heading() {
           </div>
         </nav>
       </header>
-      <hr className="h-px border-0 bg-gray-300 hs-dark-mode-active:bg-gray-700"></hr>
+      <hr className="h-px border-0 bg-gray-300 dark:bg-gray-700"></hr>
     </div>
   );
 }
