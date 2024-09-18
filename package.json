@@ -12,16 +12,21 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@remix-run/node": "^2.11.1",
     "@remix-run/react": "^2.11.1",
     "@remix-run/serve": "^2.11.1",
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.45.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "isbot": "^4.1.0",
-    "preline": "^2.4.1",
+    "lucide-react": "^0.441.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-hook-form": "^5.0.4",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
