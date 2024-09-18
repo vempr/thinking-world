@@ -1,4 +1,7 @@
+import { Theme, useTheme } from "remix-themes";
+
 export default function Footer() {
+  const [, setTheme] = useTheme();
   const date = new Date();
 
   return (
@@ -27,7 +30,7 @@ export default function Footer() {
       <button
         type="button"
         className="hs-dark-mode dark:hidden right-3 translate-y-7 absolute items-center gap-x-2 p-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20"
-        data-hs-theme-click-value="dark"
+        onClick={() => setTheme(Theme.DARK)}
       >
         <svg
           className="shrink-0 size-4"
@@ -47,7 +50,7 @@ export default function Footer() {
       <button
         type="button"
         className="hs-dark-mode dark:inline-flex right-3 translate-y-7 absolute hidden items-center gap-x-2 p-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20"
-        data-hs-theme-click-value="light"
+        onClick={() => setTheme(Theme.LIGHT)}
       >
         <svg
           className="shrink-0 size-4"

@@ -1,20 +1,49 @@
+import { ThemeProvider, useTheme } from "remix-themes";
 import Footer from "./components/Footer.tsx";
 import Heading from "./components/Heading.tsx";
 
+import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import "./tailwind.css";
 
-export function Layout({ children }: { children: React.ReactNode }) {
+import { cn } from "./lib/utils.ts";
+import { themeSessionResolver } from "./services/themeSession.server.ts";
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { getTheme } = await themeSessionResolver(request);
+  return {
+    theme: getTheme(),
+  };
+}
+
+export default function AppWithProviders() {
+  const data = useLoaderData<typeof loader>();
+  return (
+    <ThemeProvider
+      specifiedTheme={data.theme}
+      themeAction="/action/set-theme"
+    >
+      <App />
+    </ThemeProvider>
+  );
+}
+
+export function App() {
+  const data = useLoaderData<typeof loader>();
+  data;
+  const [theme] = useTheme();
+
   return (
     <html
       lang="en"
-      className="h-full"
+      className={cn("h-full", theme)}
     >
       <head>
         <meta charSet="utf-8" />
@@ -44,15 +73,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex min-h-full flex-col font-sans">
         <Heading />
-        {children}
+        <Outlet />
         <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }
