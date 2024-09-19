@@ -16,7 +16,7 @@ export default function DateSwitcher() {
   return (
     <div className="flex flex-row mb-3 items-center justify-center md:justify-normal">
       <button
-        className="w-8 h-8 text-sm bg-sky-600 hover:bg-sky-700 rounded-full transition-all duration-50 text-white"
+        className="w-8 h-8 text-sm bg-sky-500 hover:bg-sky-600 rounded-full transition-all duration-50 text-white"
         onClick={() => {
           const params = new URLSearchParams();
           if (month === 0) {
