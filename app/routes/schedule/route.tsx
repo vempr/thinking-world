@@ -1,18 +1,19 @@
-import { type LoaderFunctionArgs } from "@remix-run/node";
+import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import { DefaultLayout } from "~/components/wrappers/DefaultLayout.tsx";
-import { protectRouteAndRedirect } from "~/helpers/protectRouteAndRedirect";
+import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import Calendar from "./Calendar.tsx";
 import CalendarSidebar from "./CalendarSidebar.tsx";
 import DateSwitcher from "./DateSwitcher.tsx";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const result = await protectRouteAndRedirect({
-    request,
-    unauthenticatedRedirect: "/login",
-    returnEmptyResponse: true,
-  });
+  const { supabaseClient, headers } = createSupabaseServerClient(request);
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
 
-  return result;
+  if (!user) {
+    return redirect("/", { headers });
+  }
 }
 
 export default function Schedule() {

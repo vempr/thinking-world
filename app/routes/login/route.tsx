@@ -15,19 +15,20 @@ import {
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
-import { protectRouteAndRedirect } from "~/helpers/protectRouteAndRedirect.ts";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
 
 const resolver = zodResolver(loginSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const result = await protectRouteAndRedirect({
-    request,
-    authenticatedRedirect: "/schedule",
-    returnEmptyResponse: true,
-  });
-  return result;
+  const { supabaseClient, headers } = createSupabaseServerClient(request);
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+
+  if (!user) {
+    return redirect("/", { headers });
+  }
 }
 
 export async function action({ request }: ActionFunctionArgs) {
