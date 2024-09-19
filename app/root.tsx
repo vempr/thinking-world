@@ -13,6 +13,7 @@ import {
 } from "@remix-run/react";
 import "./tailwind.css";
 
+import { Toaster } from "sonner";
 import { cn } from "./lib/utils.ts";
 import { themeSessionResolver } from "./services/themeSession.server.ts";
 
@@ -77,6 +78,7 @@ export function App() {
         <Footer />
         <ScrollRestoration />
         <Scripts />
+        <Toaster />
       </body>
     </html>
   );
