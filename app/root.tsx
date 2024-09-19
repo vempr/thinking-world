@@ -78,7 +78,7 @@ export function App() {
         <Footer />
         <ScrollRestoration />
         <Scripts />
-        <Toaster />
+        <Toaster richColors />
       </body>
     </html>
   );
