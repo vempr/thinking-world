@@ -1,4 +1,5 @@
-import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
+import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { DefaultLayout } from "~/components/wrappers/DefaultLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import Calendar from "./Calendar.tsx";
@@ -12,11 +13,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
   } = await supabaseClient.auth.getUser();
 
   if (!user) {
-    return redirect("/", { headers });
+    return redirect("/login", { headers });
   }
+
+  const { data: days, error: daysError } = await supabaseClient
+    .from("days")
+    .select()
+    .eq("user_id", user.id);
+  const { data: workShifts, error: workShiftsError } = await supabaseClient
+    .from("work_shifts")
+    .select()
+    .eq("user_id", user.id);
+
+  return json({ days, workShifts, daysError, workShiftsError });
 }
 
 export default function Schedule() {
+  const data = useLoaderData<typeof loader>();
   const date = new Date();
 
   return (
@@ -34,8 +47,14 @@ export default function Schedule() {
         <div className="my-4">
           <DateSwitcher />
           <div className="flex flex-col-reverse gap-y-4 gap-x-6 lg:flex-row max-w-full justify-center">
-            <Calendar />
-            <CalendarSidebar />
+            <Calendar
+              data={data.days}
+              error={data.daysError}
+            />
+            <CalendarSidebar
+              data={data.workShifts}
+              error={data.workShiftsError}
+            />
           </div>
         </div>
         <form

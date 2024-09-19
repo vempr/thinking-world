@@ -1,4 +1,5 @@
 import { Form } from "@remix-run/react";
+import { PostgrestError } from "@supabase/supabase-js";
 import {
   Dialog,
   DialogContent,
@@ -8,6 +9,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
+
+type CalendarSidebarProps = {
+  data:
+    | {
+        color: string;
+        end_time: string;
+        id: number;
+        start_time: string;
+        title: string;
+        user_id: string | null;
+      }[]
+    | null;
+  error: PostgrestError | null;
+};
 
 function getCoolColor() {
   const coolColors: string[] = [
@@ -27,7 +42,7 @@ function getCoolColor() {
   return coolColors[Math.floor(Math.random() * coolColors.length)];
 }
 
-export default function CalendarSidebar() {
+export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
   const color = getCoolColor();
 
   return (
