@@ -14,14 +14,15 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
 import { action } from "../schedule.workshift/route.tsx";
+import WorkShift from "./sidebar_components/WorkShift.tsx";
 
 type CalendarSidebarProps = {
   data:
     | {
-        color: string;
-        end_time: string;
-        start_time: string;
         title: string;
+        color: string;
+        start_time: string;
+        end_time: string;
       }[]
     | null;
   error: PostgrestError | null;
@@ -79,10 +80,8 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
     if (fetcher.data?.success) setModalOpen(false);
   }, [fetcher.state]);
 
-  console.log(fetcher.data);
-
   return (
-    <div className="bg-black bg-opacity-60 dark:bg-opacity-30 rounded-lg p-4 lg:max-w-72 text-center lg:text-left">
+    <div className="bg-black bg-opacity-60 dark:bg-opacity-30 rounded-lg p-4 lg:w-72 text-center lg:text-left">
       <div className="flex flex-row gap-x-2 justify-center items-center mb-4">
         <h2 className="font-medium text-xl md:text-3xl text-white">
           Work Shifts
@@ -214,16 +213,24 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
           </DialogContent>
         </Dialog>
       </div>
-      <div>
-        {data?.length ? (
-          <ul>{JSON.stringify(data)}</ul>
-        ) : (
-          <p className="text-white text-opacity-55">
-            You don't have any work shifts! Add a work shift to start tracking
-            your income.
-          </p>
-        )}
-      </div>
+      {data?.length ? (
+        <ul className="flex flex-col gap-y-1">
+          {data.map(({ title, color, start_time, end_time }: Workshift, i) => (
+            <WorkShift
+              key={i}
+              title={title}
+              color={color}
+              start_time={start_time}
+              end_time={end_time}
+            />
+          ))}
+        </ul>
+      ) : (
+        <p className="text-white text-opacity-55">
+          You don't have any work shifts! Add a work shift to start tracking
+          your income.
+        </p>
+      )}
     </div>
   );
 }
