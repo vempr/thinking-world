@@ -20,10 +20,8 @@ type CalendarSidebarProps = {
     | {
         color: string;
         end_time: string;
-        id: number;
         start_time: string;
         title: string;
-        user_id: string | null;
       }[]
     | null;
   error: PostgrestError | null;
