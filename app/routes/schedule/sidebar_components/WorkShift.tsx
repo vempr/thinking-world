@@ -18,27 +18,31 @@ export default function WorkShift({
 
   return (
     <div
-      className="rounded-lg pt-2 flex flex-col gap-y-1"
+      className="rounded-lg flex flex-row items-center h-16"
       style={{
         backgroundColor: color,
         color: contrastedColor,
       }}
     >
-      <div className="flex-1 flex flex-row justify-between px-2 pb-2">
+      <div className="flex-1 flex flex-row justify-between p-3">
         <p className="font-medium">{title}</p>
-        <div className="flex flex-row gap-x-2 font-light text-sm text-right">
+        <div className="flex flex-row gap-x-1.5 font-light text-sm text-right items-center">
           <div>
             <p>{start_time}</p>
             <p>{end_time}</p>
           </div>
+          <div
+            className="border-r-4 rounded-lg opacity-40 h-10"
+            style={{ borderColor: contrastedColor }}
+          ></div>
         </div>
       </div>
-      <div className="flex flex-row">
-        <button className="flex-1 bg-slate-400 hover:bg-slate-500 transition-colors rounded-bl-lg flex justify-center py-1">
-          <Pencil size="18" />
+      <div className="flex flex-col h-16">
+        <button className="flex-1 bg-slate-400 hover:bg-slate-500 transition-colors rounded-tr-lg flex items-center h-10 px-1 text-white">
+          <Pencil size="16" />
         </button>
-        <button className="flex-1 bg-red-500 hover:bg-red-600 transition-colors rounded-br-lg flex justify-center py-1">
-          <Trash2 size="18" />
+        <button className="flex-1 bg-red-500 hover:bg-red-600 transition-colors rounded-br-lg flex items-center h-10 px-1 text-white">
+          <Trash2 size="16" />
         </button>
       </div>
     </div>
