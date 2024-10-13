@@ -35,7 +35,7 @@ export default function DateSwitcher() {
         {getMonthByJSDateNumber(month)} {year}
       </h2>
       <button
-        className="w-8 h-8 text-sm bg-sky-600 hover:bg-sky-700 rounded-full transition-all duration-50 text-white"
+        className="w-8 h-8 text-sm bg-sky-500 hover:bg-sky-600 rounded-full transition-all duration-50 text-white"
         onClick={() => {
           const params = new URLSearchParams();
           if (month === 11) {
