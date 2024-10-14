@@ -17,6 +17,7 @@ import { action } from "../schedule.workshift/route.tsx";
 import WorkShift from "./sidebar_components/WorkShift.tsx";
 import { Input } from "~/components/ui/input.tsx";
 import { TriangleAlert } from "lucide-react";
+import { Spinner } from "~/components/Spinner.tsx";
 
 export function getCoolColor() {
   const coolColors: string[] = [
@@ -203,9 +204,10 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
 
               <button
                 type="submit"
-                className="mt-1 h-14 flex justify-center items-center rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-md font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                disabled={fetcher.state === "submitting"}
+                className="mt-1 h-12 flex justify-center items-center rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-md font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
-                <p>Create new template</p>
+                {fetcher.state === "submitting" ? <Spinner /> : <p>Create new template</p>}
               </button>
             </fetcher.Form>
             <DialogFooter>
