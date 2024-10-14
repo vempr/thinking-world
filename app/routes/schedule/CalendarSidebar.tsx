@@ -15,16 +15,17 @@ import {
 } from "~/components/ui/dialog.tsx";
 import { action } from "../schedule.workshift/route.tsx";
 import WorkShift from "./sidebar_components/WorkShift.tsx";
+import { Input } from "~/components/ui/input.tsx";
 
 type CalendarSidebarProps = {
   data:
-    | {
-        title: string;
-        color: string;
-        start_time: string;
-        end_time: string;
-      }[]
-    | null;
+  | {
+    title: string;
+    color: string;
+    start_time: string;
+    end_time: string;
+  }[]
+  | null;
   error: PostgrestError | null;
 };
 
@@ -117,10 +118,9 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
                   >
                     Title
                   </label>
-                  <input
+                  <Input
                     type="text"
                     id="title"
-                    className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
                     placeholder="Acme Co."
                     autoComplete="off"
                     {...register("title")}
@@ -138,11 +138,11 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
                   >
                     Color
                   </label>
-                  <input
+                  <Input
                     type="color"
                     id="color"
                     defaultValue={color}
-                    className="block rounded-lg border-gray-200 p-1 w-11 h-11 text-sm outline outline-1 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
+                    className="w-20 h-10 hover:cursor-pointer"
                     {...register("color")}
                   />
                   {errors.color && (
@@ -161,10 +161,9 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
                   >
                     From
                   </label>
-                  <input
+                  <Input
                     type="time"
                     id="timeFrom"
-                    className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
                     autoComplete="off"
                     {...register("start_time")}
                   />
@@ -181,10 +180,9 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
                   >
                     To
                   </label>
-                  <input
+                  <Input
                     type="time"
                     id="timeTo"
-                    className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
                     autoComplete="off"
                     {...register("end_time")}
                   />
@@ -198,9 +196,9 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
 
               <button
                 type="submit"
-                className="mt-1 h-12 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                className="mt-1 h-14 flex justify-center items-center rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-md font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
-                Create new template
+                <p>Create new template</p>
               </button>
             </fetcher.Form>
             <DialogFooter>
