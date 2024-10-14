@@ -1,132 +1,103 @@
 import { Link, NavLink } from "@remix-run/react";
 import twImage from "../../tw.png";
-
-const activeLinkClasses = "font-medium text-blue-500 focus:outline-none";
-const inactiveLinkClasses =
-  "font-medium text-gray-600 hover:text-gray-400 focus:text-gray-400 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500";
-
-const hamburgerMenuButton = (
-  <div className="sm:hidden">
-    <button
-      type="button"
-      className="hs-collapse-toggle relative flex size-7 items-center justify-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-      id="hs-navbar-example-collapse"
-      aria-expanded="false"
-      aria-controls="hs-navbar-example"
-      aria-label="Toggle navigation"
-      data-hs-collapse="#hs-navbar-example"
-    >
-      <svg
-        className="hs-collapse-open:hidden size-4 shrink-0"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <line
-          x1="3"
-          x2="21"
-          y1="6"
-          y2="6"
-        />
-        <line
-          x1="3"
-          x2="21"
-          y1="12"
-          y2="12"
-        />
-        <line
-          x1="3"
-          x2="21"
-          y1="18"
-          y2="18"
-        />
-      </svg>
-      <svg
-        className="hs-collapse-open:block hidden size-4 shrink-0"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
-      </svg>
-      <span className="sr-only">Toggle navigation</span>
-    </button>
-  </div>
-);
-
-const scheduleButton = (
-  <NavLink
-    to="/schedule"
-    className="inline-flex w-full items-center justify-center gap-x-2 transition-all rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-400"
-  >
-    Your Schedule
-  </NavLink>
-);
+import { useState } from "react";
 
 export default function Heading() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <div className="sticky top-0 z-50">
-      <header className="relative flex w-full flex-wrap bg-white py-3 text-sm sm:flex-nowrap sm:justify-start dark:bg-neutral-800">
-        <nav className="mx-auto w-full px-4 sm:flex sm:items-center sm:justify-between sm:px-5">
-          <div className="flex items-center justify-between">
-            <Link
-              className="text-md flex items-center justify-center gap-x-2 font-medium focus:outline-none dark:text-white"
-              to="/"
-              aria-label="Brand"
-            >
-              <img
-                src={twImage}
-                className="h-10 w-10"
-              />
-              <p>Thinking World</p>
-            </Link>
-            {hamburgerMenuButton}
-          </div>
-          <div
-            id="hs-navbar-example"
-            className="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 sm:block"
-            aria-labelledby="hs-navbar-example-collapse"
+    <nav className="bg-white dark:bg-neutral-900 block w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-neutral-600">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
+        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src={twImage} className="h-10" alt="Thinking World Logo" />
+          <span className="self-center text-md font-semibold whitespace-nowrap dark:text-white">
+            Thinking<br />World
+          </span>
+        </Link>
+        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <Link
+            to="/schedule"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            <ul className="mt-5 flex flex-col gap-5 sm:mt-0 sm:flex-row sm:items-center sm:justify-end sm:ps-5">
-              <li>
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    isActive ? activeLinkClasses : inactiveLinkClasses
-                  }
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/guide"
-                  className={({ isActive }) =>
-                    isActive ? activeLinkClasses : inactiveLinkClasses
-                  }
-                >
-                  Guide
-                </NavLink>
-              </li>
-              <li>{scheduleButton}</li>
-            </ul>
-          </div>
-        </nav>
-      </header>
-      <hr className="h-px border-0 bg-gray-300 dark:bg-gray-700"></hr>
-    </div>
+            Your Schedule
+          </Link>
+          <button
+            onClick={toggleMenu}
+            type="button"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            aria-controls="navbar-sticky"
+            aria-expanded={isMenuOpen}
+          >
+            <span className="sr-only">Open main menu</span>
+            <svg
+              className="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M1 1h15M1 7h15M1 13h15"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          className={`${isMenuOpen ? 'block' : 'hidden'
+            } items-center justify-between w-full md:flex md:w-auto md:order-1`}
+          id="navbar-sticky"
+        >
+          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-neutral-900 dark:border-neutral-700">
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `block py-2 px-3 ${isActive
+                    ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500'
+                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
+                  }`
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/guide"
+                className={({ isActive }) =>
+                  `block py-2 px-3 ${isActive
+                    ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500'
+                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
+                  }`
+                }
+              >
+                Guide
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/account"
+                className={({ isActive }) =>
+                  `block py-2 px-3 ${isActive
+                    ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500'
+                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
+                  }`
+                }
+              >
+                Your Account
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 }
