@@ -5,6 +5,8 @@ import { useFetcher } from "@remix-run/react";
 import { action } from "~/routes/schedule.workshift/route.tsx";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 const workshiftDeleteSchema = z.object({
   id: z.number()
@@ -21,10 +23,16 @@ export default function WorkShift({
 }: Workshift) {
   const contrastedColor = invert(color, true);
   const fetcher = useFetcher<typeof action>();
+  useEffect(() => {
+    if (fetcher.data?.error && fetcher.state === "loading") {
+      toast.error(`Error while deleting work shift: ${fetcher.data.error}`);
+    }
+  }, [fetcher.state]);
 
   return (
     <div
-      className="rounded-lg flex flex-row items-center h-16"
+      className={`${fetcher.data?.success && "hidden"} ${fetcher.state === "submitting" ? "opacity-0 relative" : "opacity-100"}
+      transition-opacity duration-100 ease-in-out rounded-lg flex flex-row items-center h-16`}
       style={{
         backgroundColor: color,
         color: contrastedColor,
