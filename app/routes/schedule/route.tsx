@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     .eq("user_id", user.id);
   const { data: workShifts, error: workShiftsError } = await supabaseClient
     .from("work_shifts")
-    .select("title, color, start_time, end_time")
+    .select("id, title, color, start_time, end_time")
     .eq("user_id", user.id);
 
   return json({ days, workShifts, daysError, workShiftsError });

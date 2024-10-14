@@ -1,19 +1,14 @@
 import invert from "invert-color";
 import { Pencil, Trash2 } from "lucide-react";
-
-type WorkshiftProps = {
-  title: string;
-  color: string;
-  start_time: string;
-  end_time: string;
-};
+import { Workshift } from "../CalendarSidebar.tsx";
 
 export default function WorkShift({
+  id,
   title,
   color,
   start_time,
   end_time,
-}: WorkshiftProps) {
+}: Workshift) {
   const contrastedColor = invert(color, true);
 
   return (
@@ -38,10 +33,10 @@ export default function WorkShift({
         </div>
       </div>
       <div className="flex flex-col h-16">
-        <button className="flex-1 bg-slate-400 hover:bg-slate-500 transition-colors rounded-tr-lg flex items-center h-10 px-1 text-white">
+        <button className="flex-1 bg-slate-400 hover:bg-slate-500 rounded-tr-lg flex items-center h-10 px-1 text-white">
           <Pencil size="16" />
         </button>
-        <button className="flex-1 bg-red-500 hover:bg-red-600 transition-colors rounded-br-lg flex items-center h-10 px-1 text-white">
+        <button className="flex-1 bg-red-500 hover:bg-red-600 rounded-br-lg flex items-center h-10 px-1 text-white">
           <Trash2 size="16" />
         </button>
       </div>

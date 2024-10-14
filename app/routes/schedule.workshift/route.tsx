@@ -1,11 +1,11 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { getValidatedFormData } from "remix-hook-form";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
-import { Workshift, workshiftResolver } from "../schedule/CalendarSidebar.tsx";
+import { Workshift, workshiftFormResolver } from "../schedule/CalendarSidebar.tsx";
 
 export async function action({ request }: ActionFunctionArgs) {
   const { data: formData, errors: formErrors } =
-    await getValidatedFormData<Workshift>(request, workshiftResolver);
+    await getValidatedFormData<Workshift>(request, workshiftFormResolver);
   if (formErrors) return json({ error: "Invalid formdata", success: false });
 
   const { supabaseClient } = createSupabaseServerClient(request);

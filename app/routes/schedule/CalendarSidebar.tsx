@@ -17,18 +17,6 @@ import { action } from "../schedule.workshift/route.tsx";
 import WorkShift from "./sidebar_components/WorkShift.tsx";
 import { Input } from "~/components/ui/input.tsx";
 
-type CalendarSidebarProps = {
-  data:
-  | {
-    title: string;
-    color: string;
-    start_time: string;
-    end_time: string;
-  }[]
-  | null;
-  error: PostgrestError | null;
-};
-
 export function getCoolColor() {
   const coolColors: string[] = [
     "#4287f5",
@@ -48,14 +36,21 @@ export function getCoolColor() {
 }
 
 const timeRegex = new RegExp("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
-const workshiftSchema = z.object({
+const workshiftFormSchema = z.object({
   title: z.string().min(1, { message: "Title can't be empty" }),
   color: z.string(),
   start_time: z.string().regex(timeRegex, { message: "Invalid starting time" }),
   end_time: z.string().regex(timeRegex, { message: "Invalid ending time" }),
 });
+export type WorkshiftForm = z.infer<typeof workshiftFormSchema>;
+export const workshiftFormResolver = zodResolver(workshiftFormSchema);
+const workshiftSchema = workshiftFormSchema.extend({ id: z.number() })
 export type Workshift = z.infer<typeof workshiftSchema>;
-export const workshiftResolver = zodResolver(workshiftSchema);
+
+type CalendarSidebarProps = {
+  data: Workshift[] | null;
+  error: PostgrestError | null;
+};
 
 export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
   const fetcher = useFetcher<typeof action>();
@@ -64,9 +59,9 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useRemixForm<Workshift>({
+  } = useRemixForm<WorkshiftForm>({
     mode: "onSubmit",
-    resolver: workshiftResolver,
+    resolver: workshiftFormResolver,
     defaultValues: {
       color,
     },
@@ -213,9 +208,10 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
       </div>
       {data?.length ? (
         <ul className="flex flex-col gap-y-1">
-          {data.map(({ title, color, start_time, end_time }: Workshift, i) => (
+          {data.map(({ id, title, color, start_time, end_time }: Workshift) => (
             <WorkShift
-              key={i}
+              key={id}
+              id={id}
               title={title}
               color={color}
               start_time={start_time}
