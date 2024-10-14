@@ -1,6 +1,16 @@
 import invert from "invert-color";
 import { Pencil, Trash2 } from "lucide-react";
 import { Workshift } from "../CalendarSidebar.tsx";
+import { useFetcher } from "@remix-run/react";
+import { action } from "~/routes/schedule.workshift/route.tsx";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const workshiftDeleteSchema = z.object({
+  id: z.number()
+});
+export const workshiftDeleteResolver = zodResolver(workshiftDeleteSchema);
+export type WorkshiftDelete = z.infer<typeof workshiftDeleteSchema>;
 
 export default function WorkShift({
   id,
@@ -10,6 +20,7 @@ export default function WorkShift({
   end_time,
 }: Workshift) {
   const contrastedColor = invert(color, true);
+  const fetcher = useFetcher<typeof action>();
 
   return (
     <div
@@ -32,13 +43,16 @@ export default function WorkShift({
           ></div>
         </div>
       </div>
-      <div className="flex flex-col h-16">
-        <button className="flex-1 bg-slate-400 hover:bg-slate-500 rounded-tr-lg flex items-center h-10 px-1 text-white">
+      <div className="flex flex-col h-16 w-7">
+        <button className="flex-1 bg-slate-400 hover:bg-slate-500 rounded-tr-lg flex items-center justify-center text-white">
           <Pencil size="16" />
         </button>
-        <button className="flex-1 bg-red-500 hover:bg-red-600 rounded-br-lg flex items-center h-10 px-1 text-white">
-          <Trash2 size="16" />
-        </button>
+        <fetcher.Form method="delete" action="/schedule/workshift" className="flex-1">
+          <input type="hidden" name="id" value={id} />
+          <button className="w-full h-full bg-red-500 hover:bg-red-600 rounded-br-lg flex items-center justify-center text-white" type="submit">
+            <Trash2 size="16" />
+          </button>
+        </fetcher.Form>
       </div>
     </div>
   );

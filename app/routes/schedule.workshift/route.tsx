@@ -1,17 +1,34 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { getValidatedFormData } from "remix-hook-form";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
-import { Workshift, workshiftFormResolver } from "../schedule/CalendarSidebar.tsx";
+import { WorkshiftForm, workshiftFormResolver } from "../schedule/CalendarSidebar.tsx";
+import { WorkshiftDelete, workshiftDeleteResolver } from "../schedule/sidebar_components/WorkShift.tsx";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { data: formData, errors: formErrors } =
-    await getValidatedFormData<Workshift>(request, workshiftFormResolver);
-  if (formErrors) return json({ error: "Invalid formdata", success: false });
-
   const { supabaseClient } = createSupabaseServerClient(request);
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
+
+  // method="delete"
+  if (request.method.toLowerCase() === "delete") {
+    const { data: formData, errors: formErrors } =
+      await getValidatedFormData<WorkshiftDelete>(request, workshiftDeleteResolver);
+    if (formErrors) return json({ error: "Invalid formdata", success: false });
+
+    const response = await supabaseClient
+      .from("work_shifts")
+      .delete()
+      .eq("id", formData.id)
+      .eq("user_id", user?.id ?? "");
+    if (response.error) return json({ error: response.error.message, success: false });
+    return json({ error: null, success: true });
+  }
+
+  // method="post"
+  const { data: formData, errors: formErrors } =
+    await getValidatedFormData<WorkshiftForm>(request, workshiftFormResolver);
+  if (formErrors) return json({ error: "Invalid formdata", success: false });
   const { error } = await supabaseClient
     .from("work_shifts")
     .insert({
@@ -24,9 +41,8 @@ export async function action({ request }: ActionFunctionArgs) {
     .select();
   if (error)
     return json({
-      error: "Server error encountered, please try again later.",
+      error: "There was an unexpected server error. Please try again later.",
       success: false,
     });
-
   return json({ error: null, success: true });
 }
