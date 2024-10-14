@@ -31,8 +31,8 @@ export default function WorkShift({
 
   return (
     <div
-      className={`${fetcher.data?.success && "hidden"} ${fetcher.state === "submitting" ? "opacity-0 relative" : "opacity-100"}
-      transition-opacity duration-100 ease-in-out rounded-lg flex flex-row items-center h-16`}
+      className={`${fetcher.data?.success && "hidden"} ${fetcher.state === "submitting" ? "opacity-0 relative pointer-events-none" : "opacity-100"}
+      transition-opacity duration-100 ease-in-out rounded-lg flex flex-row items-center h-16 ${fetcher.state === "submitting" && "cursor-not-allowed"}`}
       style={{
         backgroundColor: color,
         color: contrastedColor,
