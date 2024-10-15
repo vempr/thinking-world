@@ -28,7 +28,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   } = await supabaseClient.auth.getUser();
 
   if (user) {
-    return redirect("/schedule", { headers });
+    return redirect("/schedule/work", { headers });
   }
   return null;
 }
@@ -48,7 +48,7 @@ export async function action({ request }: ActionFunctionArgs) {
   });
   if (error) return json({ error: error.message, success: false }, { headers });
 
-  return redirect("/schedule", { headers });
+  return redirect("/schedule/work", { headers });
 }
 
 export default function Login() {

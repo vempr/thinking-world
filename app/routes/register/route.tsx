@@ -20,7 +20,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   } = await supabaseClient.auth.getUser();
 
   if (user) {
-    return redirect("/schedule", { headers });
+    return redirect("/schedule/work", { headers });
   }
   return null;
 }
