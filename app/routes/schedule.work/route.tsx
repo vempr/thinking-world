@@ -1,9 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useFetcher } from "@remix-run/react";
-import { PostgrestError } from "@supabase/supabase-js";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { useRemixForm } from "remix-hook-form";
-import { z } from "zod";
+import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import {
   Dialog,
   DialogContent,
@@ -13,11 +10,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
-import { action } from "../schedule.workshift/route.tsx";
-import WorkShift from "./sidebar_components/WorkShift.tsx";
 import { Input } from "~/components/ui/input.tsx";
 import { TriangleAlert } from "lucide-react";
 import { Spinner } from "~/components/Spinner.tsx";
+import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
+import { createSupabaseServerClient } from "~/services/supabase.server.ts";
+import { WorkshiftFull, WorkshiftPost, workshiftPostResolver } from "./types.ts";
+import WorkShift from "./WorkShift.tsx";
 
 export function getCoolColor() {
   const coolColors: string[] = [
@@ -37,39 +36,62 @@ export function getCoolColor() {
   return coolColors[Math.floor(Math.random() * coolColors.length)];
 }
 
-const timeRegex = new RegExp("^([0-1]?[0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$");
-const workshiftFormSchema = z.object({
-  title: z.string().min(1, { message: "Title can't be empty" }),
-  color: z.string(),
-  start_time: z.string().regex(timeRegex, { message: "Invalid starting time" }),
-  end_time: z.string().regex(timeRegex, { message: "Invalid ending time" }),
-});
-export type WorkshiftForm = z.infer<typeof workshiftFormSchema>;
-export const workshiftFormResolver = zodResolver(workshiftFormSchema);
-const workshiftSchema = workshiftFormSchema.extend({ id: z.number() })
-export type Workshift = z.infer<typeof workshiftSchema>;
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { supabaseClient } = createSupabaseServerClient(request);
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+  const { data, error } = await supabaseClient
+    .from("work_shifts")
+    .select("id, title, color, start_time, end_time")
+    .eq("user_id", user?.id ?? "");
 
-type CalendarSidebarProps = {
-  data: Workshift[] | null;
-  error: PostgrestError | null;
-};
+  return json({ data, error });
+}
 
-export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
+export async function action({ request }: ActionFunctionArgs) {
+  const { supabaseClient } = createSupabaseServerClient(request);
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+
+  const { data: formData, errors: formErrors } =
+    await getValidatedFormData<WorkshiftPost>(request, workshiftPostResolver);
+  if (formErrors) return json({ error: "Invalid formdata", success: false });
+  const { error } = await supabaseClient
+    .from("work_shifts")
+    .insert({
+      user_id: user?.id,
+      title: formData.title,
+      color: formData.color,
+      start_time: formData.start_time,
+      end_time: formData.end_time,
+    })
+  if (error)
+    return json({
+      error: "There was an unexpected server error. Please try again later.",
+      success: false,
+    });
+  return json({ error: null, success: true });
+}
+
+export default function CalendarSidebar() {
+  const loaderData = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   const color = getCoolColor();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useRemixForm<WorkshiftForm>({
+  } = useRemixForm<WorkshiftPost>({
     mode: "onSubmit",
-    resolver: workshiftFormResolver,
+    resolver: workshiftPostResolver,
     defaultValues: {
       color,
     },
     fetcher,
     submitConfig: {
-      action: "/schedule/workshift",
+      action: "/schedule/work",
     },
   });
 
@@ -78,14 +100,14 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
     if (fetcher.data?.success) setModalOpen(false);
   }, [fetcher.state]);
 
-  if (error)
+  if (loaderData.error)
     return (<div className="bg-black bg-opacity-60 dark:bg-opacity-30 rounded-lg p-4 lg:w-72 text-center">
       <h2 className="font-medium text-xl md:text-3xl text-white mb-4">
         Work Shifts
       </h2>
       <div className="bg-red-500 rounded-lg flex flex-row pr-3 items-center justify-center text-right text-white">
         <TriangleAlert size="110" className="mr-1 ml-5" />
-        <p className="text-sm">Unexpected Error: "{error.message}" Please try again later.</p>
+        <p className="text-sm">Unexpected Error: "{loaderData.error.message}" Please try again later.</p>
       </div>
     </div>);
 
@@ -116,7 +138,7 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
               className="flex flex-col gap-y-3"
               onSubmit={handleSubmit}
               method="post"
-              action="/schedule/workshift"
+              action="/schedule/work"
             >
               <div className="flex flex-row gap-x-1">
                 <div className="flex-1">
@@ -220,9 +242,9 @@ export default function CalendarSidebar({ data, error }: CalendarSidebarProps) {
           </DialogContent>
         </Dialog>
       </div>
-      {data?.length ? (
+      {loaderData.data?.length ? (
         <ul className="flex flex-col gap-y-1">
-          {data.map(({ id, title, color, start_time, end_time }: Workshift) => (
+          {loaderData.data.map(({ id, title, color, start_time, end_time }: WorkshiftFull) => (
             <WorkShift
               key={id}
               id={id}

@@ -1,9 +1,8 @@
 import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { DefaultLayout } from "~/components/wrappers/DefaultLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import Calendar from "./Calendar.tsx";
-import CalendarSidebar from "./CalendarSidebar.tsx";
 import DateSwitcher from "./DateSwitcher.tsx";
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -51,10 +50,7 @@ export default function Schedule() {
               data={data.days}
               error={data.daysError}
             />
-            <CalendarSidebar
-              data={data.workShifts}
-              error={data.workShiftsError}
-            />
+            <Outlet />
           </div>
         </div>
         <form
