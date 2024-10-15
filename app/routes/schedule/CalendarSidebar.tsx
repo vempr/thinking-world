@@ -37,7 +37,7 @@ export function getCoolColor() {
   return coolColors[Math.floor(Math.random() * coolColors.length)];
 }
 
-const timeRegex = new RegExp("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
+const timeRegex = new RegExp("^([0-1]?[0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$");
 const workshiftFormSchema = z.object({
   title: z.string().min(1, { message: "Title can't be empty" }),
   color: z.string(),
