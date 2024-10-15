@@ -68,10 +68,9 @@ export default function Register() {
 
   return (
     <CenteredLayout>
-      <h1 className="font-title inline-block bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 bg-clip-text text-xl text-transparent sm:text-3xl">
-        Welcome to Thinking World
+      <h1 className="font-title text-black dark:text-white text-xl sm:text-3xl lg:text-5xl mb-6">
+        Create your Account
       </h1>
-      <hr className="my-5 h-1 w-64 rounded border bg-black opacity-10 sm:w-80 dark:h-0.5 dark:bg-white"></hr>
       <fetcher.Form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit}

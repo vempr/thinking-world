@@ -17,6 +17,7 @@ import { Spinner } from "~/components/Spinner.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
+import { Input } from "~/components/ui/input.tsx";
 
 const resolver = zodResolver(loginSchema);
 
@@ -69,10 +70,9 @@ export default function Login() {
 
   return (
     <CenteredLayout>
-      <h1 className="font-title inline-block bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-xl text-transparent sm:text-3xl">
-        Login to Thinking World
+      <h1 className="font-title text-black dark:text-white text-xl sm:text-3xl lg:text-5xl mb-6">
+        Welcome Back
       </h1>
-      <hr className="my-5 h-1 w-64 rounded border bg-black opacity-10 sm:w-80 dark:h-0.5 dark:bg-white"></hr>
       <Form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit}
@@ -86,10 +86,10 @@ export default function Login() {
           >
             Email
           </label>
-          <input
+          <Input
             type="email"
             id="input-label"
-            className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
+            className="block w-full rounded-lg border-gray-200 px-4 py-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
             placeholder="you@example.com"
             autoComplete="off"
             {...register("email")}
@@ -107,7 +107,7 @@ export default function Login() {
             Password
           </label>
           <div className="relative">
-            <input
+            <Input
               id="password"
               type={searchParams.get("showPassword") ? "text" : "password"}
               className="block w-full rounded-lg border-gray-200 py-3 pe-10 ps-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-neutral-600"
