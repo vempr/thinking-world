@@ -7,17 +7,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
-import { DayObject } from "../utils/getDay.ts";
+import { DayType } from "../utils/getDay.ts";
 
-export default function Day({ dayObject }: { dayObject: DayObject | null }) {
-  const date = new Date();
+export default function Day({ day }: { day: DayType | null }) {
+  const presentDate = new Date();
   const sameDay =
-    dayObject &&
-    dayObject.day === date.getDate() &&
-    dayObject.month === date.getMonth() &&
-    dayObject.year === date.getFullYear();
+    day &&
+    day.date.getDate() === presentDate.getDate() &&
+    day.date.getMonth() === presentDate.getMonth() &&
+    day.date.getFullYear() === presentDate.getFullYear();
 
-  const dayDoesNotExist = !Boolean(dayObject);
+  const dayDoesNotExist = !Boolean(day);
 
   return (
     <li>
@@ -28,12 +28,12 @@ export default function Day({ dayObject }: { dayObject: DayObject | null }) {
             type="button"
             disabled={dayDoesNotExist}
           >
-            {dayObject && (
+            {day && (
               <p className="text-opacity-50 text-black">
                 <span
                   className={`${sameDay ? "bg-red-600 px-1 text-white rounded-md" : "pr-1"}`}
                 >
-                  {dayObject.day}
+                  {day.date.getDate()}
                 </span>
               </p>
             )}
@@ -42,8 +42,8 @@ export default function Day({ dayObject }: { dayObject: DayObject | null }) {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>
-              {dayObject &&
-                `${dayObject.day}.${dayObject.month + 1}.${dayObject?.year}`}
+              {day &&
+                `${day.date.getDate()}.${day.date.getMonth() + 1}.${day.date.getFullYear()}`}
             </DialogTitle>
             <DialogDescription>
               Make changes to your work shifts here.

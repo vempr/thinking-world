@@ -27,11 +27,20 @@ export async function loader({ request }: LoaderFunctionArgs) {
     .select("id, title, color, start_time, end_time")
     .eq("user_id", user.id);
 
-  return json({ days, workShifts, daysError, workShiftsError });
+  return json({
+    data: {
+      days,
+      workShifts,
+    },
+    errors: {
+      daysError,
+      workShiftsError
+    }
+  });
 }
 
 export default function Schedule() {
-  const data = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
   const date = new Date();
 
   return (
@@ -50,8 +59,8 @@ export default function Schedule() {
           <DateSwitcher />
           <div className="flex flex-col-reverse gap-y-4 gap-x-6 lg:flex-row max-w-full justify-center">
             <Calendar
-              data={data.days}
-              error={data.daysError}
+              data={loaderData.data}
+              errors={loaderData.errors}
             />
             <Outlet />
           </div>

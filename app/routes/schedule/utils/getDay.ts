@@ -1,7 +1,5 @@
-export type DayObject = {
-  day: number;
-  month: number;
-  year: number;
+export type DayType = {
+  date: Date;
 };
 
 const weekdayCalendar = new Map();
@@ -22,19 +20,17 @@ const getFirstDayOfMonth = (year: number, month: number): number => {
 export const getDaysArray = (
   year: number,
   month: number,
-): (DayObject | null)[] => {
+): (DayType | null)[] => {
   const numberOfDays = new Date(year, month, 0).getDate();
   const firstDayOfMonth = getFirstDayOfMonth(year, month);
-  const daysArray: (DayObject | null)[] = [];
+  const daysArray: (DayType | null)[] = [];
 
   for (let i = 0; i < firstDayOfMonth; i++) {
     daysArray.push(null);
   }
   for (let i = 1; i <= numberOfDays; i++) {
     daysArray.push({
-      day: i,
-      month: month,
-      year: year,
+      date: new Date(year, month, i),
     });
   }
   while (daysArray.length % 7 != 0) {
