@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { createSupabaseServerClient } from "~/services/supabase.server";
-import { WorkshiftDelete, workshiftDeleteResolver } from "../schedule.work/types";
+import { WorkshiftDelete, workshiftDeleteResolver } from "../../types/work.types";
 import { getValidatedFormData } from "remix-hook-form";
 
 export async function action({ request }: ActionFunctionArgs) {

@@ -15,7 +15,7 @@ import { TriangleAlert } from "lucide-react";
 import { Spinner } from "~/components/Spinner.tsx";
 import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
-import { WorkshiftFull, WorkshiftPost, workshiftPostResolver } from "./types.ts";
+import { WorkshiftFull, WorkshiftPost, workshiftPostResolver } from "../../types/work.types.ts";
 import WorkShift from "./WorkShift.tsx";
 
 export function getCoolColor() {

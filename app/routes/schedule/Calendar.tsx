@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import Day from "./calendar_components/Day.tsx";
 import WeekdayBar from "./calendar_components/WeekdayBar.tsx";
 import { getDaysArray, type DayType } from "./utils/getDay.ts";
-import { WorkshiftFull } from "../schedule.work/types.ts";
+import { WorkshiftFull } from "../../types/work.types.ts";
 
 type CalendarProps = {
   data: {
