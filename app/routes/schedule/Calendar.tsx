@@ -36,12 +36,12 @@ export default function Calendar({ data, errors }: CalendarProps) {
       ? Number(searchParams.get("month"))
       : date.getMonth();
 
-  const daysArray = getDaysArray(year, month); // data as argument for function to assign work shifts to each day
+  const daysArray = getDaysArray(year, month, data.days);
 
   useEffect(() => {
     if (errors.daysError) toast.error(errors.daysError.message);
     if (errors.workShiftsError) toast.error(errors.workShiftsError.message);
-  });
+  }, [errors]);
 
   return (
     <div
@@ -57,6 +57,7 @@ export default function Calendar({ data, errors }: CalendarProps) {
             return (
               <Day
                 day={null}
+                workShifts={null}
                 key={index}
               />
             );

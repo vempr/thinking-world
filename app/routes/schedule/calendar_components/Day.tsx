@@ -11,9 +11,10 @@ import { DayType } from "../utils/getDay.ts";
 import { Plus } from "lucide-react";
 import { WorkshiftFull } from "~/routes/schedule.work/types.ts";
 import { useFetcher } from "@remix-run/react";
+import invert from "invert-color";
 
 export default function Day({ day, workShifts }: {
-  day: DayType | null; workShifts?: WorkshiftFull[] | null
+  day: DayType | null; workShifts: WorkshiftFull[] | null
 }) {
   const fetcher = useFetcher();
   const presentDate = new Date();
@@ -24,6 +25,11 @@ export default function Day({ day, workShifts }: {
     day.date.getFullYear() === presentDate.getFullYear();
 
   const dayDoesNotExist = !Boolean(day);
+
+  const shiftsInDay =
+    day?.data?.map((dayData) =>
+      workShifts?.find((shift) => shift.id === dayData.work_shift_id)
+    ) || [];
 
   return (
     <li>
@@ -56,13 +62,23 @@ export default function Day({ day, workShifts }: {
             </DialogDescription>
           </DialogHeader>
           <Dialog>
+            <ul>
+              {shiftsInDay.length > 0 ? (
+                shiftsInDay.map((workShift, index) =>
+                  workShift ? (
+                    <li key={index}>{workShift.title}</li>
+                  ) : null
+                )
+              ) : (
+                <p>No work shifts for this day.</p>
+              )}
+            </ul>
             <DialogTrigger asChild>
               <button
-                className={`flex flex-row gap-x-2 items-center border rounded-lg p-3 font-semibold text-lg hover:bg-neutral-900`}
+                className={`flex flex-row gap-x-2 items-center border border-gray-300 rounded-lg p-3 font-semibold text-lg hover:bg-neutral-200 dark:hover:bg-neutral-900`}
                 type="button"
               >
-                {/* render added work shifts */}
-                <Plus size={24} /> <p>Add work shift</p>
+                <Plus size={24} /><p>Add work shift</p>
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
@@ -74,10 +90,18 @@ export default function Day({ day, workShifts }: {
                   Add a work shift you created.
                 </DialogDescription>
               </DialogHeader>
-              <ul>
-                {workShifts ? workShifts?.map((workShift: WorkshiftFull) => <fetcher.Form>
-                  {/* render all work shifts */}
-                </fetcher.Form>) : <p>You haven't created any work shifts yet.</p>}
+              <ul className="flex flex-col gap-y-1">
+                {workShifts ? workShifts?.map((workShift: WorkshiftFull) => {
+                  return (
+                    <li className="flex" key={workShift.id}>
+                      <fetcher.Form className="flex-1 flex">
+                        <button className="flex flex-1 justify-between p-3 rounded-lg hover:opacity-90" style={{ backgroundColor: workShift.color, color: invert(workShift.color, true) }}>
+                          <p className="font-semibold">{workShift.title}</p>
+                          <p className="font-light">{workShift.start_time} - {workShift.end_time}</p>
+                        </button>
+                      </fetcher.Form>
+                    </li>)
+                }) : <p>You haven't created any work shifts yet.</p>}
               </ul>
             </DialogContent>
           </Dialog>
