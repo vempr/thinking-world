@@ -10,8 +10,8 @@ import { WorkshiftFull } from "../schedule.work/types.ts";
 type CalendarProps = {
   data: {
     days: {
-      date: string;
       id: number;
+      date: string;
       optional_description: string | null;
       user_id: string;
       work_shift_id: number;
@@ -36,7 +36,7 @@ export default function Calendar({ data, errors }: CalendarProps) {
       ? Number(searchParams.get("month"))
       : date.getMonth();
 
-  const daysArray = getDaysArray(year, month);
+  const daysArray = getDaysArray(year, month); // data as argument for function to assign work shifts to each day
 
   useEffect(() => {
     if (errors.daysError) toast.error(errors.daysError.message);
@@ -65,6 +65,7 @@ export default function Calendar({ data, errors }: CalendarProps) {
             return (
               <Day
                 day={day}
+                workShifts={data.workShifts}
                 key={index}
               />
             );

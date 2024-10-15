@@ -8,8 +8,14 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
 import { DayType } from "../utils/getDay.ts";
+import { Plus } from "lucide-react";
+import { WorkshiftFull } from "~/routes/schedule.work/types.ts";
+import { useFetcher } from "@remix-run/react";
 
-export default function Day({ day }: { day: DayType | null }) {
+export default function Day({ day, workShifts }: {
+  day: DayType | null; workShifts?: WorkshiftFull[] | null
+}) {
+  const fetcher = useFetcher();
   const presentDate = new Date();
   const sameDay =
     day &&
@@ -40,7 +46,7 @@ export default function Day({ day }: { day: DayType | null }) {
           </button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
+          <DialogHeader className="border-b pb-4">
             <DialogTitle>
               {day &&
                 `${day.date.getDate()}.${day.date.getMonth() + 1}.${day.date.getFullYear()}`}
@@ -49,6 +55,32 @@ export default function Day({ day }: { day: DayType | null }) {
               Make changes to your work shifts here.
             </DialogDescription>
           </DialogHeader>
+          <Dialog>
+            <DialogTrigger asChild>
+              <button
+                className={`flex flex-row gap-x-2 items-center border rounded-lg p-3 font-semibold text-lg hover:bg-neutral-900`}
+                type="button"
+              >
+                {/* render added work shifts */}
+                <Plus size={24} /> <p>Add work shift</p>
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader className="border-b pb-4">
+                <DialogTitle>
+                  Available work shifts
+                </DialogTitle>
+                <DialogDescription>
+                  Add a work shift you created.
+                </DialogDescription>
+              </DialogHeader>
+              <ul>
+                {workShifts ? workShifts?.map((workShift: WorkshiftFull) => <fetcher.Form>
+                  {/* render all work shifts */}
+                </fetcher.Form>) : <p>You haven't created any work shifts yet.</p>}
+              </ul>
+            </DialogContent>
+          </Dialog>
           <DialogFooter></DialogFooter>
         </DialogContent>
       </Dialog>
