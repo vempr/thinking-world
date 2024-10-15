@@ -14,6 +14,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (!user) {
     return redirect("/login", { headers });
   }
+  if (request.url.endsWith("/schedule") || request.url.endsWith("/schedule/")) {
+    return redirect("/schedule/work");
+  }
 
   const { data: days, error: daysError } = await supabaseClient
     .from("days")
