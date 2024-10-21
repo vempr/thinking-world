@@ -9,14 +9,17 @@ import {
 } from "~/components/ui/dialog.tsx";
 import { DayType } from "../utils/getDay.ts";
 import { Plus } from "lucide-react";
-import { WorkshiftFull } from "~/routes/schedule.work/types.ts";
+import { WorkshiftFull } from "~/types/work.types.ts";
 import { useFetcher } from "@remix-run/react";
 import invert from "invert-color";
+import { useState } from "react";
+import { action } from "~/routes/schedule.day.post/route.tsx";
 
 export default function Day({ day, workShifts }: {
   day: DayType | null; workShifts: WorkshiftFull[] | null
 }) {
-  const fetcher = useFetcher();
+  const [editFormModalOpen, setEditFormModalOpen] = useState<boolean>(false);
+  const fetcher = useFetcher<typeof action>();
   const presentDate = new Date();
   const sameDay =
     day &&
@@ -61,7 +64,11 @@ export default function Day({ day, workShifts }: {
               Make changes to your work shifts here.
             </DialogDescription>
           </DialogHeader>
-          <Dialog>
+          <Dialog
+            defaultOpen={false}
+            open={editFormModalOpen}
+            onOpenChange={setEditFormModalOpen}
+          >
             <ul>
               {shiftsInDay.length > 0 ? (
                 shiftsInDay.map((workShift, index) =>
@@ -94,10 +101,21 @@ export default function Day({ day, workShifts }: {
                 {workShifts ? workShifts?.map((workShift: WorkshiftFull) => {
                   return (
                     <li className="flex" key={workShift.id}>
-                      <fetcher.Form className="flex-1 flex">
-                        <button className="flex flex-1 justify-between p-3 rounded-lg hover:opacity-90" style={{ backgroundColor: workShift.color, color: invert(workShift.color, true) }}>
+                      <fetcher.Form
+                        action="/schedule/day/post"
+                        method="post"
+                        className="flex-1 flex"
+                      >
+                        <input type="hidden" name="work_shift_id" value={workShift.id} />
+                        <input type="date" name="date" value={day?.date.toISOString().split("T")[0]} readOnly className="hidden" />
+                        <button
+                          type="submit"
+                          className="flex flex-1 justify-between p-3 rounded-lg hover:opacity-80"
+                          style={{ backgroundColor: workShift.color, color: invert(workShift.color, true) }}
+                          onClick={() => setEditFormModalOpen(false)}
+                        >
                           <p className="font-semibold">{workShift.title}</p>
-                          <p className="font-light">{workShift.start_time} - {workShift.end_time}</p>
+                          <p className="font-medium">{workShift.start_time} - {workShift.end_time}</p>
                         </button>
                       </fetcher.Form>
                     </li>)
