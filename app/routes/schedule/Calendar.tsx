@@ -46,32 +46,36 @@ export default function Calendar({ data, errors }: CalendarProps) {
   return (
     <div
       className={
-        "flex flex-col flex-1 max-w-[80rem] border border-blue-200 dark:border-none" +
+        "flex flex-col flex-1 max-w-[80rem] shadow-lg" +
         ` ${(errors.daysError || errors.workShiftsError) && "opacity-20 select-none pointer-events-none cursor-not-allowed"}`
       }
     >
       <WeekdayBar />
-      <ul className="grid grid-cols-7">
-        {(errors.daysError || errors.workShiftsError)
-          ? daysArray.map((_, index) => {
-            return (
-              <Day
-                day={null}
-                workShifts={null}
-                key={index}
-              />
-            );
-          })
-          : daysArray.map((day: DayType | null, index) => {
-            return (
-              <Day
-                day={day}
-                workShifts={data.workShifts}
-                key={index}
-              />
-            );
-          })}
-      </ul>
+      <div className="rounded-lg">
+        <ul className="grid grid-cols-7 ">
+          {(errors.daysError || errors.workShiftsError)
+            ? daysArray.map((_, index) => {
+              return (
+                <Day
+                  day={null}
+                  workShifts={null}
+                  key={index}
+                  placement={index + 1}
+                />
+              );
+            })
+            : daysArray.map((day: DayType | null, index) => {
+              return (
+                <Day
+                  day={day}
+                  workShifts={data.workShifts}
+                  key={index}
+                  placement={index + 1}
+                />
+              );
+            })}
+        </ul>
+      </div>
     </div>
   );
 }

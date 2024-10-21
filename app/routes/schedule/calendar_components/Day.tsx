@@ -16,8 +16,10 @@ import { useEffect, useState } from "react";
 import { action } from "~/routes/schedule.day.post/route.tsx";
 import { Spinner } from "~/components/Spinner.tsx";
 
-export default function Day({ day, workShifts }: {
-  day: DayType | null; workShifts: WorkshiftFull[] | null
+export default function Day({ day, workShifts, placement }: {
+  day: DayType | null;
+  workShifts: WorkshiftFull[] | null;
+  placement: number;
 }) {
   const [editFormModalOpen, setEditFormModalOpen] = useState<boolean>(false);
   const [loadingShift, setLoadingShift] = useState<number | null>();
@@ -42,17 +44,23 @@ export default function Day({ day, workShifts }: {
       workShifts?.find((shift) => shift.id === dayData.work_shift_id)
     ) || [];
 
+  const roundedMap: { [key: number]: string } = {
+    29: "rounded-bl-md",
+    35: "rounded-br-md"
+  };
+  const rounded = roundedMap[placement] || "";
+
   return (
     <li>
       <Dialog>
         <DialogTrigger asChild>
           <button
-            className={`flex flex-row-reverse w-full border border-gray-300 h-16 lg:h-24 pr-1 ${sameDay ? "bg-red-200" : "bg-white"} ${sameDay ? "hover:bg-red-300" : "hover:bg-sky-100"} ${dayDoesNotExist && "hover:bg-white"}`}
+            className={`flex flex-row-reverse w-full border border-opacity-40 dark:border-opacity-5 border-gray-300 ${rounded} h-16 lg:h-24 pr-1 ${sameDay ? "bg-red-500 bg-opacity-70 dark:bg-red-800 dark:bg-opacity-30" : "bg-white dark:bg-neutral-900"} ${sameDay ? "hover:bg-red-300" : "hover:bg-sky-100"} ${dayDoesNotExist && "hover:bg-white"}`}
             type="button"
             disabled={dayDoesNotExist}
           >
             {day && (
-              <p className="text-opacity-50 text-black">
+              <p className="text-opacity-50 text-black dark:text-white dark:text-opacity-70">
                 <span
                   className={`${sameDay ? "bg-red-600 px-1 text-white rounded-md" : "pr-1"}`}
                 >
