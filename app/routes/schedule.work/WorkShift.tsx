@@ -29,13 +29,20 @@ export default function WorkShift({
   const contrastedColor = invert(color, true);
   const fetcherDelete = useFetcher<typeof deleteAction>()
   const fetcherPatch = useFetcher<typeof patchAction>();
-  const [editFormModalOpen, setEditFormModalOpen] = useState<boolean>(false);
+  const [patchFormModalOpen, setPatchFormModalOpen] = useState<boolean>(false);
+  const [deleteFormModalOpen, setDeleteFormModalOpen] = useState<boolean>(false);
   useEffect(() => {
-    if (fetcherPatch.data?.success) setEditFormModalOpen(false);
+    if (fetcherPatch.data?.success) setPatchFormModalOpen(false);
     if (fetcherPatch.data?.error && fetcherPatch.state === "loading") {
       toast.error(`Error while deleting work shift: ${fetcherPatch.data.error}`);
     }
   }, [fetcherPatch.state]);
+  useEffect(() => {
+    if (fetcherDelete.data?.success) setPatchFormModalOpen(false);
+    if (fetcherDelete.data?.error && fetcherDelete.state === "loading") {
+      toast.error(`Error while deleting work shift: ${fetcherDelete.data.error}`);
+    }
+  }, [fetcherDelete.state]);
   const {
     register,
     handleSubmit,
@@ -58,8 +65,7 @@ export default function WorkShift({
 
   return (
     <div
-      className={`${fetcherDelete.data?.success && "hidden"} ${fetcherDelete.state === "submitting" ? "opacity-0 relative pointer-events-none" : "opacity-100"}
-      transition-opacity duration-100 ease-in-out rounded-lg flex flex-row items-center h-16 ${fetcherDelete.state === "submitting" && "cursor-not-allowed"}`}
+      className="rounded-lg flex flex-row items-center h-16"
       style={{
         backgroundColor: color,
         color: contrastedColor,
@@ -81,8 +87,8 @@ export default function WorkShift({
       <div className="flex flex-col h-16 w-7">
         <Dialog
           defaultOpen={false}
-          open={editFormModalOpen}
-          onOpenChange={setEditFormModalOpen}
+          open={patchFormModalOpen}
+          onOpenChange={setPatchFormModalOpen}
         >
           <DialogTrigger asChild>
             <button className="flex-1 bg-slate-400 hover:bg-slate-500 rounded-tr-lg flex items-center justify-center text-white">
@@ -204,13 +210,32 @@ export default function WorkShift({
             </DialogFooter>
           </DialogContent>
         </Dialog>
-        <fetcherDelete.Form method="delete" action="/schedule/work/delete" className="flex-1">
-          <input type="hidden" name="id" value={id} />
-          <button className="w-full h-full bg-red-500 hover:bg-red-600 rounded-br-lg flex items-center justify-center text-white" type="submit">
-            <Trash2 size="16" />
-          </button>
-        </fetcherDelete.Form>
-      </div>
-    </div>
+        <Dialog
+          defaultOpen={false}
+          open={deleteFormModalOpen}
+          onOpenChange={setDeleteFormModalOpen}
+        >
+          <DialogTrigger asChild>
+            <button className="flex-1 bg-red-500 hover:bg-red-600 rounded-br-lg flex items-center justify-center text-white" type="submit">
+              <Trash2 size="16" />
+            </button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. Deleting this work shift will erase all calendar records including this shift.
+              </DialogDescription>
+            </DialogHeader>
+            <fetcherDelete.Form method="delete" action="/schedule/work/delete" className="flex-1">
+              <input type="hidden" name="id" value={id} />
+              <button className="w-full h-full bg-red-500 p-2 hover:bg-red-600 rounded-lg flex items-center justify-center text-white" type="submit">
+                {fetcherDelete.state === "submitting" ? <Spinner /> : <p>Delete Work Shift</p>}
+              </button>
+            </fetcherDelete.Form>
+          </DialogContent>
+        </Dialog>
+      </div >
+    </div >
   );
 }
