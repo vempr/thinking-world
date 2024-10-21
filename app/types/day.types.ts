@@ -7,3 +7,9 @@ export const dayPostSchema = z.object({
 });
 export type DayPost = z.infer<typeof dayPostSchema>;
 export const dayPostResolver = zodResolver(dayPostSchema);
+
+export const dayDeleteSchema = z.object({
+  id: z.number(),
+});
+export type DayDelete = z.infer<typeof dayDeleteSchema>;
+export const dayDeleteResolver = zodResolver(dayDeleteSchema);

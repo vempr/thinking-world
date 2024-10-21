@@ -9,7 +9,7 @@ import {
 } from "~/components/ui/dialog.tsx";
 import { ScrollArea } from "~/components/ui/scroll-area.tsx";
 import { DayType } from "../utils/getDay.ts";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { WorkshiftFull } from "~/types/work.types.ts";
 import { useFetcher } from "@remix-run/react";
 import invert from "invert-color";
@@ -24,7 +24,8 @@ export default function Day({ day, workShifts, placement }: {
 }) {
   const [editFormModalOpen, setEditFormModalOpen] = useState<boolean>(false);
   const [loadingShift, setLoadingShift] = useState<number | null>();
-  const fetcher = useFetcher<typeof action>();
+  const addFetcher = useFetcher<typeof action>();
+  const deleteFetcher = useFetcher();
   const presentDate = new Date();
   const sameDay =
     day &&
@@ -33,17 +34,22 @@ export default function Day({ day, workShifts, placement }: {
     day.date.getFullYear() === presentDate.getFullYear();
 
   useEffect(() => {
-    if (fetcher.state === "loading") {
+    if (addFetcher.state === "loading") {
       setEditFormModalOpen(false);
       setLoadingShift(null);
     }
-  }, [fetcher.state]);
+  }, [addFetcher.state]);
 
   const dayDoesNotExist = !Boolean(day);
-  const shiftsInDay =
-    day?.data?.map((dayData) =>
-      workShifts?.find((shift) => shift.id === dayData.work_shift_id)
-    ) || [];
+  const shifts =
+    day?.data?.map((dayData) => {
+      const workShift = workShifts?.find((shift) => shift.id === dayData.work_shift_id)
+      if (!workShift) return null;
+      return {
+        workShiftInfo: workShift,
+        dayInfo: dayData,
+      }
+    }).filter((shift) => shift?.dayInfo) || [];
 
   const roundedMap: { [key: number]: string } = {
     29: "rounded-bl-md",
@@ -56,7 +62,7 @@ export default function Day({ day, workShifts, placement }: {
       <Dialog>
         <DialogTrigger asChild>
           <button
-            className={`flex flex-col w-full border border-opacity-40 dark:border-opacity-5 border-gray-300 ${rounded} h-16 lg:h-24 ${dayDoesNotExist ? "hover:bg-white dark:hover:bg-neutral-900" : sameDay ? "bg-red-500 hover:bg-red-300 bg-opacity-70 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30" : "bg-white hover:bg-sky-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"}`}
+            className={`flex flex-col w-full border border-opacity-40 dark:border-opacity-5 border-gray-300 ${rounded} h-16 lg:h-24 ${dayDoesNotExist ? "hover:bg-white dark:hover:bg-neutral-900" : sameDay ? "bg-red-400 hover:bg-red-300 bg-opacity-70 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30" : "bg-white hover:bg-sky-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"}`}
             type="button"
             disabled={dayDoesNotExist}
           >
@@ -71,26 +77,26 @@ export default function Day({ day, workShifts, placement }: {
                 </p>
               )}
               <ul className="flex flex-col gap-y-1">
-                {shiftsInDay[0] && <li><div
+                {shifts[0]?.workShiftInfo && <li><div
                   className="p-1 rounded-sm mx-1 text-xs text-left"
                   style={{
-                    backgroundColor: shiftsInDay[0].color,
-                    color: invert(shiftsInDay[0].color, true),
+                    backgroundColor: shifts[0].workShiftInfo.color,
+                    color: invert(shifts[0].workShiftInfo.color, true),
                   }}>
                   <p className="md:hidden">{" "}</p>
-                  <p className="hidden md:block">{shiftsInDay[0].start_time.slice(0, 5)} - {shiftsInDay[0].end_time.slice(0, 5)}</p>
+                  <p className="hidden md:block">{shifts[0].workShiftInfo.start_time.slice(0, 5)} - {shifts[0].workShiftInfo.end_time.slice(0, 5)}</p>
                 </div></li>}
-                {shiftsInDay[1] && <li><div
+                {shifts[1]?.workShiftInfo && <li><div
                   className="p-1 rounded-sm mx-1 text-xs text-left"
                   style={{
-                    backgroundColor: shiftsInDay[1].color,
-                    color: invert(shiftsInDay[1].color, true),
+                    backgroundColor: shifts[1].workShiftInfo.color,
+                    color: invert(shifts[1].workShiftInfo.color, true),
                   }}>
                   <p className="md:hidden">{" "}</p>
-                  <p className="hidden md:block">{shiftsInDay[1].start_time.slice(0, 5)} - {shiftsInDay[1].end_time.slice(0, 5)}</p>
+                  <p className="hidden md:block">{shifts[1].workShiftInfo.start_time.slice(0, 5)} - {shifts[1].workShiftInfo.end_time.slice(0, 5)}</p>
                 </div></li>}
                 {
-                  shiftsInDay.length > 2 && <p className="-translate-y-3 text-neutral-700 dark:text-white">...</p>
+                  shifts.length > 2 && <p className="-translate-y-3 text-neutral-700 dark:text-white">...</p>
                 }
               </ul>
             </div>
@@ -114,18 +120,32 @@ export default function Day({ day, workShifts, placement }: {
           >
             <ScrollArea className="max-h-[50vh]">
               <ul className="flex flex-col gap-y-1">
-                {shiftsInDay.length > 0 ? (
-                  shiftsInDay.map((workShift, index) =>
-                    workShift ? (
+                {shifts.length > 0 ? (
+                  shifts.map((shift, index) =>
+                    shift?.workShiftInfo ? (
                       <li
                         key={index}
-                        className="flex-1 flex flex-row items-center justify-between px-4 py-3 rounded-lg"
+                        className="flex-1 flex flex-row items-center justify-between px-4 py-2 rounded-lg"
                         style={{
-                          backgroundColor: workShift.color,
-                          color: invert(workShift.color, true),
+                          backgroundColor: shift.workShiftInfo.color,
+                          color: invert(shift.workShiftInfo.color, true),
                         }}>
-                        <p className="font-medium w-28 sm:w-40 overflow-hidden">{workShift.title}</p>
-                        <p className="font-normal text-sm">{workShift.start_time} - {workShift.end_time}</p>
+                        <p className="font-medium w-28 sm:w-40 overflow-hidden">{shift.workShiftInfo.title}</p>
+                        <p className="font-normal text-sm">{shift.workShiftInfo.start_time} - {shift.workShiftInfo.end_time}</p>
+                        <deleteFetcher.Form
+                          action="/schedule/day/delete"
+                          method="post"
+                          onSubmit={() => setLoadingShift(shift.dayInfo.id)}
+                        >
+                          <input type="hidden" name="id" value={shift.dayInfo.id} />
+                          <button
+                            type="submit"
+                            disabled={deleteFetcher.state === "submitting" && loadingShift === shift.dayInfo.id}
+                            className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
+                          >
+                            {deleteFetcher.state === "submitting" && loadingShift === shift.dayInfo.id ? <Spinner size={4} /> : <Trash2 size="16" />}
+                          </button>
+                        </deleteFetcher.Form>
                       </li>
                     ) : null
                   )
@@ -153,10 +173,10 @@ export default function Day({ day, workShifts, placement }: {
               </DialogHeader>
               <ul className="flex flex-col gap-y-1">
                 {workShifts?.length ? workShifts?.map((workShift: WorkshiftFull) => {
-                  const submitting = loadingShift === workShift.id && fetcher.state === "submitting";
+                  const submitting = loadingShift === workShift.id && addFetcher.state === "submitting";
                   return (
                     <li className="flex" key={workShift.id}>
-                      <fetcher.Form
+                      <addFetcher.Form
                         action="/schedule/day/post"
                         method="post"
                         className="flex-1 flex"
@@ -181,7 +201,7 @@ export default function Day({ day, workShifts, placement }: {
                             </>
                           )}
                         </button>
-                      </fetcher.Form>
+                      </addFetcher.Form>
                     </li>)
                 }) : <p>You haven't created any work shifts yet.</p>}
               </ul>

@@ -1,7 +1,6 @@
 export type DayData = {
   id: number;
   date: string;
-  optional_description: string | null;
   user_id: string;
   work_shift_id: number;
 };
