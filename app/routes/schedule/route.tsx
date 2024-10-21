@@ -48,10 +48,10 @@ export default function Schedule() {
     <DefaultLayout>
       <div className="mx-8">
         <div>
-          <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl text-black dark:text-white flex flex-row items-center justify-between gap-x-2 md:gap-x-5 sm:justify-normal">
-            <span className="font-title">Your Schedule</span>
-            <CalendarIcon size="48" className="opacity-70 size-6 md:size-12" />
-            <span className="tracking-wide opacity-70 font-light">
+          <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl text-black dark:text-white flex flex-row items-center justify-between gap-x-2 md:gap-x-5 sm:justify-normal font-title">
+            <span className="">Your Schedule</span>
+            <CalendarIcon size="48" className="opacity-60 size-6 md:size-12" />
+            <span className="tracking-wide opacity-60 font-light">
               {date.getDate()}.{date.getMonth() + 1}.{date.getFullYear()}
             </span>
           </h1>
