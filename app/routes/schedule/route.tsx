@@ -49,9 +49,9 @@ export default function Schedule() {
       <div className="mx-8">
         <div>
           <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl text-black dark:text-white flex flex-row items-center justify-between gap-x-2 md:gap-x-5 sm:justify-normal font-title">
-            <span className="">Your Schedule</span>
-            <CalendarIcon size="48" className="dark:opacity-60 size-6 md:size-12 text-sky-500" />
-            <span className="tracking-wide dark:opacity-60 font-light text-sky-500">
+            <span>Your Schedule</span>
+            <CalendarIcon size="48" className="size-6 md:size-12 text-sky-500" />
+            <span className="tracking-tighter font-light text-sky-500">
               {date.getDate()}.{date.getMonth() + 1}.{date.getFullYear()}
             </span>
           </h1>

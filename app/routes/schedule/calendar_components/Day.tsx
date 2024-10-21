@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
+import { ScrollArea } from "~/components/ui/scroll-area.tsx";
 import { DayType } from "../utils/getDay.ts";
 import { Plus } from "lucide-react";
 import { WorkshiftFull } from "~/types/work.types.ts";
@@ -55,19 +56,45 @@ export default function Day({ day, workShifts, placement }: {
       <Dialog>
         <DialogTrigger asChild>
           <button
-            className={`flex flex-row-reverse w-full border border-opacity-40 dark:border-opacity-5 border-gray-300 ${rounded} h-16 lg:h-24 pr-1 ${sameDay ? "bg-red-500 bg-opacity-70 dark:bg-red-800 dark:bg-opacity-30" : "bg-white dark:bg-neutral-900"} ${sameDay ? "hover:bg-red-300" : "hover:bg-sky-100"} ${dayDoesNotExist && "hover:bg-white"}`}
+            className={`flex flex-col w-full border border-opacity-40 dark:border-opacity-5 border-gray-300 ${rounded} h-16 lg:h-24 ${dayDoesNotExist ? "hover:bg-white dark:hover:bg-neutral-900" : sameDay ? "bg-red-500 hover:bg-red-300 bg-opacity-70 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30" : "bg-white hover:bg-sky-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"}`}
             type="button"
             disabled={dayDoesNotExist}
           >
-            {day && (
-              <p className="text-opacity-50 text-black dark:text-white dark:text-opacity-70">
-                <span
-                  className={`${sameDay ? "bg-red-600 px-1 text-white rounded-md" : "pr-1"}`}
-                >
-                  {day.date.getDate()}
-                </span>
-              </p>
-            )}
+            <div className="flex flex-col w-full">
+              {day && (
+                <p className="self-end text-opacity-50 text-black dark:text-white dark:text-opacity-30 mb-1 text-xs md:text-base">
+                  <span
+                    className={`${sameDay ? "bg-red-600 px-1 text-white rounded-md" : "pr-1"}`}
+                  >
+                    {day.date.getDate()}
+                  </span>
+                </p>
+              )}
+              <ul className="flex flex-col gap-y-1">
+                {shiftsInDay[0] && <li><div
+                  className="p-1 rounded-sm mx-1 text-xs text-left"
+                  style={{
+                    backgroundColor: shiftsInDay[0].color,
+                    color: invert(shiftsInDay[0].color, true),
+                  }}>
+                  <p className="md:hidden">{" "}</p>
+                  <p className="hidden md:block">{shiftsInDay[0].start_time.slice(0, 5)} - {shiftsInDay[0].end_time.slice(0, 5)}</p>
+                </div></li>}
+                {shiftsInDay[1] && <li><div
+                  className="p-1 rounded-sm mx-1 text-xs text-left"
+                  style={{
+                    backgroundColor: shiftsInDay[1].color,
+                    color: invert(shiftsInDay[1].color, true),
+                  }}>
+                  <p className="md:hidden">{" "}</p>
+                  <p className="hidden md:block">{shiftsInDay[1].start_time.slice(0, 5)} - {shiftsInDay[1].end_time.slice(0, 5)}</p>
+                </div></li>}
+                {
+                  shiftsInDay.length > 2 && <p className="-translate-y-3 text-neutral-700 dark:text-white">...</p>
+                }
+              </ul>
+            </div>
+
           </button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
@@ -85,17 +112,28 @@ export default function Day({ day, workShifts, placement }: {
             open={editFormModalOpen}
             onOpenChange={setEditFormModalOpen}
           >
-            <ul>
-              {shiftsInDay.length > 0 ? (
-                shiftsInDay.map((workShift, index) =>
-                  workShift ? (
-                    <li key={index}>{workShift.title}</li>
-                  ) : null
-                )
-              ) : (
-                <p>No work shifts for this day.</p>
-              )}
-            </ul>
+            <ScrollArea className="max-h-[50vh]">
+              <ul className="flex flex-col gap-y-1">
+                {shiftsInDay.length > 0 ? (
+                  shiftsInDay.map((workShift, index) =>
+                    workShift ? (
+                      <li
+                        key={index}
+                        className="flex-1 flex flex-row items-center justify-between px-4 py-3 rounded-lg"
+                        style={{
+                          backgroundColor: workShift.color,
+                          color: invert(workShift.color, true),
+                        }}>
+                        <p className="font-medium w-28 sm:w-40 overflow-hidden">{workShift.title}</p>
+                        <p className="font-normal text-sm">{workShift.start_time} - {workShift.end_time}</p>
+                      </li>
+                    ) : null
+                  )
+                ) : (
+                  <p>No work shifts for this day.</p>
+                )}
+              </ul>
+            </ScrollArea>
             <DialogTrigger asChild>
               <button
                 className={`flex flex-row gap-x-2 items-center border border-gray-300 rounded-lg p-3 font-semibold text-lg hover:bg-neutral-200 dark:hover:bg-neutral-900`}
@@ -114,7 +152,7 @@ export default function Day({ day, workShifts, placement }: {
                 </DialogDescription>
               </DialogHeader>
               <ul className="flex flex-col gap-y-1">
-                {workShifts ? workShifts?.map((workShift: WorkshiftFull) => {
+                {workShifts?.length ? workShifts?.map((workShift: WorkshiftFull) => {
                   const submitting = loadingShift === workShift.id && fetcher.state === "submitting";
                   return (
                     <li className="flex" key={workShift.id}>
@@ -128,6 +166,7 @@ export default function Day({ day, workShifts, placement }: {
                         <input type="date" name="date" value={day?.date.toISOString().split("T")[0]} readOnly className="hidden" />
                         <button
                           type="submit"
+                          disabled={submitting}
                           className={`flex flex-1 ${submitting ? "justify-center" : "justify-between"} p-3 rounded-lg hover:opacity-80`}
                           style={{ backgroundColor: workShift.color, color: invert(workShift.color, true) }}
                         >

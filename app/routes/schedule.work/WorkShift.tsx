@@ -66,7 +66,7 @@ export default function WorkShift({
       }}
     >
       <div className="flex-1 flex flex-row justify-between p-3">
-        <p className="font-medium">{title}</p>
+        <p className="font-medium w-28 overflow-x-hidden">{title}</p>
         <div className="flex flex-row gap-x-1.5 font-light text-sm text-right items-center">
           <div>
             <p>{start_time}</p>
