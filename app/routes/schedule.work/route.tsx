@@ -38,13 +38,9 @@ export function getCoolColor() {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient } = createSupabaseServerClient(request);
-  const {
-    data: { user },
-  } = await supabaseClient.auth.getUser();
   const { data, error } = await supabaseClient
     .from("work_shifts")
-    .select("id, title, color, start_time, end_time")
-    .eq("user_id", user?.id ?? "");
+    .select("id, title, color, start_time, end_time");
 
   return json({ data, error });
 }

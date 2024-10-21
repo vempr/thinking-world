@@ -21,12 +21,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const { data: days, error: daysError } = await supabaseClient
     .from("days")
-    .select()
-    .eq("user_id", user.id);
+    .select();
   const { data: workShifts, error: workShiftsError } = await supabaseClient
     .from("work_shifts")
-    .select("id, title, color, start_time, end_time")
-    .eq("user_id", user.id);
+    .select("id, title, color, start_time, end_time");
 
   return json({
     data: {
