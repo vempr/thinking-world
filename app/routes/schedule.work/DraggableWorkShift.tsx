@@ -30,7 +30,6 @@ export default function DraggableWorkShift({
       const dropResult = monitor.getDropResult<DropResult>();
 
       if (item && dropResult) {
-        console.log(dropResult)
         const formData = new FormData();
         formData.append("work_shift_id", `${item.id}`);
         formData.append("date", `${dropResult.date}`);

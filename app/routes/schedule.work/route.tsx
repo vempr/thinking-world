@@ -78,7 +78,7 @@ export default function CalendarSidebar() {
     <div className="bg-black bg-opacity-50 dark:bg-opacity-30 rounded-lg p-4 lg:w-72 text-center lg:text-left">
       <div className="flex flex-row gap-x-2 justify-center items-center mb-4">
         <button
-          className={`w-6 h-6 md:w-8 md:h-8 rounded-full ${searchParams.has("dnd") ? "bg-sky-400 hover:bg-sky-500" : "bg-white hover:bg-gray-300"} text-black flex justify-center items-center font-bold`}
+          className={`hidden lg:flex w-6 h-6 md:w-8 md:h-8 rounded-full ${searchParams.has("dnd") ? "bg-sky-400 hover:bg-sky-500" : "bg-white hover:bg-gray-300"} text-black flex justify-center items-center font-bold`}
           onClick={() => {
             if (searchParams.has("dnd")) {
               searchParams.delete("dnd");
