@@ -5,6 +5,7 @@ import { useDrag } from "react-dnd";
 import { WorkshiftFull } from "~/types/work.types.ts";
 import { action } from "../schedule.day.post/route.tsx";
 import SmallSpinner from "~/components/SmallSpinner.tsx";
+import { toast } from "sonner";
 
 type DropResult = { date: string };
 
@@ -37,6 +38,7 @@ export default function DraggableWorkShift({
           method: "post",
           action: "/schedule/day/post"
         });
+        if (fetcher.data?.error) toast.error(fetcher.data.error);
       }
     },
     collect: (monitor) => ({
