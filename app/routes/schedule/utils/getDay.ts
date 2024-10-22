@@ -35,7 +35,7 @@ export const getDaysArray = (
       }[]
     | null,
 ): (DayType | null)[] => {
-  const numberOfDays = new Date(year, month, 0).getDate();
+  const numberOfDays = new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = getFirstDayOfMonth(year, month);
   const daysArray: (DayType | null)[] = [];
 
@@ -52,7 +52,7 @@ export const getDaysArray = (
       data: dayData || null,
     });
   }
-  while (daysArray.length % 7 != 0) {
+  while (daysArray.length % 42 != 0) {
     daysArray.push(null);
   }
 
