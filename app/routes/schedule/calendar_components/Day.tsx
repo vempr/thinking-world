@@ -11,7 +11,7 @@ import { ScrollArea } from "~/components/ui/scroll-area.tsx";
 import { DayType } from "../utils/getDay.ts";
 import { Plus, Trash2 } from "lucide-react";
 import { WorkshiftFull } from "~/types/work.types.ts";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useSearchParams } from "@remix-run/react";
 import invert from "invert-color";
 import { useEffect, useState } from "react";
 import { action as postAction } from "~/routes/schedule.day.post/route.tsx";
@@ -25,13 +25,14 @@ export default function Day({ day, workShifts, placement }: {
   workShifts: WorkshiftFull[] | null;
   placement: number;
 }) {
+  const [searchParams] = useSearchParams();
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "workshift",
     drop: () => ({ date: day?.date.toISOString().split("T")[0] }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
-  }))
+  }), [searchParams]);
   const [editFormModalOpen, setEditFormModalOpen] = useState<boolean>(false);
   const [loadingShift, setLoadingShift] = useState<number | null>();
   const addFetcher = useFetcher<typeof postAction>();
