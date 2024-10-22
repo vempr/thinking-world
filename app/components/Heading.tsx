@@ -21,6 +21,7 @@ export default function Heading() {
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <Link
             to="/schedule/work"
+            prefetch="render"
             className="text-white bg-sky-500 hover:bg-sky-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
           >
             Your Schedule
