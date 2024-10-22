@@ -19,15 +19,14 @@ export default function DateSwitcher() {
       <button
         className="flex justify-center items-center w-8 h-8 text-sm bg-transparent outline outline-1 outline-neutral-600 dark:outline-white rounded-full opacity-50 hover:opacity-80 active:opacity-50 text-black dark:text-white"
         onClick={() => {
-          const params = new URLSearchParams();
           if (month === 0) {
-            params.set("year", `${year - 1}`);
-            params.set("month", "11");
+            searchParams.set("year", `${year - 1}`);
+            searchParams.set("month", "11");
           } else {
-            params.set("year", `${year}`);
-            params.set("month", `${month - 1}`);
+            searchParams.set("year", `${year}`);
+            searchParams.set("month", `${month - 1}`);
           }
-          setSearchParams(params);
+          setSearchParams(searchParams);
         }}
       >
         <ChevronLeft size={18} />

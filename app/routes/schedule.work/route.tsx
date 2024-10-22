@@ -1,4 +1,4 @@
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData, useSearchParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { getValidatedFormData } from "remix-hook-form";
 import {
@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
-import { TriangleAlert } from "lucide-react";
+import { Plus, SquareMousePointer, TriangleAlert } from "lucide-react";
 import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { WorkshiftFull, WorkshiftPost, workshiftPostResolver } from "../../types/work.types.ts";
@@ -53,6 +53,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function CalendarSidebar() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const loaderData = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
@@ -75,6 +76,21 @@ export default function CalendarSidebar() {
   return (
     <div className="bg-black bg-opacity-50 dark:bg-opacity-30 rounded-lg p-4 lg:w-72 text-center lg:text-left">
       <div className="flex flex-row gap-x-2 justify-center items-center mb-4">
+        <button
+          className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white text-black flex justify-center items-center font-bold hover:bg-gray-300"
+          onClick={() => {
+            if (searchParams.has("dnd")) {
+              searchParams.delete("dnd");
+            } else {
+              searchParams.append("dnd", "true");
+            }
+            setSearchParams(searchParams, {
+              preventScrollReset: true,
+            });
+          }}
+        >
+          <SquareMousePointer size={16} />
+        </button>
         <h2 className="font-medium text-xl md:text-3xl text-white">
           Work Shifts
         </h2>
@@ -84,8 +100,8 @@ export default function CalendarSidebar() {
           onOpenChange={setModalOpen}
         >
           <DialogTrigger asChild>
-            <button className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white text-black text-center font-bold hover:bg-gray-300">
-              +
+            <button className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white text-black flex justify-center items-center font-bold hover:bg-gray-300">
+              <Plus size={16} />
             </button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
