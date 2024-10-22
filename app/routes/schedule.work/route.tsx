@@ -1,6 +1,6 @@
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { getValidatedFormData, useRemixForm } from "remix-hook-form";
+import { getValidatedFormData } from "remix-hook-form";
 import {
   Dialog,
   DialogContent,
@@ -10,31 +10,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
-import { Input } from "~/components/ui/input.tsx";
 import { TriangleAlert } from "lucide-react";
-import { Spinner } from "~/components/Spinner.tsx";
 import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { WorkshiftFull, WorkshiftPost, workshiftPostResolver } from "../../types/work.types.ts";
 import WorkShift from "./WorkShift.tsx";
-
-export function getCoolColor() {
-  const coolColors: string[] = [
-    "#4287f5",
-    "#eb4034",
-    "#32a852",
-    "#fcba03",
-    "#9f2eb9",
-    "#f16bc0",
-    "#26e4bb",
-    "#60acca",
-    "#ba9f9d",
-    "#907c43",
-    "#a20f20",
-    "#5f8482",
-  ];
-  return coolColors[Math.floor(Math.random() * coolColors.length)];
-}
+import PostForm from "./PostForm.tsx";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient } = createSupabaseServerClient(request);
@@ -74,22 +55,6 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function CalendarSidebar() {
   const loaderData = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
-  const color = getCoolColor();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useRemixForm<WorkshiftPost>({
-    mode: "onSubmit",
-    resolver: workshiftPostResolver,
-    defaultValues: {
-      color,
-    },
-    fetcher,
-    submitConfig: {
-      action: "/schedule/work",
-    },
-  });
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   useEffect(() => {
@@ -130,104 +95,7 @@ export default function CalendarSidebar() {
                 Create a new template to reuse for multiple days.
               </DialogDescription>
             </DialogHeader>
-            <fetcher.Form
-              className="flex flex-col gap-y-3"
-              onSubmit={handleSubmit}
-              method="post"
-              action="/schedule/work"
-            >
-              <div className="flex flex-row gap-x-1">
-                <div className="flex-1">
-                  <label
-                    htmlFor="title"
-                    className="mb-2 block text-sm font-medium dark:text-white"
-                  >
-                    Title
-                  </label>
-                  <Input
-                    type="text"
-                    id="title"
-                    placeholder="Acme Co."
-                    autoComplete="off"
-                    {...register("title")}
-                  />
-                  {errors.title && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.title.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label
-                    htmlFor="color"
-                    className="mb-2 block text-sm invisible font-medium dark:text-white"
-                  >
-                    Color
-                  </label>
-                  <Input
-                    type="color"
-                    id="color"
-                    defaultValue={color}
-                    className="w-20 h-10 hover:cursor-pointer"
-                    {...register("color")}
-                  />
-                  {errors.color && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.color.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex flex-row gap-x-1">
-                <div className="flex-1">
-                  <label
-                    htmlFor="timeFrom"
-                    className="mb-2 block text-sm font-medium dark:text-white"
-                  >
-                    From
-                  </label>
-                  <Input
-                    type="time"
-                    id="timeFrom"
-                    autoComplete="off"
-                    {...register("start_time")}
-                  />
-                  {errors.start_time && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.start_time.message}
-                    </p>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <label
-                    htmlFor="timeTo"
-                    className="mb-2 block text-sm font-medium dark:text-white"
-                  >
-                    To
-                  </label>
-                  <Input
-                    type="time"
-                    id="timeTo"
-                    autoComplete="off"
-                    {...register("end_time")}
-                  />
-                  {errors.end_time && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.end_time.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={fetcher.state === "submitting"}
-                className="mt-1 h-12 flex justify-center items-center rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-md font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-              >
-                {fetcher.state === "submitting" ? <Spinner /> : <p>Create new template</p>}
-              </button>
-            </fetcher.Form>
+            <PostForm fetcher={fetcher} />
             <DialogFooter>
               {fetcher.data?.error && (
                 <p className="my-1 text-xs font-bold text-red-600">
