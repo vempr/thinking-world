@@ -26,7 +26,9 @@ export default function DateSwitcher() {
             searchParams.set("year", `${year}`);
             searchParams.set("month", `${month - 1}`);
           }
-          setSearchParams(searchParams);
+          setSearchParams(searchParams, {
+            preventScrollReset: true,
+          });
         }}
       >
         <ChevronLeft size={18} />
@@ -44,7 +46,9 @@ export default function DateSwitcher() {
             searchParams.set("year", `${year}`);
             searchParams.set("month", `${month + 1}`);
           }
-          setSearchParams(searchParams);
+          setSearchParams(searchParams, {
+            preventScrollReset: true,
+          });
         }}
       >
         <ChevronRight size={18} />
