@@ -9,6 +9,8 @@ export const workshiftPostSchema = z.object({
   color: z.string(),
   start_time: z.string().regex(timeRegex, { message: "Invalid starting time" }),
   end_time: z.string().regex(timeRegex, { message: "Invalid ending time" }),
+  is_hourly_pay: z.boolean(),
+  pay: z.coerce.number(),
 });
 export type WorkshiftPost = z.infer<typeof workshiftPostSchema>;
 export const workshiftPostResolver = zodResolver(workshiftPostSchema);
@@ -22,12 +24,6 @@ const workshiftDeleteSchema = z.object({
 export const workshiftDeleteResolver = zodResolver(workshiftDeleteSchema);
 export type WorkshiftDelete = z.infer<typeof workshiftDeleteSchema>;
 
-const workshiftPatchSchema = z.object({
-  id: z.number(),
-  title: z.string().min(1, { message: "Title can't be empty" }),
-  color: z.string(),
-  start_time: z.string().regex(timeRegex, { message: "Invalid starting time" }),
-  end_time: z.string().regex(timeRegex, { message: "Invalid ending time" }),
-});
+const workshiftPatchSchema = workshiftFullSchema;
 export const workshiftPatchResolver = zodResolver(workshiftPatchSchema);
 export type WorkshiftPatch = z.infer<typeof workshiftPatchSchema>;

@@ -1,5 +1,5 @@
 import invert from "invert-color";
-import { Pencil, Trash2 } from "lucide-react";
+import { Banknote, Clock, Pencil, Trash2 } from "lucide-react";
 import { useFetcher } from "@remix-run/react";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
@@ -25,6 +25,8 @@ export default function WorkShift({
   color,
   start_time,
   end_time,
+  is_hourly_pay,
+  pay,
 }: WorkshiftFull) {
   const contrastedColor = invert(color, true);
   const fetcherDelete = useFetcher<typeof deleteAction>()
@@ -47,6 +49,8 @@ export default function WorkShift({
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useRemixForm<WorkshiftPatch>({
     mode: "onSubmit",
     resolver: workshiftPatchResolver,
@@ -56,12 +60,15 @@ export default function WorkShift({
       color,
       start_time,
       end_time,
+      is_hourly_pay,
+      pay,
     },
     fetcher: fetcherPatch,
     submitConfig: {
       action: "/schedule/work/patch",
     },
   });
+  const watchIsHourlyPay = watch("is_hourly_pay");
 
   return (
     <div
@@ -191,6 +198,45 @@ export default function WorkShift({
                     </p>
                   )}
                 </div>
+              </div>
+
+              <div className="flex-1">
+                <div className="flex gap-x-2 items-center justify-between mb-1">
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-medium dark:text-white"
+                  >
+                    {watchIsHourlyPay ? "Hourly Pay" : "One-time Payment"}
+                  </label>
+                  <div className="flex justify-center items-center">
+                    <button
+                      type="button"
+                      onClick={() => setValue("is_hourly_pay", true)}
+                      className={`${watchIsHourlyPay && "bg-black dark:bg-white"} bg-transparent border border-black dark:border-white rounded-tl-sm rounded-bl-sm py-1 px-4`}
+                    >
+                      <Clock size={16} className={`${watchIsHourlyPay ? "text-white dark:text-black" : ""}`} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setValue("is_hourly_pay", false)}
+                      className={`${!watchIsHourlyPay && "bg-black dark:bg-white"} bg-transparent border border-black dark:border-white rounded-tr-sm rounded-br-sm py-1 px-4`}
+                    >
+                      <Banknote size={16} className={`${!watchIsHourlyPay ? "text-white dark:text-black" : ""}`} />
+                    </button>
+                  </div>
+                </div>
+                <Input
+                  type="number"
+                  id="pay"
+                  placeholder={watchIsHourlyPay ? "15" : "100"}
+                  autoComplete="off"
+                  {...register("pay")}
+                />
+                {errors.pay && (
+                  <p className="mt-2 text-xs text-red-500">
+                    {errors.pay.message}
+                  </p>
+                )}
               </div>
 
               <button

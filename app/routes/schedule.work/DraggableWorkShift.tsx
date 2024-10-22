@@ -2,7 +2,6 @@ import { useFetcher } from "@remix-run/react";
 import invert from "invert-color";
 import { GripVertical } from "lucide-react";
 import { useDrag } from "react-dnd";
-import { WorkshiftFull } from "~/types/work.types.ts";
 import { action } from "../schedule.day.post/route.tsx";
 import SmallSpinner from "~/components/SmallSpinner.tsx";
 import { toast } from "sonner";
@@ -13,9 +12,11 @@ export default function DraggableWorkShift({
   id,
   title,
   color,
-  start_time,
-  end_time,
-}: WorkshiftFull) {
+}: {
+  id: number;
+  title: string;
+  color: string;
+}) {
   const fetcher = useFetcher<typeof action>();
   const contrastedColor = invert(color, true);
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -23,9 +24,6 @@ export default function DraggableWorkShift({
     item: {
       id,
       title,
-      color,
-      start_time,
-      end_time,
     },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();
@@ -57,7 +55,7 @@ export default function DraggableWorkShift({
         <GripVertical size={16} style={{
           color: contrastedColor,
         }} />
-        <span className="font-medium w-24 h-6 overflow-hidden">{title}</span>
+        <span className="font-medium w-24 h-6 overflow-hidden text-sm flex items-center">{title}</span>
       </div>
       <div className="-translate-x-3">
         {fetcher.state === "submitting" && <SmallSpinner />}

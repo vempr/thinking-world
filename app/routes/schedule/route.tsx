@@ -26,7 +26,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     .select("id, date, work_shift_id");
   const { data: workShifts, error: workShiftsError } = await supabaseClient
     .from("work_shifts")
-    .select("id, title, color, start_time, end_time");
+    .select("id, title, color, start_time, end_time, pay, is_hourly_pay");
 
   return json({
     data: {

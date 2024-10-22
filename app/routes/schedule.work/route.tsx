@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient } = createSupabaseServerClient(request);
   const { data, error } = await supabaseClient
     .from("work_shifts")
-    .select("id, title, color, start_time, end_time");
+    .select("id, title, color, start_time, end_time, is_hourly_pay, pay");
 
   return json({ data, error });
 }
@@ -44,6 +44,8 @@ export async function action({ request }: ActionFunctionArgs) {
       color: formData.color,
       start_time: formData.start_time,
       end_time: formData.end_time,
+      is_hourly_pay: formData.is_hourly_pay,
+      pay: formData.pay,
     })
   if (error)
     return json({
@@ -125,18 +127,16 @@ export default function CalendarSidebar() {
       </div>
       {loaderData.data?.length ? (
         searchParams.has("dnd") ? <ul className="grid grid-cols-2 gap-1">
-          {loaderData.data.map(({ id, title, color, start_time, end_time }: WorkshiftFull) => (
+          {loaderData.data.map((workShift: WorkshiftFull) => (
             <DraggableWorkShift
-              key={id}
-              id={id}
-              title={title}
-              color={color}
-              start_time={start_time}
-              end_time={end_time}
+              key={workShift.id}
+              id={workShift.id}
+              title={workShift.title}
+              color={workShift.color}
             />
           ))}
         </ul> : <ul className="flex flex-col gap-y-1">
-          {loaderData.data.map(({ id, title, color, start_time, end_time }: WorkshiftFull) => (
+          {loaderData.data.map(({ id, title, color, start_time, end_time, is_hourly_pay, pay }: WorkshiftFull) => (
             <WorkShift
               key={id}
               id={id}
@@ -144,6 +144,8 @@ export default function CalendarSidebar() {
               color={color}
               start_time={start_time}
               end_time={end_time}
+              is_hourly_pay={is_hourly_pay}
+              pay={pay}
             />
           ))}
         </ul>

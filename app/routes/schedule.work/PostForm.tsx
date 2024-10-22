@@ -1,4 +1,5 @@
 import { FetcherWithComponents } from "@remix-run/react";
+import { Banknote, Clock } from "lucide-react";
 import { useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
 import { Input } from "~/components/ui/input.tsx";
@@ -32,17 +33,21 @@ export default function PostForm({ fetcher }: {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
   } = useRemixForm<WorkshiftPost>({
     mode: "onSubmit",
     resolver: workshiftPostResolver,
     defaultValues: {
       color,
+      is_hourly_pay: true,
     },
     fetcher,
     submitConfig: {
       action: "/schedule/work",
     },
   });
+  const watchIsHourlyPay = watch("is_hourly_pay");
 
   return <fetcher.Form
     className="flex flex-col gap-y-3"
@@ -133,7 +138,44 @@ export default function PostForm({ fetcher }: {
         )}
       </div>
     </div>
-
+    <div className="flex-1">
+      <div className="flex gap-x-2 items-center justify-between mb-1">
+        <label
+          htmlFor="title"
+          className="block text-sm font-medium dark:text-white"
+        >
+          {watchIsHourlyPay ? "Hourly Pay" : "One-time Payment"}
+        </label>
+        <div className="flex justify-center items-center">
+          <button
+            type="button"
+            onClick={() => setValue("is_hourly_pay", true)}
+            className={`${watchIsHourlyPay && "bg-black dark:bg-white"} bg-transparent border border-black dark:border-white rounded-tl-sm rounded-bl-sm py-1 px-4`}
+          >
+            <Clock size={16} className={`${watchIsHourlyPay ? "text-white dark:text-black" : ""}`} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setValue("is_hourly_pay", false)}
+            className={`${!watchIsHourlyPay && "bg-black dark:bg-white"} bg-transparent border border-black dark:border-white rounded-tr-sm rounded-br-sm py-1 px-4`}
+          >
+            <Banknote size={16} className={`${!watchIsHourlyPay ? "text-white dark:text-black" : ""}`} />
+          </button>
+        </div>
+      </div>
+      <Input
+        type="number"
+        id="pay"
+        placeholder={watchIsHourlyPay ? "15" : "100"}
+        autoComplete="off"
+        {...register("pay")}
+      />
+      {errors.pay && (
+        <p className="mt-2 text-xs text-red-500">
+          {errors.pay.message}
+        </p>
+      )}
+    </div>
     <button
       type="submit"
       disabled={fetcher.state === "submitting"}

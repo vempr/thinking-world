@@ -4,115 +4,115 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export type Database = {
   graphql_public: {
     Tables: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
       graphql: {
         Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
+          operationName?: string;
+          query?: string;
+          variables?: Json;
+          extensions?: Json;
+        };
+        Returns: Json;
+      };
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
+      [_ in never]: never;
+    };
+  };
   public: {
     Tables: {
       days: {
         Row: {
-          date: string
-          id: number
-          user_id: string
-          work_shift_id: number
-        }
+          date: string;
+          id: number;
+          user_id: string;
+          work_shift_id: number;
+        };
         Insert: {
-          date: string
-          id?: number
-          user_id: string
-          work_shift_id: number
-        }
+          date: string;
+          id?: number;
+          user_id: string;
+          work_shift_id: number;
+        };
         Update: {
-          date?: string
-          id?: number
-          user_id?: string
-          work_shift_id?: number
-        }
+          date?: string;
+          id?: number;
+          user_id?: string;
+          work_shift_id?: number;
+        };
         Relationships: [
           {
-            foreignKeyName: "days_work_shift_id_fkey"
-            columns: ["work_shift_id"]
-            isOneToOne: false
-            referencedRelation: "work_shifts"
-            referencedColumns: ["id"]
+            foreignKeyName: "days_work_shift_id_fkey";
+            columns: ["work_shift_id"];
+            isOneToOne: false;
+            referencedRelation: "work_shifts";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       work_shifts: {
         Row: {
-          color: string
-          end_time: string
-          hourly_pay: number | null
-          id: number
-          pay: number | null
-          start_time: string
-          title: string
-          user_id: string | null
-        }
+          color: string;
+          end_time: string;
+          is_hourly_pay: boolean;
+          id: number;
+          pay: number;
+          start_time: string;
+          title: string;
+          user_id: string | null;
+        };
         Insert: {
-          color: string
-          end_time: string
-          hourly_pay?: number | null
-          id?: never
-          pay?: number | null
-          start_time: string
-          title: string
-          user_id?: string | null
-        }
+          color: string;
+          end_time: string;
+          is_hourly_pay: boolean;
+          id?: never;
+          pay: number;
+          start_time: string;
+          title: string;
+          user_id?: string | null;
+        };
         Update: {
-          color?: string
-          end_time?: string
-          hourly_pay?: number | null
-          id?: never
-          pay?: number | null
-          start_time?: string
-          title?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-    }
+          color?: string;
+          end_time?: string;
+          is_hourly_pay?: boolean;
+          id?: never;
+          pay?: number;
+          start_time?: string;
+          title?: string;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "public">];
 
 export type Tables<
   PublicTableNameOrOptions extends
@@ -125,7 +125,7 @@ export type Tables<
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
@@ -133,11 +133,11 @@ export type Tables<
         PublicSchema["Views"])
     ? (PublicSchema["Tables"] &
         PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
+        Row: infer R;
       }
       ? R
       : never
-    : never
+    : never;
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -148,17 +148,17 @@ export type TablesInsert<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
+        Insert: infer I;
       }
       ? I
       : never
-    : never
+    : never;
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -169,17 +169,17 @@ export type TablesUpdate<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
+        Update: infer U;
       }
       ? U
       : never
-    : never
+    : never;
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -192,14 +192,14 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+    : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof PublicSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof Database;
   }
     ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
@@ -207,4 +207,4 @@ export type CompositeTypes<
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+    : never;
