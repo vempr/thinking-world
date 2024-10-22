@@ -18,6 +18,7 @@ import { action as postAction } from "~/routes/schedule.day.post/route.tsx";
 import { action as deleteAction } from "~/routes/schedule.day.delete/route.tsx";
 import { Spinner } from "~/components/Spinner.tsx";
 import { useDrop } from "react-dnd";
+import { cn } from "~/lib/utils.ts";
 
 export default function Day({ day, workShifts, placement }: {
   day: DayType | null;
@@ -71,7 +72,19 @@ export default function Day({ day, workShifts, placement }: {
       <Dialog>
         <DialogTrigger asChild>
           <button
-            className={`flex flex-col w-full border border-opacity-40 dark:border-opacity-5 border-gray-300 ${rounded} h-16 lg:h-24 ${isOver && sameDay && "bg-red-300 dark:bg-red-600"} ${isOver && "bg-sky-100 dark:bg-neutral-800"} ${dayDoesNotExist ? "hover:bg-white dark:hover:bg-neutral-900" : sameDay ? "bg-red-400 hover:bg-red-300 bg-opacity-70 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30" : "bg-white hover:bg-sky-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"}`}
+            className={cn(
+              "flex flex-col w-full border border-opacity-40 dark:border-opacity-5 border-gray-300",
+              rounded,
+              "h-16 lg:h-24",
+              "transition-colors duration-100",
+              {
+                "bg-white hover:bg-white dark:bg-neutral-900 dark:hover:bg-neutral-900": dayDoesNotExist,
+                "bg-white hover:bg-sky-100 dark:bg-neutral-900 dark:hover:bg-neutral-800": !dayDoesNotExist && !sameDay && !isOver,
+                "bg-red-400 hover:bg-red-300 bg-opacity-70 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30": !dayDoesNotExist && sameDay,
+                "bg-sky-100 dark:bg-neutral-800": !dayDoesNotExist && isOver && !sameDay,
+                "bg-red-300 dark:bg-red-600": !dayDoesNotExist && isOver && sameDay,
+              }
+            )}
             type="button"
             disabled={dayDoesNotExist}
           >
