@@ -38,21 +38,18 @@ export type Database = {
         Row: {
           date: string
           id: number
-          optional_description: string | null
           user_id: string
           work_shift_id: number
         }
         Insert: {
           date: string
           id?: number
-          optional_description?: string | null
           user_id: string
           work_shift_id: number
         }
         Update: {
           date?: string
           id?: number
-          optional_description?: string | null
           user_id?: string
           work_shift_id?: number
         }
@@ -70,7 +67,9 @@ export type Database = {
         Row: {
           color: string
           end_time: string
+          hourly_pay: number | null
           id: number
+          pay: number | null
           start_time: string
           title: string
           user_id: string | null
@@ -78,7 +77,9 @@ export type Database = {
         Insert: {
           color: string
           end_time: string
+          hourly_pay?: number | null
           id?: never
+          pay?: number | null
           start_time: string
           title: string
           user_id?: string | null
@@ -86,7 +87,9 @@ export type Database = {
         Update: {
           color?: string
           end_time?: string
+          hourly_pay?: number | null
           id?: never
+          pay?: number | null
           start_time?: string
           title?: string
           user_id?: string | null
