@@ -4,6 +4,7 @@ import defaultTheme from "tailwindcss/defaultTheme";
 export default {
   darkMode: ["class"],
   content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
+  safelist: ["dark"],
   theme: {
     extend: {
       fontFamily: {

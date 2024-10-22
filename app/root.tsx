@@ -44,7 +44,7 @@ export function App() {
   return (
     <html
       lang="en"
-      className={cn("h-full dark-theme", theme)}
+      className={cn("h-full", theme)}
     >
       <head>
         <meta charSet="utf-8" />
