@@ -6,18 +6,14 @@ import { WorkshiftPost, workshiftPostResolver } from "~/types/work.types";
 
 function getCoolColor() {
   const coolColors: string[] = [
-    "#4287f5",
-    "#eb4034",
-    "#32a852",
-    "#fcba03",
-    "#9f2eb9",
+    "#66FF00",
+    "#1974D2",
+    "#08E8DE",
+    "#FFF000",
+    "#FF007F",
     "#f16bc0",
     "#26e4bb",
-    "#60acca",
-    "#ba9f9d",
-    "#907c43",
     "#a20f20",
-    "#5f8482",
   ];
   return coolColors[Math.floor(Math.random() * coolColors.length)];
 }
