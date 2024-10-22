@@ -5,6 +5,8 @@ import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import Calendar from "./Calendar.tsx";
 import DateSwitcher from "./DateSwitcher.tsx";
 import { Calendar as CalendarIcon } from "lucide-react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request);
@@ -56,13 +58,15 @@ export default function Schedule() {
         </div>
         <div className="my-4">
           <DateSwitcher />
-          <div className="flex flex-col-reverse gap-y-4 gap-x-6 lg:flex-row max-w-full justify-center">
-            <Calendar
-              data={loaderData.data}
-              errors={loaderData.errors}
-            />
-            <Outlet />
-          </div>
+          <DndProvider backend={HTML5Backend}>
+            <div className="flex flex-col-reverse gap-y-4 gap-x-6 lg:flex-row max-w-full justify-center">
+              <Calendar
+                data={loaderData.data}
+                errors={loaderData.errors}
+              />
+              <Outlet />
+            </div>
+          </DndProvider>
         </div>
         <form
           action="/sign-out"

@@ -14,18 +14,27 @@ import { WorkshiftFull } from "~/types/work.types.ts";
 import { useFetcher } from "@remix-run/react";
 import invert from "invert-color";
 import { useEffect, useState } from "react";
-import { action } from "~/routes/schedule.day.post/route.tsx";
+import { action as postAction } from "~/routes/schedule.day.post/route.tsx";
+import { action as deleteAction } from "~/routes/schedule.day.delete/route.tsx";
 import { Spinner } from "~/components/Spinner.tsx";
+import { useDrop } from "react-dnd";
 
 export default function Day({ day, workShifts, placement }: {
   day: DayType | null;
   workShifts: WorkshiftFull[] | null;
   placement: number;
 }) {
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "workshift",
+    drop: () => ({ date: day?.date.toISOString().split("T")[0] }),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  }))
   const [editFormModalOpen, setEditFormModalOpen] = useState<boolean>(false);
   const [loadingShift, setLoadingShift] = useState<number | null>();
-  const addFetcher = useFetcher<typeof action>();
-  const deleteFetcher = useFetcher();
+  const addFetcher = useFetcher<typeof postAction>();
+  const deleteFetcher = useFetcher<typeof deleteAction>();
   const presentDate = new Date();
   const sameDay =
     day &&
@@ -58,11 +67,11 @@ export default function Day({ day, workShifts, placement }: {
   const rounded = roundedMap[placement] || "";
 
   return (
-    <li>
+    <li ref={drop}>
       <Dialog>
         <DialogTrigger asChild>
           <button
-            className={`flex flex-col w-full border border-opacity-40 dark:border-opacity-5 border-gray-300 ${rounded} h-16 lg:h-24 ${dayDoesNotExist ? "hover:bg-white dark:hover:bg-neutral-900" : sameDay ? "bg-red-400 hover:bg-red-300 bg-opacity-70 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30" : "bg-white hover:bg-sky-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"}`}
+            className={`flex flex-col w-full border border-opacity-40 dark:border-opacity-5 border-gray-300 ${rounded} h-16 lg:h-24 ${isOver && sameDay && "bg-red-300 dark:bg-red-600"} ${isOver && "bg-sky-100 dark:bg-neutral-800"} ${dayDoesNotExist ? "hover:bg-white dark:hover:bg-neutral-900" : sameDay ? "bg-red-400 hover:bg-red-300 bg-opacity-70 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30" : "bg-white hover:bg-sky-100 dark:bg-neutral-900 dark:hover:bg-neutral-800"}`}
             type="button"
             disabled={dayDoesNotExist}
           >

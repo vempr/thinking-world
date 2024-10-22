@@ -15,7 +15,7 @@ import {
 } from "~/components/ui/dialog.tsx";
 import { Input } from "~/components/ui/input.tsx";
 import { Spinner } from "~/components/Spinner.tsx";
-import { WorkshiftFull, WorkshiftPatch, workshiftPatchResolver } from "../../types/work.types.ts";
+import { WorkshiftFull, WorkshiftPatch, workshiftPatchResolver } from "~/types/work.types.ts";
 import { action as patchAction } from "../schedule.work.patch/route.tsx";
 import { action as deleteAction } from "../schedule.work.delete/route.tsx";
 

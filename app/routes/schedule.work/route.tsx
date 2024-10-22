@@ -16,6 +16,7 @@ import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { WorkshiftFull, WorkshiftPost, workshiftPostResolver } from "../../types/work.types.ts";
 import WorkShift from "./WorkShift.tsx";
 import PostForm from "./PostForm.tsx";
+import DraggableWorkShift from "./DraggableWorkShift.tsx";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient } = createSupabaseServerClient(request);
@@ -77,7 +78,7 @@ export default function CalendarSidebar() {
     <div className="bg-black bg-opacity-50 dark:bg-opacity-30 rounded-lg p-4 lg:w-72 text-center lg:text-left">
       <div className="flex flex-row gap-x-2 justify-center items-center mb-4">
         <button
-          className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white text-black flex justify-center items-center font-bold hover:bg-gray-300"
+          className={`w-6 h-6 md:w-8 md:h-8 rounded-full ${searchParams.has("dnd") ? "bg-sky-400 hover:bg-sky-500" : "bg-white hover:bg-gray-300"} text-black flex justify-center items-center font-bold`}
           onClick={() => {
             if (searchParams.has("dnd")) {
               searchParams.delete("dnd");
@@ -91,10 +92,10 @@ export default function CalendarSidebar() {
         >
           <SquareMousePointer size={16} />
         </button>
-        <h2 className="font-medium text-xl md:text-3xl text-white">
-          Work Shifts
+        <h2 className="font-medium text-xl md:text-2xl text-white">
+          {searchParams.has("dnd") ? "Drag and Drop" : "Work Shifts"}
         </h2>
-        <Dialog
+        {!searchParams.has("dnd") && <Dialog
           defaultOpen={false}
           open={modalOpen}
           onOpenChange={setModalOpen}
@@ -120,10 +121,21 @@ export default function CalendarSidebar() {
               )}
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+        </Dialog>}
       </div>
       {loaderData.data?.length ? (
-        <ul className="flex flex-col gap-y-1">
+        searchParams.has("dnd") ? <ul className="grid grid-cols-2 gap-1">
+          {loaderData.data.map(({ id, title, color, start_time, end_time }: WorkshiftFull) => (
+            <DraggableWorkShift
+              key={id}
+              id={id}
+              title={title}
+              color={color}
+              start_time={start_time}
+              end_time={end_time}
+            />
+          ))}
+        </ul> : <ul className="flex flex-col gap-y-1">
           {loaderData.data.map(({ id, title, color, start_time, end_time }: WorkshiftFull) => (
             <WorkShift
               key={id}
