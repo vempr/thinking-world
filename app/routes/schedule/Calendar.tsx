@@ -12,8 +12,6 @@ type CalendarProps = {
     days: {
       id: number;
       date: string;
-      optional_description: string | null;
-      user_id: string;
       work_shift_id: number;
     }[] | null;
     workShifts: WorkshiftFull[] | null;

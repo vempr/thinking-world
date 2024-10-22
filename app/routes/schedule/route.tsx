@@ -23,7 +23,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const { data: days, error: daysError } = await supabaseClient
     .from("days")
-    .select();
+    .select("id, date, work_shift_id");
   const { data: workShifts, error: workShiftsError } = await supabaseClient
     .from("work_shifts")
     .select("id, title, color, start_time, end_time");
