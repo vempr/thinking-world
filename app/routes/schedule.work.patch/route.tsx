@@ -15,6 +15,8 @@ export async function action({ request }: ActionFunctionArgs) {
       color: formData.color,
       start_time: formData.start_time,
       end_time: formData.end_time,
+      is_hourly_pay: formData.is_hourly_pay,
+      pay: formData.pay,
     })
     .eq("id", formData.id);
   if (error)
