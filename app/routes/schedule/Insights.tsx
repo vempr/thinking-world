@@ -73,17 +73,53 @@ export default function Insights({ data }: { data: InsightData }) {
     });
   }
 
-  console.log("Pays:", pays);
-  console.log("Hours Worked:", hoursWorked);
+  const sum = (pays: { [k: string]: number; }) => Object.values(pays).reduce((a, b) => a + b, 0);
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-4">
       <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl text-black dark:text-white flex flex-row items-center justify-between gap-x-2 md:gap-x-5 sm:justify-normal font-title">
         <span>Insights for {
           searchParams.get("month") ? getMonthByJSDateNumber(Number(searchParams.get("month"))) : getMonthByJSDateNumber(date.getMonth())
         }</span>
         <ChartColumn size={48} className="hidden sm:block size-6 md:size-10 lg:size-12" />
       </h2>
+      <div className="text-lg">
+        <p>Your total earnings as of this month: <span className="text-2xl font-title text-sky-500">{pays ? sum(pays).toFixed(2) : "0.00"}</span>,</p>
+        <p>In <span className="font-title text-sky-500">{hoursWorked ? sum(hoursWorked) : "0"}</span> hours worked.</p>
+      </div>
+      <div className="my-3 w-full overflow-y-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="m-0 border-t p-0 even:bg-muted">
+              <th className="border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right">
+                Work Shift{" "}
+              </th>
+              <th className="border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right">
+                Hours Worked
+              </th>
+              <th className="border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right">
+                Salary{"    "}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.workShifts &&
+              data.workShifts.map((workShift) => (
+                <tr key={workShift.id} className="m-0 border-t p-0 even:bg-muted">
+                  <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
+                    {workShift.title}
+                  </td>
+                  <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
+                    {hoursWorked && hoursWorked[workShift.id] || "0"}
+                  </td>
+                  <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
+                    {pays && pays[workShift.id]?.toFixed(2) || "0.00"}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
