@@ -84,7 +84,7 @@ export default function Insights({ data }: { data: InsightData }) {
         <ChartColumn size={48} className="hidden sm:block size-6 md:size-10 lg:size-12" />
       </h2>
       <div className="text-lg">
-        <p>Your total earnings as of this month: <span className="text-2xl font-title text-sky-500">{pays ? sum(pays).toFixed(2) : "0.00"}</span>,</p>
+        <p>Your total earnings as of this month: <span className="text-lg sm:text-2xl font-title text-sky-500">{pays ? sum(pays).toFixed(2) : "0.00"}</span>,</p>
         <p>In <span className="font-title text-sky-500">{hoursWorked ? sum(hoursWorked) : "0"}</span> hours worked.</p>
       </div>
       <div className="my-3 w-full overflow-y-auto">

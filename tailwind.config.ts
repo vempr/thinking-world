@@ -10,6 +10,7 @@ export default {
       fontFamily: {
         sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
         title: ['"Outfit"'],
+        date: ['"Geist"'],
       },
       borderRadius: {
         lg: "var(--radius)",
