@@ -1,8 +1,10 @@
+import { Theme, useTheme } from "remix-themes";
 import { Link, NavLink } from "@remix-run/react";
 import twImage from "../../tw.png";
 import { useState } from "react";
 
 export default function Heading() {
+  const [, setTheme] = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -12,12 +14,67 @@ export default function Heading() {
   return (
     <nav className="bg-white dark:bg-neutral-900 block w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-neutral-600">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
-        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src={twImage} className="h-10" alt="Thinking World Logo" />
-          <span className="self-center text-md font-semibold whitespace-nowrap dark:text-white">
-            Thinking<br />World
-          </span>
-        </Link>
+        <div className="flex justify-center items-center gap-x-3">
+          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src={twImage} className="h-10" alt="Thinking World Logo" />
+            <span className="self-center text-md font-semibold whitespace-nowrap dark:text-white">
+              Thinking<br />World
+            </span>
+          </Link>
+          <button
+            type="button"
+            className="hs-dark-mode dark:hidden items-center gap-x-2 p-3 bg-gray-300 rounded-full text-sm text-black hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
+            onClick={() => setTheme(Theme.DARK)}
+          >
+            <svg
+              className="shrink-0 size-4"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="hs-dark-mode dark:inline-flex hidden items-center gap-x-2 p-3 bg-slate-800 rounded-full text-sm text-white hover:bg-slate-700 focus:outline-none focus:bg-slate-700"
+            onClick={() => setTheme(Theme.LIGHT)}
+          >
+            <svg
+              className="shrink-0 size-4"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="4"
+              ></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </button>
+        </div>
+
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <Link
             to="/schedule/work"
