@@ -26,7 +26,7 @@ export default function Insights({ data }: { data: InsightData }) {
       ? Number(searchParams.get("month"))
       : date.getMonth();
 
-  const daysArray = getDaysArray(year, month, data.days).filter((day) => day?.data?.length);
+  const daysArray = getDaysArray(year, month, { workDays: data.days }).filter((day) => day?.data?.workData?.length);
   const pays = data.workShifts
     ? Object.fromEntries(data.workShifts.map((workShift: WorkshiftFull) => [workShift.id, 0]))
     : null;
@@ -54,8 +54,8 @@ export default function Insights({ data }: { data: InsightData }) {
 
   if (pays && hoursWorked) {
     daysArray.forEach((day) => {
-      if (day?.data) {
-        day.data.forEach((shift) => {
+      if (day?.data.workData) {
+        day.data.workData.forEach((shift) => {
           const workShift = data.workShifts?.find(ws => ws.id === shift.work_shift_id);
 
           if (workShift && shift?.work_shift_id in pays) {

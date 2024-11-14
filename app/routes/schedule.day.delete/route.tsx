@@ -10,11 +10,10 @@ export async function action({ request }: ActionFunctionArgs) {
   if (formErrors) return json({ error: "Invalid formdata", success: false });
 
   const response = await supabaseClient
-    .from("days")
+    .from("work_days")
     .delete()
     .eq("id", formData.id);
   if (response.error) {
-    console.log(response.error)
     return json({
       error: "There was an unexpected server error. Please try again later.",
       success: false,

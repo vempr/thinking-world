@@ -9,16 +9,24 @@ import { WorkshiftFull } from "../../types/work.types.ts";
 
 type CalendarProps = {
   data: {
-    days: {
+    workDays: {
       id: number;
       date: string;
       work_shift_id: number;
     }[] | null;
     workShifts: WorkshiftFull[] | null;
+    eventDays: {
+      id: number;
+      date: string;
+      title: string;
+      time: string | null;
+      color: string;
+    }[] | null;
   };
   errors: {
     daysError: PostgrestError | null;
     workShiftsError: PostgrestError | null;
+    eventDaysError: PostgrestError | null;
   };
 };
 
@@ -34,11 +42,15 @@ export default function Calendar({ data, errors }: CalendarProps) {
       ? Number(searchParams.get("month"))
       : date.getMonth();
 
-  const daysArray = getDaysArray(year, month, data.days);
+  const daysArray = getDaysArray(year, month, {
+    workDays: data.workDays,
+    eventDays: data.eventDays,
+  });
 
   useEffect(() => {
     if (errors.daysError) toast.error(errors.daysError.message);
     if (errors.workShiftsError) toast.error(errors.workShiftsError.message);
+    if (errors.eventDaysError) toast.error(errors.eventDaysError.message);
   }, [errors]);
 
   return (

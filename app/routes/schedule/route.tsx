@@ -22,21 +22,26 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return redirect("/schedule/work");
   }
 
-  const { data: days, error: daysError } = await supabaseClient
-    .from("days")
+  const { data: workDays, error: daysError } = await supabaseClient
+    .from("work_days")
     .select("id, date, work_shift_id");
   const { data: workShifts, error: workShiftsError } = await supabaseClient
     .from("work_shifts")
     .select("id, title, color, start_time, end_time, pay, is_hourly_pay");
+  const { data: eventDays, error: eventDaysError } = await supabaseClient
+    .from("event_days")
+    .select("id, date, title, time, color");
 
   return json({
     data: {
-      days,
+      workDays,
       workShifts,
+      eventDays,
     },
     errors: {
       daysError,
-      workShiftsError
+      workShiftsError,
+      eventDaysError,
     }
   });
 }
@@ -49,10 +54,10 @@ export default function Schedule() {
     <DefaultLayout>
       <div className="mx-8">
         <div>
-          <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl text-black dark:text-white flex flex-row items-center justify-between gap-x-2 md:gap-x-5 sm:justify-normal font-title">
-            <span>Your Schedule</span>
+          <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl text-black dark:text-white flex flex-row items-center gap-x-2 md:gap-x-5 justify-normal ">
+            <span className="font-title">Your Schedule</span>
             <CalendarIcon size="48" className="hidden sm:block size-6 md:size-12 text-sky-500" />
-            <span className="tracking-tighter font-light text-sky-500">
+            <span className="tracking-tighter font-date text-sky-500">
               {date.getDate()}.{date.getMonth() + 1}.{date.getFullYear()}
             </span>
           </h1>
@@ -70,7 +75,10 @@ export default function Schedule() {
               </div>
             </DndProvider>
           </div>
-          <Insights data={loaderData.data} />
+          <Insights data={{
+            days: loaderData.data.workDays,
+            workShifts: loaderData.data.workShifts,
+          }} />
         </div>
         <form
           action="/sign-out"

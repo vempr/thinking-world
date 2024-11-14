@@ -69,6 +69,10 @@ export function App() {
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Geist&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+          rel="stylesheet"
+        />
         <Meta />
         <Links />
       </head>

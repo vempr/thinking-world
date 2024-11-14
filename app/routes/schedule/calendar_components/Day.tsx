@@ -14,11 +14,13 @@ import { WorkshiftFull } from "~/types/work.types.ts";
 import { useFetcher, useSearchParams } from "@remix-run/react";
 import invert from "invert-color";
 import { useEffect, useState } from "react";
-import { action as postAction } from "~/routes/schedule.day.post/route.tsx";
-import { action as deleteAction } from "~/routes/schedule.day.delete/route.tsx";
+import { action as postShiftAction } from "~/routes/schedule.day.post/route.tsx";
+import { action as deleteShiftAction } from "~/routes/schedule.day.delete/route.tsx";
 import { Spinner } from "~/components/Spinner.tsx";
 import { useDrop } from "react-dnd";
 import { cn } from "~/lib/utils.ts";
+import { action as postEventAction } from "~/routes/schedule.event.post/route.tsx";
+import EventPostForm from "./day_components/EventPostForm.tsx";
 
 export default function Day({ day, workShifts, placement }: {
   day: DayType | null;
@@ -33,10 +35,12 @@ export default function Day({ day, workShifts, placement }: {
       isOver: monitor.isOver(),
     }),
   }), [searchParams]);
-  const [editFormModalOpen, setEditFormModalOpen] = useState<boolean>(false);
+  const [editShiftFormModalOpen, setEditShiftFormModalOpen] = useState<boolean>(false);
+  const [editEventFormModalOpen, setEditEventFormModalOpen] = useState<boolean>(false);
   const [loadingShift, setLoadingShift] = useState<number | null>();
-  const addFetcher = useFetcher<typeof postAction>();
-  const deleteFetcher = useFetcher<typeof deleteAction>();
+  const addShiftFetcher = useFetcher<typeof postShiftAction>();
+  const deleteShiftFetcher = useFetcher<typeof deleteShiftAction>();
+  const addEventFetcher = useFetcher<typeof postEventAction>()
   const presentDate = new Date();
   const sameDay =
     day &&
@@ -45,15 +49,21 @@ export default function Day({ day, workShifts, placement }: {
     day.date.getFullYear() === presentDate.getFullYear();
 
   useEffect(() => {
-    if (addFetcher.state === "loading") {
-      setEditFormModalOpen(false);
+    if (addShiftFetcher.state === "loading") {
+      setEditShiftFormModalOpen(false);
       setLoadingShift(null);
     }
-  }, [addFetcher.state]);
+  }, [addShiftFetcher.state]);
+
+  useEffect(() => {
+    if (addEventFetcher.state === "loading") {
+      setEditEventFormModalOpen(false);
+    }
+  }, [addEventFetcher.state]);
 
   const dayDoesNotExist = !Boolean(day);
   const shifts =
-    day?.data?.map((dayData) => {
+    day?.data?.workData?.map((dayData) => {
       const workShift = workShifts?.find((shift) => shift.id === dayData.work_shift_id)
       if (!workShift) return null;
       return {
@@ -138,8 +148,8 @@ export default function Day({ day, workShifts, placement }: {
           </DialogHeader>
           <Dialog
             defaultOpen={false}
-            open={editFormModalOpen}
-            onOpenChange={setEditFormModalOpen}
+            open={editShiftFormModalOpen}
+            onOpenChange={setEditShiftFormModalOpen}
           >
             <ScrollArea className="max-h-[50vh]">
               <ul className="flex flex-col gap-y-1">
@@ -155,7 +165,7 @@ export default function Day({ day, workShifts, placement }: {
                         }}>
                         <p className="font-medium w-28 sm:w-40 overflow-hidden">{shift.workShiftInfo.title}</p>
                         <p className="font-normal text-sm">{shift.workShiftInfo.start_time} - {shift.workShiftInfo.end_time}</p>
-                        <deleteFetcher.Form
+                        <deleteShiftFetcher.Form
                           action="/schedule/day/delete"
                           method="post"
                           onSubmit={() => setLoadingShift(shift.dayInfo.id)}
@@ -163,12 +173,12 @@ export default function Day({ day, workShifts, placement }: {
                           <input type="hidden" name="id" value={shift.dayInfo.id} />
                           <button
                             type="submit"
-                            disabled={deleteFetcher.state === "submitting" && loadingShift === shift.dayInfo.id}
+                            disabled={deleteShiftFetcher.state === "submitting" && loadingShift === shift.dayInfo.id}
                             className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
                           >
-                            {deleteFetcher.state === "submitting" && loadingShift === shift.dayInfo.id ? <Spinner size={4} /> : <Trash2 size="16" />}
+                            {deleteShiftFetcher.state === "submitting" && loadingShift === shift.dayInfo.id ? <Spinner size={4} /> : <Trash2 size="16" />}
                           </button>
-                        </deleteFetcher.Form>
+                        </deleteShiftFetcher.Form>
                       </li>
                     ) : null
                   )
@@ -196,10 +206,10 @@ export default function Day({ day, workShifts, placement }: {
               </DialogHeader>
               <ul className="flex flex-col gap-y-1">
                 {workShifts?.length ? workShifts?.map((workShift: WorkshiftFull) => {
-                  const submitting = loadingShift === workShift.id && addFetcher.state === "submitting";
+                  const submitting = loadingShift === workShift.id && addShiftFetcher.state === "submitting";
                   return (
                     <li className="flex" key={workShift.id}>
-                      <addFetcher.Form
+                      <addShiftFetcher.Form
                         action="/schedule/day/post"
                         method="post"
                         className="flex-1 flex"
@@ -224,10 +234,35 @@ export default function Day({ day, workShifts, placement }: {
                             </>
                           )}
                         </button>
-                      </addFetcher.Form>
+                      </addShiftFetcher.Form>
                     </li>)
                 }) : <p>You haven't created any work shifts yet.</p>}
               </ul>
+            </DialogContent>
+          </Dialog>
+          <Dialog
+            defaultOpen={false}
+            open={editEventFormModalOpen}
+            onOpenChange={setEditEventFormModalOpen}
+          >
+            <DialogTrigger asChild>
+              <button
+                className={`flex flex-row gap-x-2 items-center border border-gray-300 rounded-lg p-3 font-semibold text-lg hover:bg-neutral-200 dark:hover:bg-neutral-900`}
+                type="button"
+              >
+                <Plus size={24} /><p>Add event</p>
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader className="border-b pb-4">
+                <DialogTitle>
+                  Add a new event.
+                </DialogTitle>
+                <DialogDescription>
+                  One event will appear first in the calendar day.
+                </DialogDescription>
+              </DialogHeader>
+              <EventPostForm fetcher={addEventFetcher} date={day?.date.toISOString().split("T")[0]} />
             </DialogContent>
           </Dialog>
           <DialogFooter></DialogFooter>
