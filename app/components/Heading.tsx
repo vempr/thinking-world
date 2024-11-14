@@ -12,7 +12,7 @@ export default function Heading() {
   };
 
   return (
-    <nav className="bg-white dark:bg-neutral-900 block w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-neutral-600">
+    <nav className="bg-white dark:bg-neutral-900 block w-full z-20 top-0 start-0 border-b border-gray-200/70 dark:border-neutral-600/30">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
         <div className="flex justify-center items-center gap-x-3">
           <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -150,7 +150,7 @@ export default function Heading() {
                   }`
                 }
               >
-                Your Account
+                Account Settings
               </NavLink>
             </li>
           </ul>

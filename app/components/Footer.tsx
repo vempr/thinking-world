@@ -15,8 +15,8 @@ export default function Footer() {
         <ul className="text-sm text-gray-400 dark:text-neutral-400">
           <li><Link to="/" className="hover:text-sky-500">Home</Link></li>
           <li><Link to="/" className="hover:text-sky-500">Application Guide</Link></li>
-          <li><Link to="/" className="hover:text-sky-500">Your Account</Link></li>
-          <li><Link to="/" className="hover:text-sky-500">Work/School Schedule</Link></li>
+          <li><Link to="/" className="hover:text-sky-500">Account Settings</Link></li>
+          <li><Link to="/" className="hover:text-sky-500">Your Schedule</Link></li>
         </ul>
         <hr className="bg-white/60 w-[2px] h-20 rounded"></hr>
         <a
