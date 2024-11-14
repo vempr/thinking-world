@@ -110,6 +110,17 @@ export default function Day({ day, workShifts, placement }: {
                 </p>
               )}
               <ul className="flex flex-col gap-y-1">
+                {day?.data?.eventData?.length ? <li>
+                  <div
+                    className="py-[2px] px-1 rounded-sm mx-1 text-xs text-left border-2"
+                    style={{
+                      borderColor: day?.data?.eventData[0].color,
+                    }}
+                  >
+                    <p className="md:hidden">{" "}</p>
+                    <p className="hidden md:block">{day?.data?.eventData[0].title.length > 10 ? day?.data?.eventData[0].title.slice(0, 10) + "..." : day?.data?.eventData[0].title}</p>
+                  </div>
+                </li> : <></>}
                 {shifts[0]?.workShiftInfo && <li><div
                   className="p-1 rounded-sm mx-1 text-xs text-left"
                   style={{
@@ -119,7 +130,7 @@ export default function Day({ day, workShifts, placement }: {
                   <p className="md:hidden">{" "}</p>
                   <p className="hidden md:block">{shifts[0].workShiftInfo.start_time.slice(0, 5)} - {shifts[0].workShiftInfo.end_time.slice(0, 5)}</p>
                 </div></li>}
-                {shifts[1]?.workShiftInfo && <li><div
+                {shifts[1]?.workShiftInfo && !day?.data?.eventData?.length && <li><div
                   className="p-1 rounded-sm mx-1 text-xs text-left"
                   style={{
                     backgroundColor: shifts[1].workShiftInfo.color,
@@ -129,7 +140,7 @@ export default function Day({ day, workShifts, placement }: {
                   <p className="hidden md:block">{shifts[1].workShiftInfo.start_time.slice(0, 5)} - {shifts[1].workShiftInfo.end_time.slice(0, 5)}</p>
                 </div></li>}
                 {
-                  shifts.length > 2 && <p className="-translate-y-3 text-neutral-700 dark:text-white">...</p>
+                  shifts.length + Number(day?.data?.eventData?.length) > 2 && <p className="-translate-y-3 text-neutral-700 dark:text-white">...</p>
                 }
               </ul>
             </div>
@@ -240,6 +251,7 @@ export default function Day({ day, workShifts, placement }: {
               </ul>
             </DialogContent>
           </Dialog>
+          <p>Pluh (display event title, edit, delete :))</p>
           <Dialog
             defaultOpen={false}
             open={editEventFormModalOpen}
