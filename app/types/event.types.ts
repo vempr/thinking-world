@@ -25,3 +25,7 @@ const eventDeleteSchema = z.object({
 });
 export const eventDeleteResolver = zodResolver(eventDeleteSchema);
 export type EventDelete = z.infer<typeof eventDeleteSchema>;
+
+const eventPatchSchema = eventPostSchema.extend({ id: z.number() });
+export const eventPatchResolver = zodResolver(eventPatchSchema);
+export type EventPatch = z.infer<typeof eventPatchSchema>;

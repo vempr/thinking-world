@@ -9,7 +9,7 @@ import {
 } from "~/components/ui/dialog.tsx";
 import { ScrollArea } from "~/components/ui/scroll-area.tsx";
 import { DayType } from "../utils/getDay.ts";
-import { Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { WorkshiftFull } from "~/types/work.types.ts";
 import { useFetcher, useSearchParams } from "@remix-run/react";
 import invert from "invert-color";
@@ -20,8 +20,10 @@ import { Spinner } from "~/components/Spinner.tsx";
 import { useDrop } from "react-dnd";
 import { cn } from "~/lib/utils.ts";
 import { action as postEventAction } from "~/routes/schedule.event.post/route.tsx";
+import { action as patchEventAction } from "~/routes/schedule.event.patch/route.tsx";
 import { action as deleteEventAction } from "~/routes/schedule.event.delete/route.tsx";
 import EventPostForm from "./day_components/EventPostForm.tsx";
+import EventPatchForm from "./day_components/EventPatchForm.tsx";
 
 export default function Day({ day, workShifts, placement }: {
   day: DayType | null;
@@ -36,14 +38,19 @@ export default function Day({ day, workShifts, placement }: {
       isOver: monitor.isOver(),
     }),
   }), [searchParams]);
+
   const [editShiftFormModalOpen, setEditShiftFormModalOpen] = useState<boolean>(false);
-  const [editEventFormModalOpen, setEditEventFormModalOpen] = useState<boolean>(false);
+  const [editEventPostFormModalOpen, setEditEventPostFormModalOpen] = useState<boolean>(false);
+  const [editingEventId, setEditingEventId] = useState<number | null>(null);
   const [loadingShift, setLoadingShift] = useState<number | null>();
   const [loadingEvent, setLoadingEvent] = useState<number | null>();
+
   const addShiftFetcher = useFetcher<typeof postShiftAction>();
   const deleteShiftFetcher = useFetcher<typeof deleteShiftAction>();
-  const postEventFetcher = useFetcher<typeof postEventAction>()
-  const deleteEventFetcher = useFetcher<typeof deleteEventAction>()
+  const postEventFetcher = useFetcher<typeof postEventAction>();
+  const patchEventFetcher = useFetcher<typeof patchEventAction>();
+  const deleteEventFetcher = useFetcher<typeof deleteEventAction>();
+
   const presentDate = new Date();
   const sameDay =
     day &&
@@ -60,9 +67,15 @@ export default function Day({ day, workShifts, placement }: {
 
   useEffect(() => {
     if (postEventFetcher.state === "loading") {
-      setEditEventFormModalOpen(false);
+      setEditEventPostFormModalOpen(false);
     }
   }, [postEventFetcher.state]);
+
+  useEffect(() => {
+    if (patchEventFetcher.state === "loading") {
+      setEditingEventId(null);
+    }
+  }, [patchEventFetcher.state]);
 
   const dayDoesNotExist = !Boolean(day);
   const shifts =
@@ -270,20 +283,45 @@ export default function Day({ day, workShifts, placement }: {
                       <p className="font-medium">{eventDay.title.length > 20 ? eventDay.title.slice(0, 20) + "..." : eventDay.title}</p>
                       <p className="font-light text-sm">{eventDay.time ? eventDay.time : <span className="italic opacity-70">No time specified</span>}</p>
                     </div>
-                    <deleteEventFetcher.Form
-                      action="/schedule/event/delete"
-                      method="post"
-                      onSubmit={() => setLoadingEvent(eventDay.id)}
-                    >
-                      <input type="hidden" name="id" value={eventDay.id} />
-                      <button
-                        type="submit"
-                        disabled={(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id}
-                        className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
+                    <div className="flex flex-row gap-x-1">
+                      <Dialog
+                        defaultOpen={false}
+                        open={editingEventId === eventDay.id}
+                        onOpenChange={(open) => setEditingEventId(open ? eventDay.id : null)}
                       >
-                        {(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id ? <Spinner size={4} /> : <Trash2 size="16" />}
-                      </button>
-                    </deleteEventFetcher.Form>
+                        <DialogTrigger asChild>
+                          <button
+                            type="button"
+                            className="flex justify-center items-center bg-slate-400 hover:bg-slate-500 text-white p-2 rounded-sm translate-x-2"
+                          >
+                            <Pencil size="16" />
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Edit event</DialogTitle>
+                            <DialogDescription>
+                              Make changes to your event here.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <EventPatchForm fetcher={patchEventFetcher} eventDay={eventDay} />
+                        </DialogContent>
+                      </Dialog>
+                      <deleteEventFetcher.Form
+                        action="/schedule/event/delete"
+                        method="post"
+                        onSubmit={() => setLoadingEvent(eventDay.id)}
+                      >
+                        <input type="hidden" name="id" value={eventDay.id} />
+                        <button
+                          type="submit"
+                          disabled={(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id}
+                          className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
+                        >
+                          {(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id ? <Spinner size={4} /> : <Trash2 size="16" />}
+                        </button>
+                      </deleteEventFetcher.Form>
+                    </div>
                   </li>
                 )
               ) : (
@@ -293,8 +331,8 @@ export default function Day({ day, workShifts, placement }: {
           </ScrollArea>
           <Dialog
             defaultOpen={false}
-            open={editEventFormModalOpen}
-            onOpenChange={setEditEventFormModalOpen}
+            open={editEventPostFormModalOpen}
+            onOpenChange={setEditEventPostFormModalOpen}
           >
             <DialogTrigger asChild>
               <button
