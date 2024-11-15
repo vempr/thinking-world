@@ -1,4 +1,4 @@
-import { ThemeProvider, useTheme } from "remix-themes";
+import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from "remix-themes";
 import Footer from "./components/Footer.tsx";
 import Heading from "./components/Heading.tsx";
 
@@ -74,6 +74,7 @@ export function App() {
           rel="stylesheet"
         />
         <Meta />
+        <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
         <Links />
       </head>
       <body className="flex min-h-full flex-col font-sans">

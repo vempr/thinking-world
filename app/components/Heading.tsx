@@ -17,7 +17,7 @@ export default function Heading() {
         <div className="flex justify-center items-center gap-x-3">
           <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={twImage} className="h-10" alt="Thinking World Logo" />
-            <span className="self-center text-md font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-sm font-semibold whitespace-nowrap dark:text-white">
               Thinking<br />World
             </span>
           </Link>
@@ -79,9 +79,10 @@ export default function Heading() {
           <Link
             to="/schedule/work"
             prefetch="render"
-            className="text-white bg-sky-500 hover:bg-sky-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
+            className="text-white bg-sky-500 hover:bg-sky-600 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center flex items-center"
           >
-            Your Schedule
+            <p className="sm:hidden">Schedule</p>
+            <p className="hidden sm:block">Your Schedule</p>
           </Link>
           <button
             onClick={toggleMenu}
