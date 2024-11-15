@@ -85,7 +85,7 @@ export default function Insights({ data }: { data: InsightData }) {
       </h2>
       <div className="text-lg">
         <p>Your total earnings as of this month: <span className="text-lg sm:text-2xl font-title text-sky-500">{pays ? sum(pays).toFixed(2) : "0.00"}</span>,</p>
-        <p>In <span className="font-title text-sky-500">{hoursWorked ? sum(hoursWorked) : "0"}</span> hours worked.</p>
+        <p>In <span className="font-title text-sky-500">{hoursWorked ? sum(hoursWorked).toFixed(1) : "0"}</span> hours worked.</p>
       </div>
       <div className="my-3 w-full overflow-y-auto">
         <table className="w-full">
@@ -110,7 +110,7 @@ export default function Insights({ data }: { data: InsightData }) {
                     {workShift.title}
                   </td>
                   <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
-                    {hoursWorked && hoursWorked[workShift.id] || "0"}
+                    {hoursWorked && hoursWorked[workShift.id].toFixed(1) || "0"}
                   </td>
                   <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
                     {pays && pays[workShift.id]?.toFixed(2) || "0.00"}
