@@ -13,10 +13,15 @@ export const eventPostSchema = z.object({
     .regex(timeRegex, { message: "Invalid time" })
     .or(z.string().max(0)),
 });
-
 export type EventPost = z.infer<typeof eventPostSchema>;
 export const eventPostResolver = zodResolver(eventPostSchema);
 
 export const eventFullSchema = eventPostSchema.extend({ date: z.string() });
 export type EventFull = z.infer<typeof eventFullSchema>;
 export const eventFullResolver = zodResolver(eventFullSchema);
+
+const eventDeleteSchema = z.object({
+  id: z.number(),
+});
+export const eventDeleteResolver = zodResolver(eventDeleteSchema);
+export type EventDelete = z.infer<typeof eventDeleteSchema>;

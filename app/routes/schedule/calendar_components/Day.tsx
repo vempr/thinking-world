@@ -20,6 +20,7 @@ import { Spinner } from "~/components/Spinner.tsx";
 import { useDrop } from "react-dnd";
 import { cn } from "~/lib/utils.ts";
 import { action as postEventAction } from "~/routes/schedule.event.post/route.tsx";
+import { action as deleteEventAction } from "~/routes/schedule.event.delete/route.tsx";
 import EventPostForm from "./day_components/EventPostForm.tsx";
 
 export default function Day({ day, workShifts, placement }: {
@@ -38,9 +39,11 @@ export default function Day({ day, workShifts, placement }: {
   const [editShiftFormModalOpen, setEditShiftFormModalOpen] = useState<boolean>(false);
   const [editEventFormModalOpen, setEditEventFormModalOpen] = useState<boolean>(false);
   const [loadingShift, setLoadingShift] = useState<number | null>();
+  const [loadingEvent, setLoadingEvent] = useState<number | null>();
   const addShiftFetcher = useFetcher<typeof postShiftAction>();
   const deleteShiftFetcher = useFetcher<typeof deleteShiftAction>();
-  const addEventFetcher = useFetcher<typeof postEventAction>()
+  const postEventFetcher = useFetcher<typeof postEventAction>()
+  const deleteEventFetcher = useFetcher<typeof deleteEventAction>()
   const presentDate = new Date();
   const sameDay =
     day &&
@@ -56,10 +59,10 @@ export default function Day({ day, workShifts, placement }: {
   }, [addShiftFetcher.state]);
 
   useEffect(() => {
-    if (addEventFetcher.state === "loading") {
+    if (postEventFetcher.state === "loading") {
       setEditEventFormModalOpen(false);
     }
-  }, [addEventFetcher.state]);
+  }, [postEventFetcher.state]);
 
   const dayDoesNotExist = !Boolean(day);
   const shifts =
@@ -162,7 +165,7 @@ export default function Day({ day, workShifts, placement }: {
             open={editShiftFormModalOpen}
             onOpenChange={setEditShiftFormModalOpen}
           >
-            <ScrollArea className="max-h-[50vh]">
+            <ScrollArea className="max-h-[30vh]">
               <ul className="flex flex-col gap-y-1">
                 {shifts.length > 0 ? (
                   shifts.map((shift, index) =>
@@ -175,21 +178,23 @@ export default function Day({ day, workShifts, placement }: {
                           color: invert(shift.workShiftInfo.color, true),
                         }}>
                         <p className="font-medium w-28 sm:w-40 overflow-hidden">{shift.workShiftInfo.title}</p>
-                        <p className="font-normal text-sm">{shift.workShiftInfo.start_time} - {shift.workShiftInfo.end_time}</p>
-                        <deleteShiftFetcher.Form
-                          action="/schedule/day/delete"
-                          method="post"
-                          onSubmit={() => setLoadingShift(shift.dayInfo.id)}
-                        >
-                          <input type="hidden" name="id" value={shift.dayInfo.id} />
-                          <button
-                            type="submit"
-                            disabled={deleteShiftFetcher.state === "submitting" && loadingShift === shift.dayInfo.id}
-                            className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
+                        <div className="flex flex-row gap-x-1 items-center">
+                          <p className="font-normal text-sm">{shift.workShiftInfo.start_time} - {shift.workShiftInfo.end_time}</p>
+                          <deleteShiftFetcher.Form
+                            action="/schedule/day/delete"
+                            method="post"
+                            onSubmit={() => setLoadingShift(shift.dayInfo.id)}
                           >
-                            {deleteShiftFetcher.state === "submitting" && loadingShift === shift.dayInfo.id ? <Spinner size={4} /> : <Trash2 size="16" />}
-                          </button>
-                        </deleteShiftFetcher.Form>
+                            <input type="hidden" name="id" value={shift.dayInfo.id} />
+                            <button
+                              type="submit"
+                              disabled={(deleteShiftFetcher.state === "submitting" || deleteShiftFetcher.state === "loading") && loadingShift === shift.dayInfo.id}
+                              className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
+                            >
+                              {(deleteShiftFetcher.state === "submitting" || deleteShiftFetcher.state === "loading") && loadingShift === shift.dayInfo.id ? <Spinner size={4} /> : <Trash2 size="16" />}
+                            </button>
+                          </deleteShiftFetcher.Form>
+                        </div>
                       </li>
                     ) : null
                   )
@@ -251,7 +256,41 @@ export default function Day({ day, workShifts, placement }: {
               </ul>
             </DialogContent>
           </Dialog>
-          <p>Pluh (display event title, edit, delete :))</p>
+          <ScrollArea className="max-h-[30vh]">
+            <ul className="flex flex-col gap-y-1">
+              {day?.data?.eventData?.length && day?.data?.eventData?.length > 0 ? (
+                day.data.eventData.map((eventDay, index) =>
+                  <li
+                    key={index}
+                    className="flex-1 flex flex-row items-center justify-between px-4 py-2 rounded-lg border"
+                    style={{
+                      borderColor: eventDay.color,
+                    }}>
+                    <div className="flex flex-col">
+                      <p className="font-medium">{eventDay.title.length > 20 ? eventDay.title.slice(0, 20) + "..." : eventDay.title}</p>
+                      <p className="font-light text-sm">{eventDay.time ? eventDay.time : <span className="italic opacity-70">No time specified</span>}</p>
+                    </div>
+                    <deleteEventFetcher.Form
+                      action="/schedule/event/delete"
+                      method="post"
+                      onSubmit={() => setLoadingEvent(eventDay.id)}
+                    >
+                      <input type="hidden" name="id" value={eventDay.id} />
+                      <button
+                        type="submit"
+                        disabled={(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id}
+                        className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
+                      >
+                        {(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id ? <Spinner size={4} /> : <Trash2 size="16" />}
+                      </button>
+                    </deleteEventFetcher.Form>
+                  </li>
+                )
+              ) : (
+                <p>No events for this day.</p>
+              )}
+            </ul>
+          </ScrollArea>
           <Dialog
             defaultOpen={false}
             open={editEventFormModalOpen}
@@ -274,7 +313,7 @@ export default function Day({ day, workShifts, placement }: {
                   One event will appear first in the calendar day.
                 </DialogDescription>
               </DialogHeader>
-              <EventPostForm fetcher={addEventFetcher} date={day?.date.toISOString().split("T")[0]} />
+              <EventPostForm fetcher={postEventFetcher} date={day?.date.toISOString().split("T")[0]} />
             </DialogContent>
           </Dialog>
           <DialogFooter></DialogFooter>
