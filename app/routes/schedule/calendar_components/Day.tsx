@@ -2,7 +2,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -107,9 +106,9 @@ export default function Day({ day, workShifts, placement }: {
               {
                 "bg-white hover:bg-white dark:bg-neutral-900 dark:hover:bg-neutral-900": dayDoesNotExist,
                 "bg-white hover:bg-sky-100 dark:bg-neutral-900 dark:hover:bg-neutral-800": !dayDoesNotExist && !sameDay && !isOver,
-                "bg-red-400 hover:bg-red-300 bg-opacity-70 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30": !dayDoesNotExist && sameDay,
+                "bg-red-400 hover:bg-red-300 bg-opacity-40 dark:bg-opacity-30 dark:bg-red-800 dark:hover:bg-red-600 dark:hover:bg-opacity-30": !dayDoesNotExist && sameDay,
                 "bg-sky-100 dark:bg-neutral-800": !dayDoesNotExist && isOver && !sameDay,
-                "bg-red-300 dark:bg-red-600": !dayDoesNotExist && isOver && sameDay,
+                "bg-red-100 dark:bg-red-600": !dayDoesNotExist && isOver && sameDay,
               }
             )}
             type="button"
@@ -160,39 +159,99 @@ export default function Day({ day, workShifts, placement }: {
                 }
               </ul>
             </div>
-
           </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="md:max-w-[600px]">
           <DialogHeader className="border-b pb-4">
             <DialogTitle>
               {day &&
                 `${day.date.getDate()}.${day.date.getMonth() + 1}.${day.date.getFullYear()}`}
             </DialogTitle>
             <DialogDescription>
-              Make changes to your work shifts here.
+              Make changes to your work shifts and events here.
             </DialogDescription>
           </DialogHeader>
-          <Dialog
-            defaultOpen={false}
-            open={editShiftFormModalOpen}
-            onOpenChange={setEditShiftFormModalOpen}
-          >
-            <ScrollArea className="max-h-[30vh]">
-              <ul className="flex flex-col gap-y-1">
-                {shifts.length > 0 ? (
-                  shifts.map((shift, index) =>
-                    shift?.workShiftInfo ? (
-                      <li
-                        key={index}
-                        className="flex-1 flex flex-row items-center justify-between px-4 py-2 rounded-lg"
-                        style={{
-                          backgroundColor: shift.workShiftInfo.color,
-                          color: invert(shift.workShiftInfo.color, true),
-                        }}>
-                        <p className="font-medium w-28 sm:w-40 overflow-hidden">{shift.workShiftInfo.title}</p>
-                        <div className="flex flex-row gap-x-1 items-center">
-                          <p className="font-normal text-sm">{shift.workShiftInfo.start_time} - {shift.workShiftInfo.end_time}</p>
+          <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-1">
+            <div className="flex-1 flex flex-col gap-y-2 md:gap-y-1">
+              <Dialog
+                defaultOpen={false}
+                open={editShiftFormModalOpen}
+                onOpenChange={setEditShiftFormModalOpen}
+              >
+                <DialogTrigger asChild>
+                  <div className="flex flex-row justify-between items-center">
+                    <div className="flex flex-row gap-x-1 items-center md:hidden">
+                      <h2 className="font-title text-xl">Work Shifts</h2>
+                      <button className="ml-1 text-center rounded-full p-1.5 bg-sky-500 hover:bg-sky-600 text-white">
+                        <Plus size={16} />
+                      </button>
+                    </div>
+                    <button className="hidden md:block w-full text-center rounded-md p-1.5 border border-dashed border-black dark:border-white text-black dark:text-white hover:bg-black/10 dark:hover:bg-neutral-700/20 font-medium">
+                      Add created work shift
+                    </button>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader className="border-b pb-4">
+                    <DialogTitle>
+                      Available work shifts
+                    </DialogTitle>
+                    <DialogDescription>
+                      Add a work shift you created.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <ul className="flex flex-col gap-y-1">
+                    {workShifts?.length ? workShifts?.map((workShift: WorkshiftFull) => {
+                      const submitting = loadingShift === workShift.id && addShiftFetcher.state === "submitting";
+                      return (
+                        <li className="flex" key={workShift.id}>
+                          <addShiftFetcher.Form
+                            action="/schedule/day/post"
+                            method="post"
+                            className="flex-1 flex"
+                            onSubmit={() => setLoadingShift(workShift.id)}
+                          >
+                            <input type="hidden" name="work_shift_id" value={workShift.id} />
+                            <input type="date" name="date" value={day?.date.toISOString().split("T")[0]} readOnly className="hidden" />
+                            <button
+                              type="submit"
+                              disabled={submitting}
+                              className={`flex flex-1 ${submitting ? "justify-center" : "justify-between"} p-3 rounded-lg hover:opacity-80`}
+                              style={{ backgroundColor: workShift.color, color: invert(workShift.color, true) }}
+                            >
+                              {submitting ? (
+                                <Spinner />
+                              ) : (
+                                <>
+                                  <p className="font-semibold">{workShift.title}</p>
+                                  <p className="font-medium">
+                                    {workShift.start_time} - {workShift.end_time}
+                                  </p>
+                                </>
+                              )}
+                            </button>
+                          </addShiftFetcher.Form>
+                        </li>)
+                    }) : <p>You haven't created any work shifts yet.</p>}
+                  </ul>
+                </DialogContent>
+              </Dialog>
+              <ScrollArea className="max-h-[35vh]">
+                <ul className="flex flex-col gap-y-1">
+                  {shifts.length > 0 ? (
+                    shifts.map((shift, index) =>
+                      shift?.workShiftInfo ? (
+                        <li
+                          key={index}
+                          className="flex-1 flex flex-row items-center justify-between px-4 py-2 rounded-lg"
+                          style={{
+                            backgroundColor: shift.workShiftInfo.color,
+                            color: invert(shift.workShiftInfo.color, true),
+                          }}>
+                          <div className="flex flex-col">
+                            <p className="font-medium">{shift.workShiftInfo.title.length > 20 ? shift.workShiftInfo.title.slice(0, 20) + "..." : shift.workShiftInfo.title}</p>
+                            <p className="font-light text-sm">{shift.workShiftInfo.start_time} - {shift.workShiftInfo.end_time}</p>
+                          </div>
                           <deleteShiftFetcher.Form
                             action="/schedule/day/delete"
                             method="post"
@@ -207,154 +266,108 @@ export default function Day({ day, workShifts, placement }: {
                               {(deleteShiftFetcher.state === "submitting" || deleteShiftFetcher.state === "loading") && loadingShift === shift.dayInfo.id ? <Spinner size={4} /> : <Trash2 size="16" />}
                             </button>
                           </deleteShiftFetcher.Form>
+                        </li>
+                      ) : null
+                    )
+                  ) : (
+                    <p className="italic opacity-70">No work shifts on this day.</p>
+                  )}
+                </ul>
+              </ScrollArea>
+            </div>
+            <div className="flex-1 flex flex-col gap-y-2 md:gap-y-1">
+              <Dialog
+                defaultOpen={false}
+                open={editEventPostFormModalOpen}
+                onOpenChange={setEditEventPostFormModalOpen}
+              >
+                <DialogTrigger asChild>
+                  <div className="flex flex-row justify-between items-center">
+                    <div className="flex flex-row gap-x-1 items-center md:hidden">
+                      <h2 className="font-title text-xl">Events</h2>
+                      <button className="ml-1 text-center rounded-full p-1.5 bg-sky-500 hover:bg-sky-600 text-white">
+                        <Plus size={16} />
+                      </button>
+                    </div>
+                    <button className="hidden md:block w-full text-center rounded-md p-1.5 border border-dashed border-black dark:border-white text-black dark:text-white hover:bg-black/10 dark:hover:bg-neutral-700/20 font-medium">
+                      Add new event
+                    </button>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader className="border-b pb-4">
+                    <DialogTitle>
+                      Add a new event.
+                    </DialogTitle>
+                    <DialogDescription>
+                      One event will appear first in the calendar day.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <EventPostForm fetcher={postEventFetcher} date={day?.date.toISOString().split("T")[0]} />
+                </DialogContent>
+              </Dialog>
+              <ScrollArea className="max-h-[35vh]">
+                <ul className="flex flex-col gap-y-1">
+                  {day?.data?.eventData?.length && day?.data?.eventData?.length > 0 ? (
+                    day.data.eventData.map((eventDay, index) =>
+                      <li
+                        key={index}
+                        className="flex-1 flex flex-row items-center justify-between px-4 py-2 rounded-lg bg-slate-200 dark:bg-neutral-800"
+                        style={{
+                          color: eventDay.color,
+                        }}>
+                        <div className="flex flex-col">
+                          <p className="font-medium">{eventDay.title.length > 20 ? eventDay.title.slice(0, 20) + "..." : eventDay.title}</p>
+                          <p className="font-light text-sm">{eventDay.time ? eventDay.time : <span className="italic opacity-70">No time specified</span>}</p>
+                        </div>
+                        <div className="flex flex-row gap-x-1">
+                          <Dialog
+                            defaultOpen={false}
+                            open={editingEventId === eventDay.id}
+                            onOpenChange={(open) => setEditingEventId(open ? eventDay.id : null)}
+                          >
+                            <DialogTrigger asChild>
+                              <button
+                                type="button"
+                                className="flex justify-center items-center bg-slate-400 hover:bg-slate-500 text-white p-2 rounded-sm translate-x-2"
+                              >
+                                <Pencil size="16" />
+                              </button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                              <DialogHeader>
+                                <DialogTitle>Edit event</DialogTitle>
+                                <DialogDescription>
+                                  Make changes to your event here.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <EventPatchForm fetcher={patchEventFetcher} eventDay={eventDay} />
+                            </DialogContent>
+                          </Dialog>
+                          <deleteEventFetcher.Form
+                            action="/schedule/event/delete"
+                            method="post"
+                            onSubmit={() => setLoadingEvent(eventDay.id)}
+                          >
+                            <input type="hidden" name="id" value={eventDay.id} />
+                            <button
+                              type="submit"
+                              disabled={(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id}
+                              className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
+                            >
+                              {(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id ? <Spinner size={4} /> : <Trash2 size="16" />}
+                            </button>
+                          </deleteEventFetcher.Form>
                         </div>
                       </li>
-                    ) : null
-                  )
-                ) : (
-                  <p>No work shifts for this day.</p>
-                )}
-              </ul>
-            </ScrollArea>
-            <DialogTrigger asChild>
-              <button
-                className={`flex flex-row gap-x-2 items-center border border-gray-300 rounded-lg p-3 font-semibold text-lg hover:bg-neutral-200 dark:hover:bg-neutral-900`}
-                type="button"
-              >
-                <Plus size={24} /><p>Add work shift</p>
-              </button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader className="border-b pb-4">
-                <DialogTitle>
-                  Available work shifts
-                </DialogTitle>
-                <DialogDescription>
-                  Add a work shift you created.
-                </DialogDescription>
-              </DialogHeader>
-              <ul className="flex flex-col gap-y-1">
-                {workShifts?.length ? workShifts?.map((workShift: WorkshiftFull) => {
-                  const submitting = loadingShift === workShift.id && addShiftFetcher.state === "submitting";
-                  return (
-                    <li className="flex" key={workShift.id}>
-                      <addShiftFetcher.Form
-                        action="/schedule/day/post"
-                        method="post"
-                        className="flex-1 flex"
-                        onSubmit={() => setLoadingShift(workShift.id)}
-                      >
-                        <input type="hidden" name="work_shift_id" value={workShift.id} />
-                        <input type="date" name="date" value={day?.date.toISOString().split("T")[0]} readOnly className="hidden" />
-                        <button
-                          type="submit"
-                          disabled={submitting}
-                          className={`flex flex-1 ${submitting ? "justify-center" : "justify-between"} p-3 rounded-lg hover:opacity-80`}
-                          style={{ backgroundColor: workShift.color, color: invert(workShift.color, true) }}
-                        >
-                          {submitting ? (
-                            <Spinner />
-                          ) : (
-                            <>
-                              <p className="font-semibold">{workShift.title}</p>
-                              <p className="font-medium">
-                                {workShift.start_time} - {workShift.end_time}
-                              </p>
-                            </>
-                          )}
-                        </button>
-                      </addShiftFetcher.Form>
-                    </li>)
-                }) : <p>You haven't created any work shifts yet.</p>}
-              </ul>
-            </DialogContent>
-          </Dialog>
-          <ScrollArea className="max-h-[30vh]">
-            <ul className="flex flex-col gap-y-1">
-              {day?.data?.eventData?.length && day?.data?.eventData?.length > 0 ? (
-                day.data.eventData.map((eventDay, index) =>
-                  <li
-                    key={index}
-                    className="flex-1 flex flex-row items-center justify-between px-4 py-2 rounded-lg border"
-                    style={{
-                      borderColor: eventDay.color,
-                    }}>
-                    <div className="flex flex-col">
-                      <p className="font-medium">{eventDay.title.length > 20 ? eventDay.title.slice(0, 20) + "..." : eventDay.title}</p>
-                      <p className="font-light text-sm">{eventDay.time ? eventDay.time : <span className="italic opacity-70">No time specified</span>}</p>
-                    </div>
-                    <div className="flex flex-row gap-x-1">
-                      <Dialog
-                        defaultOpen={false}
-                        open={editingEventId === eventDay.id}
-                        onOpenChange={(open) => setEditingEventId(open ? eventDay.id : null)}
-                      >
-                        <DialogTrigger asChild>
-                          <button
-                            type="button"
-                            className="flex justify-center items-center bg-slate-400 hover:bg-slate-500 text-white p-2 rounded-sm translate-x-2"
-                          >
-                            <Pencil size="16" />
-                          </button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                          <DialogHeader>
-                            <DialogTitle>Edit event</DialogTitle>
-                            <DialogDescription>
-                              Make changes to your event here.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <EventPatchForm fetcher={patchEventFetcher} eventDay={eventDay} />
-                        </DialogContent>
-                      </Dialog>
-                      <deleteEventFetcher.Form
-                        action="/schedule/event/delete"
-                        method="post"
-                        onSubmit={() => setLoadingEvent(eventDay.id)}
-                      >
-                        <input type="hidden" name="id" value={eventDay.id} />
-                        <button
-                          type="submit"
-                          disabled={(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id}
-                          className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm translate-x-2"
-                        >
-                          {(deleteEventFetcher.state === "submitting" || deleteEventFetcher.state === "loading") && loadingEvent === eventDay.id ? <Spinner size={4} /> : <Trash2 size="16" />}
-                        </button>
-                      </deleteEventFetcher.Form>
-                    </div>
-                  </li>
-                )
-              ) : (
-                <p>No events for this day.</p>
-              )}
-            </ul>
-          </ScrollArea>
-          <Dialog
-            defaultOpen={false}
-            open={editEventPostFormModalOpen}
-            onOpenChange={setEditEventPostFormModalOpen}
-          >
-            <DialogTrigger asChild>
-              <button
-                className={`flex flex-row gap-x-2 items-center border border-gray-300 rounded-lg p-3 font-semibold text-lg hover:bg-neutral-200 dark:hover:bg-neutral-900`}
-                type="button"
-              >
-                <Plus size={24} /><p>Add event</p>
-              </button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader className="border-b pb-4">
-                <DialogTitle>
-                  Add a new event.
-                </DialogTitle>
-                <DialogDescription>
-                  One event will appear first in the calendar day.
-                </DialogDescription>
-              </DialogHeader>
-              <EventPostForm fetcher={postEventFetcher} date={day?.date.toISOString().split("T")[0]} />
-            </DialogContent>
-          </Dialog>
-          <DialogFooter></DialogFooter>
+                    )
+                  ) : (
+                    <p className="italic opacity-70">No events on this day.</p>
+                  )}
+                </ul>
+              </ScrollArea>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </li>
