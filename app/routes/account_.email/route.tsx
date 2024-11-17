@@ -1,16 +1,17 @@
-import { json, type ActionFunctionArgs } from "@remix-run/node";
+import { json, type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { ChevronLeft } from "lucide-react";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 
-export async function loader({ request }: ActionFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request);
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { supabaseClient, headers } = createSupabaseServerClient(request);
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
 
-  return json({ user: user! });
+  if (!user) return redirect("/", { headers });
+  return json({ user });
 }
 
 export default function Email() {

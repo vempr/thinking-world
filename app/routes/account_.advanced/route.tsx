@@ -1,4 +1,4 @@
-import { redirect, type ActionFunctionArgs } from "@remix-run/node";
+import { redirect, type LoaderFunctionArgs, type ActionFunctionArgs } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
 import { ChevronLeft, LogOut, UserX } from "lucide-react";
 import {
@@ -11,6 +11,16 @@ import {
 } from "~/components/ui/dialog.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { supabaseClient, headers } = createSupabaseServerClient(request);
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+
+  if (!user) return redirect("/", { headers });
+  return null;
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request);

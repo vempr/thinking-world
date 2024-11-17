@@ -1,10 +1,10 @@
-import { json, redirect, type ActionFunctionArgs } from "@remix-run/node";
+import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { ChevronRight } from "lucide-react";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 
-export async function loader({ request }: ActionFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request);
   const {
     data: { user },
