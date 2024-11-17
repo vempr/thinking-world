@@ -13,7 +13,7 @@ export async function action({ request }: ActionFunctionArgs) {
     .update({
       title: formData.title,
       color: formData.color,
-      time: formData.time,
+      time: formData.time.length ? formData.time : null,
     })
     .eq("id", formData.id);
   if (error) {
