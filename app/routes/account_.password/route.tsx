@@ -10,7 +10,7 @@ export async function loader({ request }: ActionFunctionArgs) {
     data: { user },
   } = await supabaseClient.auth.getUser();
 
-  if (!user) return redirect("/", { headers });
+  if (!user) return redirect("/login", { headers });
   return json({ user });
 }
 
