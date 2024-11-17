@@ -80,12 +80,6 @@ export default function Schedule() {
             workShifts: loaderData.data.workShifts,
           }} />
         </div>
-        <form
-          action="/sign-out"
-          method="post"
-        >
-          <button type="submit">Sign Out</button>
-        </form>
       </div>
     </DefaultLayout>
   );

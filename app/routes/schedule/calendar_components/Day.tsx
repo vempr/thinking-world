@@ -270,7 +270,7 @@ export default function Day({ day, workShifts, placement }: {
                       ) : null
                     )
                   ) : (
-                    <p className="italic opacity-70">No work shifts on this day.</p>
+                    <p className="italic opacity-70 md:text-center">No work shifts on this day.</p>
                   )}
                 </ul>
               </ScrollArea>
@@ -362,7 +362,7 @@ export default function Day({ day, workShifts, placement }: {
                       </li>
                     )
                   ) : (
-                    <p className="italic opacity-70">No events on this day.</p>
+                    <p className="italic opacity-70 md:text-center">No events on this day.</p>
                   )}
                 </ul>
               </ScrollArea>
