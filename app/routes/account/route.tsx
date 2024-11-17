@@ -25,7 +25,7 @@ export default function Account() {
       </div>
       <ul className="flex flex-col gap-y-1">
         <li>
-          <Link to="/account/email" className="flex flex-row items-center justify-between bg-slate-200 dark:bg-neutral-800 rounded-lg py-3 px-4 hover:bg-slate-300 active:bg-slate-400 dark:hover:bg-neutral-800/50 dark:active:bg-neutral-800/70">
+          <Link to="/account/email" prefetch="intent" className="flex flex-row items-center justify-between bg-slate-200 dark:bg-neutral-800 rounded-lg py-3 px-4 hover:bg-slate-300 active:bg-slate-400 dark:hover:bg-neutral-800/50 dark:active:bg-neutral-800/70">
             <div>
               <h2>Email connected to this account</h2>
               <p className="text-sm font-bold">{user.email}</p>
@@ -34,7 +34,7 @@ export default function Account() {
           </Link>
         </li>
         <li>
-          <Link to="/account/password" className="flex flex-row items-center justify-between bg-slate-200 dark:bg-neutral-800 rounded-lg py-3 px-4 hover:bg-slate-300 active:bg-slate-400 dark:hover:bg-neutral-800/50 dark:active:bg-neutral-800/70">
+          <Link to="/account/password" prefetch="intent" className="flex flex-row items-center justify-between bg-slate-200 dark:bg-neutral-800 rounded-lg py-3 px-4 hover:bg-slate-300 active:bg-slate-400 dark:hover:bg-neutral-800/50 dark:active:bg-neutral-800/70">
             <div>
               <h2>Your password</h2>
               <p className="text-sm font-bold">**********</p>
@@ -43,7 +43,7 @@ export default function Account() {
           </Link>
         </li>
       </ul>
-      <Link to="/account/advanced" className="bg-red-600 rounded-lg text-center py-2 text-sm hover:bg-red-700 active:bg-red-800">Account Configuration</Link>
+      <Link to="/account/advanced" className="bg-red-600 rounded-lg text-white text-center py-2 text-sm hover:bg-red-700 active:bg-red-800">Account Configuration</Link>
     </div>
   </CenteredLayout>
 }
