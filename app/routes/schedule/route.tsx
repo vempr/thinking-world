@@ -52,7 +52,7 @@ export default function Schedule() {
 
   return (
     <DefaultLayout>
-      <div className="mx-8">
+      <div className="mx-4 lg:mx-8">
         <div>
           <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl text-black dark:text-white flex flex-row items-center gap-x-2 md:gap-x-5 justify-normal ">
             <span className="font-title">Your Schedule</span>

@@ -72,33 +72,34 @@ export default function WorkShift({
 
   return (
     <div
-      className="rounded-lg flex flex-row items-center h-16"
+      className="rounded-lg flex flex-row items-center h-8 lg:h-16"
       style={{
         backgroundColor: color,
         color: contrastedColor,
       }}
     >
       <div className="flex-1 flex flex-row justify-between p-3">
-        <p className="font-medium w-28 overflow-x-hidden">{title}</p>
+        <p className="font-medium w-28 overflow-x-hidden text-left">{title}</p>
         <div className="flex flex-row gap-x-1.5 font-light text-sm text-right items-center">
-          <div>
+          <div className="flex flex-row lg:flex-col text-sm md:text-base">
             <p>{start_time}</p>
+            <p className="block mx-1 lg:hidden">-</p>
             <p>{end_time}</p>
           </div>
           <div
-            className="border-r-4 rounded-lg opacity-40 h-10"
+            className="hidden lg:block border-r-4 rounded-lg opacity-40 h-10"
             style={{ borderColor: contrastedColor }}
           ></div>
         </div>
       </div>
-      <div className="flex flex-col h-16 w-7">
+      <div className="flex flex-row lg:flex-col h-8 lg:h-16 w-14 lg:w-7">
         <Dialog
           defaultOpen={false}
           open={patchFormModalOpen}
           onOpenChange={setPatchFormModalOpen}
         >
           <DialogTrigger asChild>
-            <button className="flex-1 bg-slate-400 hover:bg-slate-500 rounded-tr-lg flex items-center justify-center text-white">
+            <button className="flex-1 bg-slate-400 hover:bg-slate-500 lg:rounded-tr-lg flex items-center justify-center text-white">
               <Pencil size="16" />
             </button>
           </DialogTrigger>
@@ -262,7 +263,7 @@ export default function WorkShift({
           onOpenChange={setDeleteFormModalOpen}
         >
           <DialogTrigger asChild>
-            <button className="flex-1 bg-red-500 hover:bg-red-600 rounded-br-lg flex items-center justify-center text-white" type="submit">
+            <button className="flex-1 bg-red-500 hover:bg-red-600 rounded-tr-lg lg:rounded-tr-none rounded-br-lg flex items-center justify-center text-white" type="submit">
               <Trash2 size="16" />
             </button>
           </DialogTrigger>

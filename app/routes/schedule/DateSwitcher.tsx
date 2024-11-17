@@ -33,7 +33,7 @@ export default function DateSwitcher() {
       >
         <ChevronLeft size={18} />
       </button>
-      <h2 className="text-black dark:text-white text-lg w-52 text-center font-light">
+      <h2 className="text-black dark:text-white text-lg w-52 text-center font-date">
         {getMonthByJSDateNumber(month)} {year}
       </h2>
       <button
