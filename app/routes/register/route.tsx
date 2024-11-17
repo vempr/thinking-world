@@ -7,7 +7,7 @@ import {
 import { Link, redirect, useFetcher } from "@remix-run/react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
-import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
+import { LandingLayout } from "~/components/wrappers/LandingLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { registerSchema, type RegisterArgs } from "./registerFormSchema.ts";
 
@@ -67,7 +67,7 @@ export default function Register() {
   });
 
   return (
-    <CenteredLayout>
+    <LandingLayout>
       <h1 className="font-title text-black dark:text-white text-xl sm:text-3xl lg:text-5xl mb-6">
         Create your Account
       </h1>
@@ -206,6 +206,6 @@ export default function Register() {
           .
         </p>
       </div>
-    </CenteredLayout>
+    </LandingLayout>
   );
 }

@@ -14,7 +14,7 @@ import {
 } from "@remix-run/react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
-import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
+import { LandingLayout } from "~/components/wrappers/LandingLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
 import { Input } from "~/components/ui/input.tsx";
@@ -69,7 +69,7 @@ export default function Login() {
   });
 
   return (
-    <CenteredLayout>
+    <LandingLayout>
       <h1 className="font-title text-black dark:text-white text-xl sm:text-3xl lg:text-5xl mb-6">
         Welcome Back
       </h1>
@@ -211,6 +211,6 @@ export default function Login() {
           .
         </p>
       </div>
-    </CenteredLayout>
+    </LandingLayout>
   );
 }
