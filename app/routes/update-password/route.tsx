@@ -68,7 +68,9 @@ export default function ForgotPassword() {
   useEffect(() => {
     if (fetcher.data) reset();
     if (fetcher.data?.success === true) {
-      toast.info(fetcher.data.message);
+      toast.info(fetcher.data.message, {
+        description: "You will be redirected to the account page",
+      });
       setTimeout(() => {
         navigate("/account");
       }, 2000);
