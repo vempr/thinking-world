@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { Link, useFetcher } from "@remix-run/react";
 import { useRemixForm } from "remix-hook-form";
 import { z } from "zod";
 import { Spinner } from "~/components/Spinner";
@@ -78,6 +78,18 @@ export default function ForgotPassword() {
           {(fetcher.state === "submitting" || fetcher.state === "loading") ? <Spinner /> : "Send Instructions"}
         </button>
       </fetcher.Form>
+      <div className="mt-4">
+        <p className="text-xs text-black sm:text-sm dark:text-white">
+          If you know your password,{" "}
+          <Link
+            className="text-blue-400 underline hover:text-blue-500"
+            to="/login"
+          >
+            login here
+          </Link>
+          .
+        </p>
+      </div>
     </LandingLayout>
   )
 }
