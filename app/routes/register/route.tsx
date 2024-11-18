@@ -10,6 +10,7 @@ import { Spinner } from "~/components/Spinner.tsx";
 import { LandingLayout } from "~/components/wrappers/LandingLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { registerSchema, type RegisterArgs } from "./registerFormSchema.ts";
+import { Input } from "~/components/ui/input.tsx";
 
 const resolver = zodResolver(registerSchema);
 
@@ -84,7 +85,7 @@ export default function Register() {
           >
             Email
           </label>
-          <input
+          <Input
             type="email"
             className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-sky-600"
             placeholder="you@example.com"
@@ -99,7 +100,7 @@ export default function Register() {
         <div className="w-64 sm:w-80">
           <label className="mb-2 block text-sm dark:text-white">Password</label>
           <div className="relative">
-            <input
+            <Input
               type="password"
               className="block w-full rounded-lg border-gray-200 py-3 pe-10 ps-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-sky-600"
               placeholder="**********"
