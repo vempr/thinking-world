@@ -120,8 +120,8 @@ export default function Heading() {
                 to="/"
                 className={({ isActive }) =>
                   `block py-2 px-3 ${isActive
-                    ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500'
-                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
+                    ? 'text-white bg-sky-500 rounded md:bg-transparent md:text-sky-500 md:p-0 md:dark:text-sky-500'
+                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-sky-600 md:p-0 md:dark:hover:text-sky-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
                   }`
                 }
               >
@@ -133,8 +133,8 @@ export default function Heading() {
                 to="/guide"
                 className={({ isActive }) =>
                   `block py-2 px-3 ${isActive
-                    ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500'
-                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
+                    ? 'text-white bg-sky-500 rounded md:bg-transparent md:text-sky-500 md:p-0 md:dark:text-sky-500'
+                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-sky-600 md:p-0 md:dark:hover:text-sky-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
                   }`
                 }
               >
@@ -146,8 +146,8 @@ export default function Heading() {
                 to="/account"
                 className={({ isActive }) =>
                   `block py-2 px-3 ${isActive
-                    ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500'
-                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
+                    ? 'text-white bg-sky-500 rounded md:bg-transparent md:text-sky-500 md:p-0 md:dark:text-sky-500'
+                    : 'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-sky-600 md:p-0 md:dark:hover:text-sky-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
                   }`
                 }
               >

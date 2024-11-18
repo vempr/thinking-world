@@ -8,7 +8,7 @@ export default function CatchAll() {
         <div>
           <div className="flex items-end justify-between">
             <h1 className="font-title text-4xl">Hi there!</h1>
-            <p className="font-title text-9xl text-sky-400">404!!!</p>
+            <p className="font-title text-9xl text-sky-400 opacity-30">404!!!</p>
           </div>
           <p className="opacity-80">It seems you tried to access a non-existing page on Thinking World..</p>
         </div>
