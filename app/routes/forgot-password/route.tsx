@@ -1,21 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { ActionFunctionArgs, json, LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Link, useFetcher } from "@remix-run/react";
-import { useRemixForm } from "remix-hook-form";
+import { useEffect } from "react";
+import { getValidatedFormData, useRemixForm } from "remix-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-import { Spinner } from "~/components/Spinner";
+import SmallSpinner from "~/components/SmallSpinner.tsx";
 import { Input } from "~/components/ui/input.tsx";
 import { LandingLayout } from "~/components/wrappers/LandingLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server";
 
 const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9-]*\.)+[A-Z]{2,}$/i;
-const passwordSchema = z.object({
+const emailSchema = z.object({
   email: z
     .string()
     .min(1, "Email is required")
     .regex(emailRegex, "Invalid email"),
 })
-const resolver = zodResolver(passwordSchema)
+type EmailArgs = z.infer<typeof emailSchema>;
+const resolver = zodResolver(emailSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request);
@@ -29,13 +32,26 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return null;
 }
 
+export async function action({ request }: ActionFunctionArgs) {
+  const { data: formData, errors } = await getValidatedFormData<EmailArgs>(
+    request,
+    resolver,
+  );
+  if (errors) return json({ error: "Invalid formdata", success: false, message: null });
+  const { supabaseClient } = createSupabaseServerClient(request);
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(formData.email);
+  if (error) return json({ error: error.message, success: false, message: null });
+  return json({ error: null, message: "Instructions have been sent to your inbox!", success: true });
+}
+
 export default function ForgotPassword() {
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<typeof action>();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useRemixForm<z.infer<typeof passwordSchema>>({
+    reset,
+  } = useRemixForm<EmailArgs>({
     mode: "onSubmit",
     resolver,
     defaultValues: {
@@ -43,6 +59,12 @@ export default function ForgotPassword() {
     },
     fetcher,
   });
+
+  useEffect(() => {
+    if (fetcher.data) reset();
+    if (fetcher.data?.success === true) toast.info(fetcher.data.message);
+    if (fetcher.data?.success === false) toast.error(fetcher.data.error);
+  }, [fetcher.data]);
 
   return (
     <LandingLayout>
@@ -75,7 +97,7 @@ export default function ForgotPassword() {
           type="submit"
           className="rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
-          {(fetcher.state === "submitting" || fetcher.state === "loading") ? <Spinner /> : "Send Instructions"}
+          {(fetcher.state === "submitting" || fetcher.state === "loading") ? <SmallSpinner /> : "Send Instructions"}
         </button>
       </fetcher.Form>
       <div className="mt-4">
