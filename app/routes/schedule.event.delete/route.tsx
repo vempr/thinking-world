@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from "~/services/supabase.server";
 import { EventDelete, eventDeleteResolver } from "~/types/event.types.ts";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient } = createSupabaseServerClient(request, request.headers);;
   const { data: formData, errors: formErrors } =
     await getValidatedFormData<EventDelete>(request, eventDeleteResolver);
   if (formErrors) return json({ error: "Invalid formdata", success: false });

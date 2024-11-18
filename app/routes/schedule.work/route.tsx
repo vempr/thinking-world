@@ -19,7 +19,7 @@ import PostForm from "./PostForm.tsx";
 import DraggableWorkShift from "./DraggableWorkShift.tsx";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient } = createSupabaseServerClient(request, request.headers);;
   const { data, error } = await supabaseClient
     .from("work_shifts")
     .select("id, title, color, start_time, end_time, is_hourly_pay, pay");
@@ -28,7 +28,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient } = createSupabaseServerClient(request, request.headers);;
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();

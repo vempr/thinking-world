@@ -5,9 +5,10 @@ import {
 } from "@supabase/ssr";
 import { Database } from "~/types/database.types.ts";
 
-export const createSupabaseServerClient = (request: Request) => {
-  const headers = new Headers();
-
+export const createSupabaseServerClient = (
+  request: Request,
+  headers: Headers,
+) => {
   const supabaseClient = createServerClient<Database>(
     process.env.VITE_SUPABASE_URL as string,
     process.env.VITE_SUPABASE_ANON_KEY as string,

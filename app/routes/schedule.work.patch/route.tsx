@@ -4,7 +4,7 @@ import { WorkshiftPatch, workshiftPatchResolver } from "../../types/work.types";
 import { getValidatedFormData } from "remix-hook-form";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient } = createSupabaseServerClient(request, request.headers);;
   const { data: formData, errors: formErrors } =
     await getValidatedFormData<WorkshiftPatch>(request, workshiftPatchResolver);
   if (formErrors) return json({ error: "Invalid formdata", success: false });

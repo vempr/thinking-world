@@ -21,7 +21,7 @@ type EmailArgs = z.infer<typeof emailSchema>;
 const resolver = zodResolver(emailSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient, headers } = createSupabaseServerClient(request);
+  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
@@ -38,7 +38,7 @@ export async function action({ request }: ActionFunctionArgs) {
     resolver,
   );
   if (errors) return json({ error: "Invalid formdata", success: false, message: null });
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient } = createSupabaseServerClient(request, request.headers);
   const { error } = await supabaseClient.auth.resetPasswordForEmail(formData.email);
   if (error) return json({ error: error.message, success: false, message: null });
   return json({ error: null, message: "Instructions have been sent to your inbox!", success: true });

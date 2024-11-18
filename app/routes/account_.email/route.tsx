@@ -5,7 +5,7 @@ import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient, headers } = createSupabaseServerClient(request);
+  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);;
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();

@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from "~/services/supabase.server";
 import { EventFull, eventFullResolver } from "~/types/event.types.ts";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request);
+  const { supabaseClient } = createSupabaseServerClient(request, request.headers);;
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
