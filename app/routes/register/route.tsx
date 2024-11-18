@@ -4,7 +4,7 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
-import { Link, redirect, useFetcher } from "@remix-run/react";
+import { Link, redirect, useFetcher, useSearchParams } from "@remix-run/react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";
 import { LandingLayout } from "~/components/wrappers/LandingLayout.tsx";
@@ -52,6 +52,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Register() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const fetcher = useFetcher<typeof action>();
   const {
     register,
@@ -101,7 +102,7 @@ export default function Register() {
           <label className="mb-2 block text-sm dark:text-white">Password</label>
           <div className="relative">
             <Input
-              type="password"
+              type={searchParams.get("showPassword") ? "text" : "password"}
               className="block w-full rounded-lg border-gray-200 py-3 pe-10 ps-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-sky-600"
               placeholder="**********"
               autoComplete="off"
@@ -110,6 +111,20 @@ export default function Register() {
             <button
               type="button"
               className="absolute inset-y-0 end-0 z-20 flex cursor-pointer items-center rounded-e-md px-3 text-gray-400 focus:text-blue-600 focus:outline-none dark:text-neutral-600 dark:focus:text-blue-500"
+              onClick={() => {
+                if (searchParams.get("showPassword")) {
+                  searchParams.delete("showPassword");
+                  setSearchParams(searchParams, {
+                    preventScrollReset: true,
+                  });
+                } else {
+                  const params = new URLSearchParams();
+                  params.set("showPassword", "true");
+                  setSearchParams(params, {
+                    preventScrollReset: true,
+                  });
+                }
+              }}
             >
               <svg
                 className="size-3.5 shrink-0"
