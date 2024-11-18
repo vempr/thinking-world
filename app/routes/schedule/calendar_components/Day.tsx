@@ -202,7 +202,7 @@ export default function Day({ day, workShifts, placement }: {
                   </DialogHeader>
                   <ul className="flex flex-col gap-y-1">
                     {workShifts?.length ? workShifts?.map((workShift: WorkshiftFull) => {
-                      const submitting = loadingShift === workShift.id && addShiftFetcher.state === "submitting";
+                      const submitting = loadingShift === workShift.id && (addShiftFetcher.state === "submitting" || addShiftFetcher.state === "loading");
                       return (
                         <li className="flex" key={workShift.id}>
                           <addShiftFetcher.Form

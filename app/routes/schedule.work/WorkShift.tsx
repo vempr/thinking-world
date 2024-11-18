@@ -242,10 +242,10 @@ export default function WorkShift({
 
               <button
                 type="submit"
-                disabled={fetcherPatch.state === "submitting"}
+                disabled={fetcherPatch.state === "submitting" || fetcherPatch.state === "loading"}
                 className="mt-1 h-12 flex justify-center items-center rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-md font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
-                {fetcherPatch.state === "submitting" ? <Spinner /> : <p>Apply changes</p>}
+                {(fetcherPatch.state === "submitting" || fetcherPatch.state === "loading") ? <Spinner /> : <p>Apply changes</p>}
               </button>
             </fetcherPatch.Form>
             <DialogFooter>
@@ -277,7 +277,7 @@ export default function WorkShift({
             <fetcherDelete.Form method="delete" action="/schedule/work/delete" className="flex-1">
               <input type="hidden" name="id" value={id} />
               <button className="w-full h-full bg-red-500 p-2 hover:bg-red-600 rounded-lg flex items-center justify-center text-white" type="submit">
-                {fetcherDelete.state === "submitting" ? <Spinner /> : <p>Delete Work Shift</p>}
+                {(fetcherDelete.state === "submitting" || fetcherDelete.state === "loading") ? <Spinner /> : <p>Delete Work Shift</p>}
               </button>
             </fetcherDelete.Form>
           </DialogContent>

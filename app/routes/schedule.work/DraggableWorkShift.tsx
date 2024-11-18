@@ -58,7 +58,7 @@ export default function DraggableWorkShift({
         <span className="font-medium w-24 h-6 overflow-hidden text-sm flex items-center">{title}</span>
       </div>
       <div className="-translate-x-3">
-        {fetcher.state === "submitting" && <SmallSpinner />}
+        {(fetcher.state === "submitting" || fetcher.state === "loading") && <SmallSpinner />}
       </div>
     </div>
   )

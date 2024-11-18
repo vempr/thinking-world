@@ -108,7 +108,7 @@ export default function EventPatchForm({ fetcher, eventDay }: {
       disabled={fetcher.state === "submitting" || fetcher.state === "loading"}
       className="mt-1 h-12 flex justify-center items-center rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-md font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
     >
-      {fetcher.state === "submitting" ? <Spinner /> : <p>Save Event</p>}
+      {(fetcher.state === "submitting" || fetcher.state === "loading") ? <Spinner /> : <p>Save Event</p>}
     </button>
   </fetcher.Form>
 }

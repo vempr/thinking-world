@@ -192,11 +192,11 @@ export default function Login() {
           <p className="text-xs font-bold text-red-600">{actionData.error}</p>
         )}
         <button
-          disabled={navigation.state === "submitting"}
+          disabled={navigation.state === "submitting" || navigation.state === "loading"}
           type="submit"
           className="mt-1 h-12 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
-          {navigation.state === "submitting" ? <Spinner /> : "Log In"}
+          {(navigation.state === "submitting" || navigation.state === "loading") ? <Spinner /> : "Log In"}
         </button>
       </Form>
       <div className="mt-4 text-gray-400">
