@@ -10,7 +10,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const headers = new Headers();
 
   if (token_hash && type) {
-    const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);;
+    const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)
     const { error } = await supabaseClient.auth.verifyOtp({
       type,
       token_hash,

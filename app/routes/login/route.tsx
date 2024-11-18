@@ -22,7 +22,7 @@ import { Input } from "~/components/ui/input.tsx";
 const resolver = zodResolver(loginSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);;
+  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
@@ -41,7 +41,7 @@ export async function action({ request }: ActionFunctionArgs) {
   if (errors) return json({ error: "Invalid formdata", success: false });
   // ^ no need to provide meaningful error since form is already checked client-side
 
-  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);;
+  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)
   const { error } = await supabaseClient.auth.signInWithPassword({
     email: formData.email,
     password: formData.password,

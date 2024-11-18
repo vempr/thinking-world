@@ -13,7 +13,7 @@ import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);;
+  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
@@ -23,7 +23,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);;
+  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();

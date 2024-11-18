@@ -10,7 +10,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import Insights from "./Insights.tsx";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);;
+  const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();

@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from "~/services/supabase.server";
 import { DayDelete, dayDeleteResolver } from "~/types/day.types.ts";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { supabaseClient } = createSupabaseServerClient(request, request.headers);;
+  const { supabaseClient } = createSupabaseServerClient(request, request.headers)
   const { data: formData, errors: formErrors } =
     await getValidatedFormData<DayDelete>(request, dayDeleteResolver);
   if (formErrors) return json({ error: "Invalid formdata", success: false });
