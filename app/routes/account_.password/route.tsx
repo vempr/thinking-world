@@ -1,21 +1,40 @@
-import { json, redirect, type ActionFunctionArgs } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { json, type LoaderFunctionArgs, redirect, type ActionFunctionArgs } from "@remix-run/node";
+import { Link, useFetcher } from "@remix-run/react";
 import { ChevronLeft } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import SmallSpinner from "~/components/SmallSpinner";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 
-export async function loader({ request }: ActionFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)
   const {
     data: { user },
   } = await supabaseClient.auth.getUser();
 
   if (!user) return redirect("/login", { headers });
-  return json({ user });
+  return null;
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  const { supabaseClient } = createSupabaseServerClient(request, request.headers)
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(user!.email!);
+  if (error) return json({ error: error.message, success: false, message: null });
+  return json({ error: null, message: "Instructions have been sent to your inbox!", success: true });
 }
 
 export default function Password() {
-  const { user: _user } = useLoaderData<typeof loader>();
+  const fetcher = useFetcher<typeof action>();
+
+  useEffect(() => {
+    if (fetcher.data?.success === true) toast.info(fetcher.data.message);
+    if (fetcher.data?.success === false) toast.error(fetcher.data.error);
+  }, [fetcher.data]);
 
   return <CenteredLayout>
     <div className="flex flex-row gap-x-4">
@@ -29,7 +48,15 @@ export default function Password() {
           <h2>Your password</h2>
           <p className="text-sm font-bold">************</p>
         </div>
-        <button className="bg-sky-600 rounded-lg text-center py-2 text-sm text-white hover:bg-sky-700 active:bg-sky-800">Change password</button>
+        <fetcher.Form method="post">
+          <button
+            disabled={fetcher.state === "submitting" || fetcher.state === "loading"}
+            type="submit"
+            className="w-full rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+          >
+            {(fetcher.state === "submitting" || fetcher.state === "loading") ? <SmallSpinner /> : "Update Password"}
+          </button>
+        </fetcher.Form>
         <p className="text-sm italic opacity-70">Passwords are never shown due to security concerns.</p>
       </div>
     </div>
