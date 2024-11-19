@@ -133,7 +133,8 @@ export default function Day({ day, workShifts, placement }: {
                     }}
                   >
                     <p className="md:hidden">{" "}</p>
-                    <p className="hidden md:block">{day?.data?.eventData[0].title.length > 10 ? day?.data?.eventData[0].title.slice(0, 10) + "..." : day?.data?.eventData[0].title}</p>
+                    <p className="hidden md:block xl:hidden w-28 overflow-x-hidden">{day?.data?.eventData[0].title.length > 12 ? day?.data?.eventData[0].title.slice(0, 12) + "..." : day?.data?.eventData[0].title}</p>
+                    <p className="hidden xl:block w-28 overflow-x-hidden">{day?.data?.eventData[0].title.length > 18 ? day?.data?.eventData[0].title.slice(0, 18) + "..." : day?.data?.eventData[0].title}</p>
                   </div>
                 </li> : <></>}
                 {shifts[0]?.workShiftInfo && <li><div
