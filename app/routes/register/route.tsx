@@ -205,7 +205,7 @@ export default function Register() {
         <button
           disabled={fetcher.state === "submitting" || fetcher.state === "loading"}
           type="submit"
-          className="h-12 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+          className="flex justify-center items-center h-12 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
           {(fetcher.state === "submitting" || fetcher.state === "loading") ? <Spinner /> : "Register"}
         </button>

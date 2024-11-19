@@ -118,7 +118,7 @@ export default function Email() {
               <button
                 disabled={fetcher.state === "submitting" || fetcher.state === "loading"}
                 type="submit"
-                className="w-full rounded-lg border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 focus:bg-sky-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                className="flex justify-center items-center w-full rounded-lg border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 focus:bg-sky-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
                 {(fetcher.state === "submitting" || fetcher.state === "loading") ? <SmallSpinner /> : "Send Instructions"}
               </button>
