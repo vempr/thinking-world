@@ -106,6 +106,7 @@ export default function ForgotPassword() {
           <Link
             className="text-blue-400 underline hover:text-blue-500"
             to="/login"
+            prefetch="intent"
           >
             login here
           </Link>

@@ -185,6 +185,7 @@ export default function Login() {
         <Link
           className="my-2 text-sm text-blue-400 underline hover:text-blue-500"
           to="/forgot-password"
+          prefetch="intent"
         >
           Forgot your password?
         </Link>
@@ -205,6 +206,7 @@ export default function Login() {
           <Link
             className="text-blue-400 underline hover:text-blue-500"
             to="/register"
+            prefetch="intent"
           >
             sign up here
           </Link>

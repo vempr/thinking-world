@@ -13,7 +13,7 @@ export default function CatchAll() {
           <p className="opacity-80">It seems you tried to access a non-existing page on Thinking World..</p>
         </div>
         <p className="font-title text-xl">Don't worry, let's get you back on track!</p>
-        <Link to="/" className="bg-sky-500 rounded-lg text-white font-bold text-center py-2 text-sm hover:bg-sky-600 active:bg-sky-700">Take me to Home Page</Link>
+        <Link to="/" prefetch="intent" className="bg-sky-500 rounded-lg text-white font-bold text-center py-2 text-sm hover:bg-sky-600 active:bg-sky-700">Take me to Home Page</Link>
       </div>
     </CenteredLayout>
   )

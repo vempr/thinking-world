@@ -43,7 +43,7 @@ export default function Account() {
           </Link>
         </li>
       </ul>
-      <Link to="/account/advanced" className="bg-red-600 rounded-lg text-white text-center py-2 text-sm hover:bg-red-700 active:bg-red-800">Account Configuration</Link>
+      <Link to="/account/advanced" prefetch="intent" className="bg-red-600 rounded-lg text-white text-center py-2 text-sm hover:bg-red-700 active:bg-red-800">Account Configuration</Link>
     </div>
   </CenteredLayout>
 }

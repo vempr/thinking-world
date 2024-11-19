@@ -15,7 +15,7 @@ export default function Heading() {
     <nav className="bg-white dark:bg-neutral-900 block w-full z-20 top-0 start-0 border-b border-gray-200/70 dark:border-neutral-600/30">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
         <div className="flex justify-center items-center gap-x-3">
-          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse" prefetch="intent">
             <img src={twImage} className="h-10" alt="Thinking World Logo" />
             <span className="self-center text-sm font-semibold whitespace-nowrap dark:text-white">
               Thinking<br />World
@@ -118,6 +118,7 @@ export default function Heading() {
             <li>
               <NavLink
                 to="/"
+                prefetch="intent"
                 className={({ isActive }) =>
                   `block py-2 px-3 ${isActive
                     ? 'text-white bg-sky-500 rounded md:bg-transparent md:text-sky-500 md:p-0 md:dark:text-sky-500'
@@ -131,6 +132,7 @@ export default function Heading() {
             <li>
               <NavLink
                 to="/guide"
+                prefetch="intent"
                 className={({ isActive }) =>
                   `block py-2 px-3 ${isActive
                     ? 'text-white bg-sky-500 rounded md:bg-transparent md:text-sky-500 md:p-0 md:dark:text-sky-500'
@@ -144,6 +146,7 @@ export default function Heading() {
             <li>
               <NavLink
                 to="/account"
+                prefetch="intent"
                 className={({ isActive }) =>
                   `block py-2 px-3 ${isActive
                     ? 'text-white bg-sky-500 rounded md:bg-transparent md:text-sky-500 md:p-0 md:dark:text-sky-500'
