@@ -6,7 +6,10 @@ const timeRegex = new RegExp(
 );
 
 export const eventPostSchema = z.object({
-  title: z.string().min(1, { message: "Title can't be empty" }),
+  title: z
+    .string()
+    .min(1, { message: "Title can't be empty" })
+    .max(50, { message: "Title can't be longer than 50 characters" }),
   color: z.string(),
   time: z
     .string()
