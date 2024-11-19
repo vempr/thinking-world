@@ -250,7 +250,7 @@ export default function Day({ day, workShifts, placement }: {
                             color: invert(shift.workShiftInfo.color, true),
                           }}>
                           <div className="flex flex-col">
-                            <p className="font-medium">{shift.workShiftInfo.title.length > 20 ? shift.workShiftInfo.title.slice(0, 20) + "..." : shift.workShiftInfo.title}</p>
+                            <p className="font-medium w-48 overflow-x-hidden">{shift.workShiftInfo.title.length > 20 ? shift.workShiftInfo.title.slice(0, 20) + "..." : shift.workShiftInfo.title}</p>
                             <p className="font-light text-sm">{shift.workShiftInfo.start_time} - {shift.workShiftInfo.end_time}</p>
                           </div>
                           <deleteShiftFetcher.Form
@@ -271,7 +271,7 @@ export default function Day({ day, workShifts, placement }: {
                       ) : null
                     )
                   ) : (
-                    <p className="italic opacity-70 md:text-center">No work shifts on this day.</p>
+                    <p className="italic opacity-70 md:text-center text-sm">No work shifts on this day.</p>
                   )}
                 </ul>
               </ScrollArea>
@@ -318,7 +318,7 @@ export default function Day({ day, workShifts, placement }: {
                           color: eventDay.color,
                         }}>
                         <div className="flex flex-col">
-                          <p className="font-medium">{eventDay.title.length > 20 ? eventDay.title.slice(0, 20) + "..." : eventDay.title}</p>
+                          <p className="font-medium w-40 overflow-x-hidden">{eventDay.title.length > 20 ? eventDay.title.slice(0, 20) + "..." : eventDay.title}</p>
                           <p className="font-light text-sm">{eventDay.time ? eventDay.time : <span className="italic opacity-70">No time specified</span>}</p>
                         </div>
                         <div className="flex flex-row gap-x-1">
@@ -363,7 +363,7 @@ export default function Day({ day, workShifts, placement }: {
                       </li>
                     )
                   ) : (
-                    <p className="italic opacity-70 md:text-center">No events on this day.</p>
+                    <p className="italic opacity-70 md:text-center text-sm">No events on this day.</p>
                   )}
                 </ul>
               </ScrollArea>

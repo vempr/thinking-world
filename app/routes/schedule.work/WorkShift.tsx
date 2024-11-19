@@ -80,7 +80,7 @@ export default function WorkShift({
       }}
     >
       <div className="flex-1 flex flex-row justify-between p-3">
-        <p className="font-medium w-28 overflow-x-hidden text-left">{title}</p>
+        <p className="font-medium w-16 overflow-x-hidden text-left min-[370px]:w-20 min-[390px]:w-24 min-[500px]:w-40 md:w-52 lg:w-28">{title.length > 20 ? title.slice(0, 20) + "..." : title}</p>
         <div className="flex flex-row gap-x-1.5 font-light text-sm text-right items-center">
           <div className="flex flex-row lg:flex-col text-sm md:text-base">
             <p>{start_time}</p>
