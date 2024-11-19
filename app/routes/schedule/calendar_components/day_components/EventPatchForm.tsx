@@ -1,9 +1,9 @@
 import { FetcherWithComponents } from "@remix-run/react";
 import { useRemixForm } from "remix-hook-form";
-import { Spinner } from "~/components/Spinner.tsx";
 import { Input } from "~/components/ui/input.tsx";
 import { EventPost, eventPostResolver } from "~/types/event.types.ts";
 import { EventData } from "../../utils/getDay.ts";
+import SmallSpinner from "~/components/SmallSpinner.tsx";
 
 export default function EventPatchForm({ fetcher, eventDay }: {
   fetcher: FetcherWithComponents<{
@@ -53,8 +53,9 @@ export default function EventPatchForm({ fetcher, eventDay }: {
         <Input
           type="text"
           id="title"
-          placeholder="Football Game"
+          placeholder="Doctor's Appointment"
           autoComplete="off"
+          className="block w-full rounded-lg border-gray-200 px-4 py-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-blue-600"
           {...register("title")}
         />
         {errors.title && (
@@ -73,7 +74,7 @@ export default function EventPatchForm({ fetcher, eventDay }: {
         <Input
           type="color"
           id="color"
-          className="w-20 h-10 hover:cursor-pointer"
+          className="w-20 h-10 hover:cursor-pointer rounded-lg border-gray-200 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-blue-600"
           {...register("color")}
         />
         {errors.color && (
@@ -95,6 +96,7 @@ export default function EventPatchForm({ fetcher, eventDay }: {
         type="time"
         id="time"
         autoComplete="off"
+        className="block w-full rounded-lg border-gray-200 px-4 py-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-blue-600"
         {...register("time", { required: false })}
       />
       {errors.time && (
@@ -106,9 +108,9 @@ export default function EventPatchForm({ fetcher, eventDay }: {
     <button
       type="submit"
       disabled={fetcher.state === "submitting" || fetcher.state === "loading"}
-      className="mt-1 h-12 flex justify-center items-center rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-md font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+      className="flex justify-center items-center w-full rounded-lg border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 focus:bg-sky-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
     >
-      {(fetcher.state === "submitting" || fetcher.state === "loading") ? <Spinner /> : <p>Save Event</p>}
+      {(fetcher.state === "submitting" || fetcher.state === "loading") ? <SmallSpinner /> : <p>Save Event</p>}
     </button>
   </fetcher.Form>
 }

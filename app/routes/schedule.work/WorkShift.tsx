@@ -14,10 +14,11 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
 import { Input } from "~/components/ui/input.tsx";
-import { Spinner } from "~/components/Spinner.tsx";
 import { WorkshiftFull, WorkshiftPatch, workshiftPatchResolver } from "~/types/work.types.ts";
 import { action as patchAction } from "../schedule.work.patch/route.tsx";
 import { action as deleteAction } from "../schedule.work.delete/route.tsx";
+import SmallSpinner from "~/components/SmallSpinner.tsx";
+import { Spinner } from "~/components/Spinner.tsx";
 
 export default function WorkShift({
   id,
@@ -123,13 +124,14 @@ export default function WorkShift({
                     htmlFor="title"
                     className="mb-2 block text-sm font-medium dark:text-white"
                   >
-                    Title
+                    Title*
                   </label>
                   <Input
                     type="text"
                     id="title"
                     placeholder="Acme Co."
                     autoComplete="off"
+                    className="block w-full rounded-lg border-gray-200 px-4 py-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-blue-600"
                     {...register("title")}
                   />
                   {errors.title && (
@@ -149,7 +151,7 @@ export default function WorkShift({
                     type="color"
                     id="color"
                     defaultValue={color}
-                    className="w-20 h-10 hover:cursor-pointer"
+                    className="w-20 h-10 hover:cursor-pointer rounded-lg border-gray-200 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-blue-600"
                     {...register("color")}
                   />
                   {errors.color && (
@@ -160,18 +162,19 @@ export default function WorkShift({
                 </div>
               </div>
 
-              <div className="flex flex-row gap-x-1">
+              <div className="flex flex-row gap-x-2">
                 <div className="flex-1">
                   <label
                     htmlFor="timeFrom"
                     className="mb-2 block text-sm font-medium dark:text-white"
                   >
-                    From
+                    From*
                   </label>
                   <Input
                     type="time"
                     id="timeFrom"
                     autoComplete="off"
+                    className="block w-full rounded-lg border-gray-200 px-4 py-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-blue-600"
                     {...register("start_time")}
                   />
                   {errors.start_time && (
@@ -185,12 +188,13 @@ export default function WorkShift({
                     htmlFor="timeTo"
                     className="mb-2 block text-sm font-medium dark:text-white"
                   >
-                    To
+                    To*
                   </label>
                   <Input
                     type="time"
                     id="timeTo"
                     autoComplete="off"
+                    className="block w-full rounded-lg border-gray-200 px-4 py-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-blue-600"
                     {...register("end_time")}
                   />
                   {errors.end_time && (
@@ -200,29 +204,28 @@ export default function WorkShift({
                   )}
                 </div>
               </div>
-
               <div className="flex-1">
                 <div className="flex gap-x-2 items-center justify-between mb-1">
                   <label
                     htmlFor="title"
                     className="block text-sm font-medium dark:text-white"
                   >
-                    {watchIsHourlyPay ? "Hourly Pay" : "One-time Payment"}
+                    {watchIsHourlyPay ? "Hourly Wage" : "Fixed Payment"}*
                   </label>
                   <div className="flex justify-center items-center">
                     <button
                       type="button"
                       onClick={() => setValue("is_hourly_pay", true)}
-                      className={`${watchIsHourlyPay && "bg-black dark:bg-white"} bg-transparent border border-black dark:border-white rounded-tl-sm rounded-bl-sm py-1 px-4`}
+                      className={`${watchIsHourlyPay && "bg-black dark:bg-white"} border border-black dark:border-white rounded-tl-sm rounded-bl-sm py-1 px-4 transition-colors duration-100`}
                     >
-                      <Clock size={16} className={`${watchIsHourlyPay ? "text-white dark:text-black" : ""}`} />
+                      <Clock size={14} className={`${watchIsHourlyPay ? "text-white dark:text-black" : ""}`} />
                     </button>
                     <button
                       type="button"
                       onClick={() => setValue("is_hourly_pay", false)}
-                      className={`${!watchIsHourlyPay && "bg-black dark:bg-white"} bg-transparent border border-black dark:border-white rounded-tr-sm rounded-br-sm py-1 px-4`}
+                      className={`${!watchIsHourlyPay && "bg-black dark:bg-white"} border border-black dark:border-white rounded-tr-sm rounded-br-sm py-1 px-4 transition-colors duration-100`}
                     >
-                      <Banknote size={16} className={`${!watchIsHourlyPay ? "text-white dark:text-black" : ""}`} />
+                      <Banknote size={14} className={`${!watchIsHourlyPay ? "text-white dark:text-black" : ""}`} />
                     </button>
                   </div>
                 </div>
@@ -231,6 +234,7 @@ export default function WorkShift({
                   id="pay"
                   placeholder={watchIsHourlyPay ? "15" : "100"}
                   autoComplete="off"
+                  className="block w-full rounded-lg border-gray-200 px-4 py-4 text-sm outline outline-1 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:outline-none dark:focus:ring-blue-600"
                   {...register("pay")}
                 />
                 {errors.pay && (
@@ -239,13 +243,12 @@ export default function WorkShift({
                   </p>
                 )}
               </div>
-
               <button
                 type="submit"
                 disabled={fetcherPatch.state === "submitting" || fetcherPatch.state === "loading"}
-                className="mt-1 h-12 flex justify-center items-center rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-md font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                className="flex justify-center items-center w-full rounded-lg border border-transparent bg-sky-600 px-4 py-3 text-sm font-medium text-white hover:bg-sky-700 focus:bg-sky-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
-                {(fetcherPatch.state === "submitting" || fetcherPatch.state === "loading") ? <Spinner /> : <p>Apply changes</p>}
+                {(fetcherPatch.state === "submitting" || fetcherPatch.state === "loading") ? <SmallSpinner /> : <p>Update template</p>}
               </button>
             </fetcherPatch.Form>
             <DialogFooter>
