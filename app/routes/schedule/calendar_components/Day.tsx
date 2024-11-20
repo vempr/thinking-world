@@ -137,6 +137,18 @@ export default function Day({ day, workShifts, placement }: {
                     <p className="hidden xl:block w-28 overflow-x-hidden">{day?.data?.eventData[0].title.length > 18 ? day?.data?.eventData[0].title.slice(0, 18) + "..." : day?.data?.eventData[0].title}</p>
                   </div>
                 </li> : <></>}
+                {(day?.data?.eventData?.length && day?.data?.eventData?.length > 1 && !shifts.length) ? <li>
+                  <div
+                    className="py-[2px] px-1 rounded-sm mx-1 text-xs text-left border-2"
+                    style={{
+                      borderColor: day?.data?.eventData[1].color,
+                    }}
+                  >
+                    <p className="md:hidden">{" "}</p>
+                    <p className="hidden md:block xl:hidden w-28 overflow-x-hidden">{day?.data?.eventData[1].title.length > 12 ? day?.data?.eventData[1].title.slice(0, 12) + "..." : day?.data?.eventData[1].title}</p>
+                    <p className="hidden xl:block w-28 overflow-x-hidden">{day?.data?.eventData[1].title.length > 18 ? day?.data?.eventData[1].title.slice(0, 18) + "..." : day?.data?.eventData[1].title}</p>
+                  </div>
+                </li> : <></>}
                 {shifts[0]?.workShiftInfo && <li><div
                   className="p-1 rounded-sm mx-1 text-xs text-left"
                   style={{
