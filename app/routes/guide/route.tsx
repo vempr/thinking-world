@@ -6,6 +6,10 @@ function A({ to, children }: { to: string, children: React.ReactNode }) {
   return <Link to={to} className="text-blue-400 underline hover:text-blue-500" prefetch="intent">{children}</Link>;
 }
 
+function Id({ id }: { id: string }) {
+  return <span><Link to={`/guide#${id}`} className="text-blue-400 underline hover:text-blue-500 opacity-90" prefetch="intent">#</Link></span>;
+}
+
 function Section({ children }: { children: React.ReactNode }) {
   return <div className="flex flex-col gap-y-4">{children}</div>
 }
@@ -21,7 +25,7 @@ export default function Guide() {
 
       <p>This comprehensive guide will explain everything there is to know about this simple web application. The main objective of Thinking World is to help calculate your income, for someone who works a "marginal part-time"/mini job. We will mainly focus on the functionality of the calendar service, but before that, let's go through some steps configuring your account.</p>
 
-      <h2 className="text-2xl md:text-3xl font-title text-black dark:text-white">Account Configuration</h2>
+      <h2 id="config" className="text-2xl md:text-3xl font-title text-black dark:text-white">Account Configuration <Id id="config" /></h2>
 
       <Section>
         <p>If you haven't logged in/signed up, navigate to the account settings using the navigation bar. To create a new account, simply enter your email address and a strong password. You will get a confirmation link in your inbox. Clicking on the link automatically logs you into your newly created account.</p>
@@ -29,7 +33,7 @@ export default function Guide() {
         <p>You can easily <A to="/forgot-password">reset your password</A> in case you forgot or want to change it. The <A to="/account">account settings</A> page will help you configure and change the linked email address and password.</p>
       </Section>
 
-      <h2 className="text-2xl md:text-3xl font-title text-black dark:text-white">Calendar Functionality</h2>
+      <h2 id="calendar" className="text-2xl md:text-3xl font-title text-black dark:text-white">Calendar Functionality <Id id="calendar" /></h2>
 
       <Section>
         <p>When starting with a fresh account, there are no work shift templates avaliable for you to use. Use the work shifts sidebar to create your first work shift template by filling out a form. You can edit and delete each work shift template with the buttons attached to each card.</p>
@@ -45,7 +49,7 @@ export default function Guide() {
         <p>The calendar will show at most two entries for each day. Days with more than two entries (work shift records and events) are hinted with "..." below the two entries. To view all entries in a given day, simply click on that day. You can then also edit and delete work shift records/events once viewing the entries.</p>
       </Section>
 
-      <h2 className="text-2xl md:text-3xl font-title text-black dark:text-white">Insights & Calculations</h2>
+      <h2 id="insights" className="text-2xl md:text-3xl font-title text-black dark:text-white">Insights & Calculations <Id id="insights" /></h2>
 
       <Section>
         <p>Below the calendar is an insights section. It will tell you your total work hours and total pay for the month, as well as show an informative table about each of your work shifts.</p>
@@ -93,7 +97,7 @@ export default function Guide() {
         </div>
       </Section>
 
-      <h2 className="text-2xl md:text-3xl font-title text-black dark:text-white">And...</h2>
+      <h2 id="conclusion" className="text-2xl md:text-3xl font-title text-black dark:text-white">And... <Id id="conclusion" /></h2>
 
       <p>That's pretty much it! This was my attempt at building a functional and practical calendar app, which I can use in my own time to boost my productivity. I would be happy if you decide to play around with Thinking World, as I think it is a very lightweight and minimalistic web calendar application. <span className="text-sky-500">Until then, see you around!</span></p>
     </div>
