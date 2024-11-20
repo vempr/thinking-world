@@ -28,12 +28,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
   } = await supabaseClient.auth.getUser();
 
   if (user) {
-    return redirect("/schedule/work", { headers });
+    return redirect("/account", { headers });
   }
   return null;
 }
 
 export async function action({ request }: ActionFunctionArgs) {
+  const { searchParams } = new URL(request.url);
+  const next = searchParams.get("next");
   const { data: formData, errors } = await getValidatedFormData<LoginArgs>(
     request,
     resolver,
@@ -47,7 +49,7 @@ export async function action({ request }: ActionFunctionArgs) {
     password: formData.password,
   });
   if (error) return json({ error: error.message, success: false }, { headers });
-
+  if (next) return redirect(`/${next}`, { headers });
   return redirect("/schedule/work", { headers });
 }
 

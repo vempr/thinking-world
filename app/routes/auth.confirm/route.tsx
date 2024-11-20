@@ -21,5 +21,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
     }
   }
 
-  return redirect("/login", { headers });
+  return redirect("/login?next=account", { headers });
 }
