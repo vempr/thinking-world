@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ActionFunctionArgs, json, LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { ActionFunctionArgs, json, LoaderFunctionArgs, MetaFunction, redirect } from "@remix-run/node";
 import { Link, useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
@@ -19,6 +19,16 @@ const emailSchema = z.object({
 })
 type EmailArgs = z.infer<typeof emailSchema>;
 const resolver = zodResolver(emailSchema);
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Forgot Password | Thinking World" },
+    {
+      name: "description",
+      content: "Reset your Thinking World account's password in case you forgot it. Confirm the password reset with instructions sent to your inbox.",
+    },
+  ];
+}
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers);

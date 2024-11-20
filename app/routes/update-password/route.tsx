@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ActionFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs, json, MetaFunction } from "@remix-run/node";
 import { useFetcher, useNavigate, useSearchParams } from "@remix-run/react";
 import { useEffect } from "react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
@@ -9,6 +9,16 @@ import SmallSpinner from "~/components/SmallSpinner.tsx";
 import { Input } from "~/components/ui/input.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Update Password | Thinking World" },
+    {
+      name: "description",
+      content: "Update your Thinking World account password: A lightweight and minimalistic web calendar to help you calculate your salary.",
+    },
+  ];
+};
 
 const passwordSchema = z
   .object({

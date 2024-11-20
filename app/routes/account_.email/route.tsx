@@ -11,6 +11,7 @@ import { Input } from "~/components/ui/input.tsx";
 import SmallSpinner from "~/components/SmallSpinner.tsx";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { MetaFunction } from "@remix-run/node";
 
 const emailRegex =
   /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9-]*\.)+[A-Z]{2,}$/i;
@@ -22,6 +23,16 @@ const emailSchema = z.object({
 });
 const resolver = zodResolver(emailSchema);
 type EmailArgs = z.infer<typeof emailSchema>;
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Configure Email | Thinking World" },
+    {
+      name: "description",
+      content: "Configure your Thinking World account: View the email address linked to your Thinking World account and change it. Confirm the email address change with instructions sent to your inbox.",
+    },
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)

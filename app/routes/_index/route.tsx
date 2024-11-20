@@ -6,7 +6,7 @@ export const meta: MetaFunction = () => {
     { title: "Thinking World" },
     {
       name: "description",
-      content: "Calendar for tracking work shifts, holidays and more!",
+      content: "A lightweight and minimalistic web calendar to help you calculate your salary. Simply create an account and use Thinking World across all of your devices!",
     },
   ];
 };

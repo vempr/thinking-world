@@ -3,6 +3,17 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { ChevronRight } from "lucide-react";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
+import { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Your Account | Thinking World" },
+    {
+      name: "description",
+      content: "Configure your Thinking World account: Change your email address, as well as your password. Your account is secured by email confirmations.",
+    },
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)

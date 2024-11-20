@@ -11,6 +11,17 @@ import {
 } from "~/components/ui/dialog.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
+import { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Advanced Account Settings | Thinking World" },
+    {
+      name: "description",
+      content: "Configure your Thinking World account: Log out or delete your account. All account-related data is permanently erased.",
+    },
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)

@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   json,
+  MetaFunction,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
@@ -13,6 +14,16 @@ import { registerSchema, type RegisterArgs } from "./registerFormSchema.ts";
 import { Input } from "~/components/ui/input.tsx";
 
 const resolver = zodResolver(registerSchema);
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Register | Thinking World" },
+    {
+      name: "description",
+      content: "Sign up for a Thinking World account: A lightweight and minimalistic web calendar to help you calculate your salary.",
+    },
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)

@@ -8,6 +8,17 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Insights from "./Insights.tsx";
+import { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Your Schedule | Thinking World" },
+    {
+      name: "description",
+      content: "View your Thinking World work schedule and conveniently make changes to your calendar. Add work shifts and events.",
+    },
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)

@@ -1,4 +1,4 @@
-import { json, type LoaderFunctionArgs, redirect, type ActionFunctionArgs } from "@remix-run/node";
+import { json, type LoaderFunctionArgs, redirect, type ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { Link, useFetcher } from "@remix-run/react";
 import { ChevronLeft } from "lucide-react";
 import { useEffect } from "react";
@@ -6,6 +6,16 @@ import { toast } from "sonner";
 import SmallSpinner from "~/components/SmallSpinner";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Configure Password | Thinking World" },
+    {
+      name: "description",
+      content: "Configure your Thinking World account: Change your Thinking World account's password. Confirm the password reset with instructions sent to your inbox.",
+    },
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)

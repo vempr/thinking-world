@@ -2,7 +2,7 @@ import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from "remix-themes"
 import Footer from "./components/Footer.tsx";
 import Heading from "./components/Heading.tsx";
 
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -16,6 +16,16 @@ import "./tailwind.css";
 import { Toaster } from "sonner";
 import { cn } from "./lib/utils.ts";
 import { themeSessionResolver } from "./services/themeSession.server.ts";
+
+export const meta: MetaFunction = () => {
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1",
+    },
+    { title: "Thinking World" },
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);

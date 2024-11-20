@@ -1,5 +1,16 @@
 import { Link } from "@remix-run/react";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout";
+import { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "404 Page Not Found | Thinking World" },
+    {
+      name: "description",
+      content: "A lightweight and minimalistic web calendar to help you calculate your salary. Simply create an account and use Thinking World across all of your devices!",
+    },
+  ];
+};
 
 export default function CatchAll() {
   return (

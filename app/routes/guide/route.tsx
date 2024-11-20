@@ -1,6 +1,17 @@
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout";
 import twImage from "../../../tw.png";
 import { Link } from "@remix-run/react";
+import { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Guide | Thinking World" },
+    {
+      name: "description",
+      content: "The official guide for Thinking World: A lightweight and minimalistic web calendar to help you calculate your salary.",
+    },
+  ];
+};
 
 function A({ to, children }: { to: string, children: React.ReactNode }) {
   return <Link to={to} className="text-blue-400 underline hover:text-blue-500" prefetch="intent">{children}</Link>;

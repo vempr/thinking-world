@@ -18,8 +18,19 @@ import { LandingLayout } from "~/components/wrappers/LandingLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
 import { Input } from "~/components/ui/input.tsx";
+import { MetaFunction } from "@remix-run/node";
 
 const resolver = zodResolver(loginSchema);
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Login | Thinking World" },
+    {
+      name: "description",
+      content: "Log in your Thinking World account: A lightweight and minimalistic web calendar to help you calculate your salary.",
+    },
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabaseClient, headers } = createSupabaseServerClient(request, request.headers)
