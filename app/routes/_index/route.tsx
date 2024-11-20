@@ -33,7 +33,7 @@ export default function Index() {
         </div>
       </div>
     </div>
-    <div className="flex justify-center items-center flex-col lg:flex-row gap-x-4 gap-y-6 lg:h-[60vh]">
+    <div className="flex justify-center items-center flex-col lg:flex-row gap-x-4 gap-y-4 lg:h-[60vh]">
       <div className="text-center lg:text-left flex flex-col justify-center items-center gap-y-6">
         <h1 className="font-title text-xl sm:text-2xl md:text-3xl lg:text-4xl">
           <span className="block">Simply <span className="text-sky-500">drag and drop</span> your</span><span className="block">work shift templates...</span>
@@ -98,7 +98,7 @@ export default function Index() {
         </div>
       </div>
     </div>
-    <div className="text-center lg:text-left flex flex-col justify-center items-center gap-y-4 h-[35vh] lg:h-[60vh]">
+    <div className="text-center lg:text-left flex flex-col justify-center items-center gap-y-4 h-[25vh] lg:h-[40vh]">
       <h1 className="font-title text-xl sm:text-2xl md:text-3xl lg:text-4xl">
         What are you waiting for?
         <p className="font-sans text-base opacity-80">Try Thinking World out!</p>

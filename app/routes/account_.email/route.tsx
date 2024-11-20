@@ -83,12 +83,12 @@ export default function Email() {
   }, [fetcher.data]);
 
   return <CenteredLayout>
-    <div className="flex flex-row gap-x-4">
+    <div className="flex flex-row gap-x-4 mx-4">
       <Link to="/account" className="bg-slate-200 dark:bg-neutral-800 rounded-lg flex justify-center items-center px-2 hover:bg-slate-300 active:bg-slate-400 dark:hover:bg-neutral-800/50 dark:active:bg-neutral-800/70" prefetch="intent"><ChevronLeft /></Link>
       <div className="flex flex-col gap-y-4">
         <div>
-          <h1 className="font-title text-4xl">Configure your Email</h1>
-          <p className="opacity-80">Change the email address set up with your account</p>
+          <h1 className="font-title text-2xl sm:text-4xl">Configure your Email</h1>
+          <p className="opacity-80 text-sm sm:text-base">Change the email address set up with your account</p>
         </div>
         <div className="bg-slate-200 dark:bg-neutral-800 rounded-lg py-3 px-4">
           <h2>Email connected to this account</h2>

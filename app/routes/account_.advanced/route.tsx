@@ -54,12 +54,12 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function Advanced() {
   return <CenteredLayout>
-    <div className="flex flex-row gap-x-4">
+    <div className="flex flex-row gap-x-4 mx-4">
       <Link to="/account" className="bg-slate-200 dark:bg-neutral-800 rounded-lg flex justify-center items-center px-2 hover:bg-slate-300 active:bg-slate-400 dark:hover:bg-neutral-800/50 dark:active:bg-neutral-800/70" prefetch="intent"><ChevronLeft /></Link>
       <div className="flex flex-col gap-y-4">
         <div>
-          <h1 className="font-title text-4xl">Configure your Account</h1>
-          <p className="opacity-80 text-red-600"><span className="font-bold">Log out</span> or <span className="font-bold">delete</span> your Thinking World account</p>
+          <h1 className="font-title text-2xl sm:text-4xl">Configure your Account</h1>
+          <p className="opacity-80 text-red-600 text-sm sm:text-base"><span className="font-bold">Log out</span> or <span className="font-bold">delete</span> your Thinking World account</p>
         </div>
         <ul className="flex flex-col gap-y-1">
           <li>
