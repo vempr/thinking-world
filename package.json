@@ -7,16 +7,11 @@
     "build": "remix vite:build",
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "netlify serve",
+    "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
-    "@netlify/edge-functions": "^2.11.1",
-    "@netlify/functions": "^2.8.2",
-    "@netlify/remix-adapter": "^2.5.1",
-    "@netlify/remix-edge-adapter": "^3.4.2",
-    "@netlify/remix-runtime": "^2.3.1",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-scroll-area": "^1.2.0",
     "@remix-run/node": "^2.11.1",
