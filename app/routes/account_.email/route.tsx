@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, json, type LoaderFunctionArgs, redirect } from "@remix-run/deno";
+import { ActionFunctionArgs, json, type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { ChevronLeft } from "lucide-react";
 import { Dialog, DialogHeader, DialogContent, DialogTitle, DialogTrigger, DialogDescription } from "~/components/ui/dialog.tsx";
@@ -11,7 +11,7 @@ import { Input } from "~/components/ui/input.tsx";
 import SmallSpinner from "~/components/SmallSpinner.tsx";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { MetaFunction } from "@remix-run/deno";
+import { MetaFunction } from "@remix-run/node";
 
 const emailRegex =
   /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9-]*\.)+[A-Z]{2,}$/i;

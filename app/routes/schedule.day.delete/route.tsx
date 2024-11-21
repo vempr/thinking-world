@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, json } from "@remix-run/deno";
+import { ActionFunctionArgs, json } from "@remix-run/node";
 import { getValidatedFormData } from "remix-hook-form";
 import { createSupabaseServerClient } from "~/services/supabase.server";
 import { DayDelete, dayDeleteResolver } from "~/types/day.types.ts";

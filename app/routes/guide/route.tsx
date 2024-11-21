@@ -1,7 +1,7 @@
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout";
 import twImage from "../../../tw.png";
 import { Link } from "@remix-run/react";
-import { MetaFunction } from "@remix-run/deno";
+import { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
   return [
