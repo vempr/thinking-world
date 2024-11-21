@@ -4,7 +4,7 @@ import {
   redirect,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
-} from "@remix-run/node";
+} from "@remix-run/deno";
 import {
   Form,
   Link,
@@ -18,7 +18,7 @@ import { LandingLayout } from "~/components/wrappers/LandingLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { loginSchema, type LoginArgs } from "./loginFormSchema.ts";
 import { Input } from "~/components/ui/input.tsx";
-import { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/deno";
 
 const resolver = zodResolver(loginSchema);
 

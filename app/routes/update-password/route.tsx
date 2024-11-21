@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ActionFunctionArgs, json, MetaFunction } from "@remix-run/node";
+import { ActionFunctionArgs, json, MetaFunction } from "@remix-run/deno";
 import { useFetcher, useNavigate, useSearchParams } from "@remix-run/react";
 import { useEffect } from "react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";

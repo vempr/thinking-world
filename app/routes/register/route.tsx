@@ -4,7 +4,7 @@ import {
   MetaFunction,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
-} from "@remix-run/node";
+} from "@remix-run/deno";
 import { Link, redirect, useFetcher, useSearchParams } from "@remix-run/react";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { Spinner } from "~/components/Spinner.tsx";

@@ -1,4 +1,4 @@
-import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
+import { redirect, type LoaderFunctionArgs } from "@remix-run/deno";
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 

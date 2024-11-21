@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog.tsx";
 import { Plus, SquareMousePointer, TriangleAlert } from "lucide-react";
-import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/deno";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
 import { WorkshiftFull, WorkshiftPost, workshiftPostResolver } from "../../types/work.types.ts";
 import WorkShift from "./WorkShift.tsx";

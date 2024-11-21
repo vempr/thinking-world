@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/deno";
 import { Link } from "@remix-run/react";
 import { ArrowDown, MousePointerClick, Redo } from "lucide-react";
 

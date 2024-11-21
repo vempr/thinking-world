@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs, json } from "@remix-run/deno";
 import { getValidatedFormData } from "remix-hook-form";
 import { createSupabaseServerClient } from "~/services/supabase.server";
 import { EventFull, eventFullResolver } from "~/types/event.types.ts";

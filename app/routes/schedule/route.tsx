@@ -1,4 +1,4 @@
-import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
+import { json, redirect, type LoaderFunctionArgs } from "@remix-run/deno";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { DefaultLayout } from "~/components/wrappers/DefaultLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
@@ -8,7 +8,7 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Insights from "./Insights.tsx";
-import { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/deno";
 
 export const meta: MetaFunction = () => {
   return [

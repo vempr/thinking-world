@@ -2,7 +2,7 @@ import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from "remix-themes"
 import Footer from "./components/Footer.tsx";
 import Heading from "./components/Heading.tsx";
 
-import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/deno";
 import {
   Links,
   Meta,

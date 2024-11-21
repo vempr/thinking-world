@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout";
-import { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/deno";
 
 export const meta: MetaFunction = () => {
   return [

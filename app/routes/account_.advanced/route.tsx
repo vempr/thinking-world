@@ -1,4 +1,4 @@
-import { redirect, type LoaderFunctionArgs, type ActionFunctionArgs } from "@remix-run/node";
+import { redirect, type LoaderFunctionArgs, type ActionFunctionArgs } from "@remix-run/deno";
 import { Form, Link } from "@remix-run/react";
 import { ChevronLeft, LogOut, UserX } from "lucide-react";
 import {
@@ -11,7 +11,7 @@ import {
 } from "~/components/ui/dialog.tsx";
 import { CenteredLayout } from "~/components/wrappers/CenteredLayout.tsx";
 import { createSupabaseServerClient } from "~/services/supabase.server.ts";
-import { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/deno";
 
 export const meta: MetaFunction = () => {
   return [

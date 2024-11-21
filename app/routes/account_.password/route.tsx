@@ -1,4 +1,4 @@
-import { json, type LoaderFunctionArgs, redirect, type ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json, type LoaderFunctionArgs, redirect, type ActionFunctionArgs, MetaFunction } from "@remix-run/deno";
 import { Link, useFetcher } from "@remix-run/react";
 import { ChevronLeft } from "lucide-react";
 import { useEffect } from "react";
