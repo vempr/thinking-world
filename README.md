@@ -1,50 +1,35 @@
 # thinking-world
 
-My personalized all-in-one calendar web app and including other services. Supabase Auth + DB => can be used on multiple devices.
+Thinking World is a lightweight and minimalistic web calendar application designed to calculate salaries for "marginal part-time"/mini job workers. This project was built with the <b>Remix + Supabase</b> stack. Inspired by [Supershift](https://supershift.app/).
 
-Inspired by [Supershift](https://supershift.app/).
+https://thinking-world.vercel.app/
 
 ## Features
 
-### <u>Calendar</u>
+### Account Management
+- User authentication with email and password.
+- Password recovery and email address changes.
 
-Calendar to track work shifts, appointments, birthdays, misc. events
+### Calendar Functionality
+- <b>Work Shift Templates</b>: Create, edit, and delete reusable work shift templates. Caution: Deleting templates removes associated records. To avoid data loss, consider renaming unused templates.
+- <b>Event Management</b>: Add and manage day-specific events.
+- <b>Responsive Calendar Interface</b>:
+  - Desktop: Drag-and-drop support for work shifts.
+  - Mobile: Limited to manual interactions.
 
-- All private fixtures are fully customizable
-- Includes national holidays
-- Calculates earned income for a period of time (Insert income/hour or income/month)
-
-### <u>Personal</u>
-
-- Todo list (set time task should be completed in, daily/weekly/custom/etc. reoccuring tasks)
-
-### <u>Confidential</u>
-
-<i>WARNING: There is no guarantee that thinking-world will stay running forever, so please store sensitive information on stable platforms. I'm only integrating this service because I'm too lazy to switch between multiple apps :)</i>
-
-- Password manager (divided into customizable categories, e.g.: work, gaming, etc.)
-- Private notepad for text of your choice
-
-## App Stack
-
-### Frontend
-
-- Remix
-- TailwindCSS paired with Preline UI, Flowbite Components
-- Remix Hook Form
-- Supabase SDK
-- Zod
-
-### Backend
-
-- Supabase Auth
-- Supabase Database
-
-### Design
-
-- Photopea
-
-### Needing to implement
-
-- Unit testing
-- Deployment (CI/CD)
+### Insights
+- Monthly breakdown of:
+  - Total work hours.
+  - Total salary.
+  - Work shift-specific details displayed in a responsive table.
+ 
+## Technologies
+- React
+- Remix + Vite
+- TypeScript + Zod
+- TailwindCSS + Shadcn
+- Remix-Hook-Form (Wrapper for React-Hook-Form)
+- React-DND
+- Remix-Themes
+- Supabase SSR
+- Vercel
